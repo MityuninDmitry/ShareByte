@@ -12,6 +12,7 @@ struct ShareByteApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(TabManager.shared)
         }
     }
 }

@@ -6,16 +6,27 @@
 //
 
 import SwiftUI
+import MultipeerConnectivity
+
 
 struct ContentView: View {
+    @EnvironmentObject var tabManager: TabManager
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        TabView(selection: $tabManager.seletedTabId) {
+            PresentationScreen()
+                .tabItem {
+                    Label("Presentation", systemImage: "tv")
+                }
+                .tag(0)
+            
+            PeersScreen()
+                .tabItem {
+                    Label("Peers", systemImage: "person.3")
+                }
+                .tag(1)
         }
-        .padding()
     }
 }
 
