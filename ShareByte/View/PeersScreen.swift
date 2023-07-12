@@ -8,39 +8,39 @@
 import SwiftUI
 
 struct PeersScreen: View {
-    @StateObject var peerManager: PeerManagerViewModel = .init()
+    @EnvironmentObject var user: UserViewModel
     
     var body: some View {
         
         VStack {
             HStack {
                 Spacer()
-                Text("\(peerManager.user.type?.rawValue ?? "Not defined")")
+                Text("\(user.type?.rawValue ?? "Not defined")")
                     .font(.title)
                 Spacer()
                 Button {
-                    peerManager.disconnect()
+                    user.disconnectAndStopDiscover()
                 } label: {
                     Image.init(systemName: "xmark.icloud")
                 }
                 Button {
-                    peerManager.discover()
+                    user.makeDiscoverable()
                 } label: {
                     Image.init(systemName: "icloud")
                 }
             }
             Section("FOUND PEERS") {
-                List(peerManager.foundPeers, id: \.self) { peerId in
-                    Text("\(peerId.displayName)")
+                List(user.foundUsers, id: \.self) { userInfo in
+                    Text(userInfo.name ?? "\(userInfo.mcPeerId)")
                         .onTapGesture {
-                            peerManager.invitePeer(peerId)
+                            self.user.inviteUser(userInfo)
                         }
                 }
                 .listStyle(.plain)
             }
             Section("CONNECTED PEERS") {
-                List(peerManager.connectedPeers, id: \.self) { peerId in
-                    Text("\(peerId.displayName)")
+                List(user.connectedUsers, id: \.self) { userInfo in
+                    Text(userInfo.name ?? "\(userInfo.mcPeerId)")
                 }
                 .listStyle(.plain)
             }
@@ -53,5 +53,6 @@ struct PeersScreen: View {
 struct PeersScreen_Previews: PreviewProvider {
     static var previews: some View {
         PeersScreen()
+            .environmentObject(UserViewModel.shared)
     }
 }

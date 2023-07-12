@@ -13,6 +13,7 @@ struct ShareByteApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(TabManager.shared)
+                .environmentObject(UserViewModel.shared)
         }
     }
 }
