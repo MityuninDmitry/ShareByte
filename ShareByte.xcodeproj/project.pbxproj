@@ -69,9 +69,9 @@
 				150273D72A5944AC0006F4DA /* Info.plist */,
 				150273C92A5943590006F4DA /* ShareByteApp.swift */,
 				150273CB2A5943590006F4DA /* ContentView.swift */,
-				150273DA2A59C08C0006F4DA /* Model */,
-				150273E62A59C1D20006F4DA /* ViewModel */,
 				150273E52A59C1BC0006F4DA /* View */,
+				150273E62A59C1D20006F4DA /* ViewModel */,
+				150273DA2A59C08C0006F4DA /* Model */,
 				150273CD2A59435B0006F4DA /* Assets.xcassets */,
 				150273CF2A59435B0006F4DA /* Preview Content */,
 			);
@@ -89,9 +89,9 @@
 		150273DA2A59C08C0006F4DA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1578204D2A5B2E54007FA7BF /* PeerManager.swift */,
 				150273E32A59C14C0006F4DA /* UserType.swift */,
 				150273E92A5B120F0006F4DA /* MessageType.swift */,
-				1578204D2A5B2E54007FA7BF /* PeerManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

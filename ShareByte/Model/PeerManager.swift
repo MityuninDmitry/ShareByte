@@ -60,6 +60,9 @@ extension PeerManager: MCSessionDelegate {
         switch state {
         case .notConnected:
             print("Not connected \(peerID)")
+            DispatchQueue.main.async {
+                self.userDelegate?.disconnectPeer(peerID)
+            }
         case .connecting:
             print("Connecting \(peerID)")
         case .connected:
@@ -98,13 +101,15 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         
         print("DID RECIEVE INVITATION FROM \(peerID)")
-        invitationHandler(true, self.session)
-//        if self.user.type == nil {
-//            invitationHandler(true, self.session)
-//            self.user.type = .viewer
-//        } else {
-//            invitationHandler(false, self.session)
-//        }
+        DispatchQueue.main.async {
+            if self.userDelegate!.canAcceptInvitation() {
+                invitationHandler(true, self.session)
+                self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
+            } else {
+                invitationHandler(false, self.session)
+                self.userDelegate?.peerAcceptInvitation(isAccepted: false, from: peerID)
+            }
+        }
     }
 }
 

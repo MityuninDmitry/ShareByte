@@ -15,6 +15,10 @@ protocol UserDelegate {
     func askUserInfo(_ userInfo: UserInfo)
     func gotMessage(from: MCPeerID, data: Data)
     func connectedPeer(_ peerID: MCPeerID)
+    func updateUserType(_ userType: UserType)
+    func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID)
+    func canAcceptInvitation() -> Bool
+    func disconnectPeer(_ peerID: MCPeerID)
 }
 
 struct UserInfo: Identifiable, Hashable {
@@ -43,7 +47,7 @@ struct Message: Codable {
     var message: String? = nil
     var userName: String? = nil
     var userId: UUID? = nil
-    
+    var userType: UserType? = nil
 }
 
 class UserViewModel: ObservableObject, Identifiable, UserDelegate {
@@ -95,7 +99,9 @@ class UserViewModel: ObservableObject, Identifiable, UserDelegate {
     }
     
     func inviteUser(_ user: UserInfo) {
-        self.peerManager.serviceBrowser.invitePeer(user.mcPeerId, to: peerManager.session, withContext: nil, timeout: 10)   
+        if self.type != .viewer {
+            self.peerManager.serviceBrowser.invitePeer(user.mcPeerId, to: peerManager.session, withContext: nil, timeout: 10)
+        }
     }
     
     func connectedPeer(_ peerID: MCPeerID) {
@@ -151,14 +157,22 @@ class UserViewModel: ObservableObject, Identifiable, UserDelegate {
     func gotMessage(from peer: MCPeerID, data: Data) {
         if let message = try? decoder.decode(Message.self, from: data) {
             DispatchQueue.main.async {
-                if message.messageType == .askInfo {
-                    let newMessage = Message(messageType: .userInfo, userName: self.userInfo.name, userId: self.userInfo.id)
+                switch message.messageType {
+                case .askInfo:
+                    let newMessage = Message(messageType: .userInfo, userName: self.userInfo.name, userId: self.userInfo.id, userType: self.type)
                     self.sendMessageTo(peer: peer, message: newMessage)
-                } else if message.messageType == .userInfo {
+                case .userInfo:
                     let userName = message.userName!
                     let userId = message.userId!
-                    print("UPDATE USER INFO")
                     self.updateConnectedUserInfo(for: peer, userName: userName, userId: userId)
+                    
+                    if self.type == nil {
+                        if let safeGottenUserType = message.userType {
+                            if safeGottenUserType == .viewer {
+                                self.type = .presenter
+                            }
+                        }
+                    }
                     
                 }
             }
@@ -172,4 +186,24 @@ class UserViewModel: ObservableObject, Identifiable, UserDelegate {
         }
     }
     
+    func updateUserType(_ userType: UserType) {
+        self.type = userType
+    }
+    
+    func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
+        if isAccepted {
+            self.type = .viewer
+        }
+    }
+    
+    func canAcceptInvitation() -> Bool {
+        if self.type == nil {
+            return true
+        }
+        return false 
+    }
+    
+    func disconnectPeer(_ peerID: MCPeerID) {
+        
+    }
 }
