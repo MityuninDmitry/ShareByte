@@ -15,7 +15,7 @@ struct PeersScreen: View {
         VStack {
             HStack {
                 Spacer()
-                Text("\(user.type?.rawValue ?? "Not defined")")
+                Text("\(user.userInfo.type?.rawValue ?? "Not defined")")
                     .font(.title)
                 Spacer()
                 Button {
@@ -30,17 +30,17 @@ struct PeersScreen: View {
                 }
             }
             Section("FOUND PEERS") {
-                List(user.foundUsers, id: \.self) { userInfo in
-                    Text(userInfo.name ?? "\(userInfo.mcPeerId)")
+                List(Array(user.foundUsers.keys), id: \.self) { mcPeerId in
+                    Text(mcPeerId.description)
                         .onTapGesture {
-                            self.user.inviteUser(userInfo)
+                            self.user.inviteUser(mcPeerId)
                         }
                 }
                 .listStyle(.plain)
             }
             Section("CONNECTED PEERS") {
-                List(user.connectedUsers, id: \.self) { userInfo in
-                    Text(userInfo.name ?? "\(userInfo.mcPeerId)")
+                List(Array(user.connectedUsers.keys), id: \.self) { mcPeerId in
+                    Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)" )
                 }
                 .listStyle(.plain)
             }

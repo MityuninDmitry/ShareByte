@@ -9,31 +9,28 @@ import Foundation
 import MultipeerConnectivity
 
 
+
 protocol UserDelegate {
     func addFoundPeer(_ peerID: MCPeerID)
-    func addToConnectedPeer(_ peerID: MCPeerID) -> UserInfo?
-    func askUserInfo(_ userInfo: UserInfo)
-    func gotMessage(from: MCPeerID, data: Data)
     func connectedPeer(_ peerID: MCPeerID)
+    func askUserInfo(_ peerId: MCPeerID)
+    func gotMessage(from: MCPeerID, data: Data)
     func updateUserType(_ userType: UserType)
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID)
     func canAcceptInvitation() -> Bool
     func disconnectPeer(_ peerID: MCPeerID)
 }
 
-struct UserInfo: Identifiable, Hashable {
+struct UserInfo: Identifiable, Hashable, Codable {
     var id: UUID? = nil
     var name: String? = nil
-    var mcPeerId: MCPeerID
+    var type: UserType?
+    
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
-        case mcPeerId
-    }
-    
-    enum AdditionalInfoKeys: String, CodingKey {
-        case mcPeerId
+        case type
     }
 }
 
@@ -45,50 +42,42 @@ struct Message: Codable {
     
     var messageType: MessageType = .askInfo
     var message: String? = nil
-    var userName: String? = nil
-    var userId: UUID? = nil
-    var userType: UserType? = nil
+    
+    var userInfo: UserInfo? = nil
 }
 
-class UserViewModel: ObservableObject, Identifiable, UserDelegate {
-    
-    
+class UserViewModel: ObservableObject, UserDelegate {
+
     
     static var shared = UserViewModel()
     
-    @Published var type: UserType? = nil
-    @Published var foundUsers: [UserInfo] = .init()
-    @Published var connectedUsers: [UserInfo] = .init()
+    @Published var foundUsers: [MCPeerID: UserInfo] = .init()
+    @Published var connectedUsers: [MCPeerID: UserInfo] = .init()
+    @Published var userInfo: UserInfo // инфа о пользователе
     
-    
-   var id: UUID = UUID()
-    var peerManager: PeerManager = .init()
-    var userInfo: UserInfo
-    private let encoder = PropertyListEncoder()
-    private let decoder = PropertyListDecoder()
+    var peerManager: PeerManager = .init() // менеджер управления соединением
+    private let encoder = PropertyListEncoder() // для энкодинга сообщений
+    private let decoder = PropertyListDecoder() // для декодинга сообщений
     
     private init(name: String) {
-        
-        self.userInfo = .init(id: UUID(), name: UIDevice.current.name, mcPeerId: self.peerManager.myPeerId)
+        self.userInfo = .init(id: UUID(), name: UIDevice.current.name, type: nil)
         peerManager.userDelegate = self
     }
     
     private init() {
-        self.userInfo = .init(id: UUID(), name: UIDevice.current.name, mcPeerId: self.peerManager.myPeerId)
+        self.userInfo = .init(id: UUID(), name: UIDevice.current.name, type: nil)
         peerManager.userDelegate = self
     }
     
-    static func hasIn(array: [UserInfo], peerID: MCPeerID) -> Int? {
-        var index = 0
-        for item in array {
-            if item.mcPeerId == peerID {
-                return index
-            }
-            index += 1
+    /// Есть ли в переданном массиве объект с таким peerID
+    /// Если есть. то возращает индекс. Иначе возращает нул.
+    static func hasIn(dict: [MCPeerID: UserInfo], peerID: MCPeerID) -> Bool {
+        if dict[peerID] != nil {
+            return true
         }
-        
-        return nil
+        return false
     }
+    
     
     func disconnectAndStopDiscover() {
         peerManager.disconnect()
@@ -98,53 +87,59 @@ class UserViewModel: ObservableObject, Identifiable, UserDelegate {
         peerManager.discover()
     }
     
-    func inviteUser(_ user: UserInfo) {
-        if self.type != .viewer {
-            self.peerManager.serviceBrowser.invitePeer(user.mcPeerId, to: peerManager.session, withContext: nil, timeout: 10)
+    // шлем приглашение пользователю
+    func inviteUser(_ peerId: MCPeerID) {
+        if self.userInfo.type != .viewer {
+            self.peerManager.serviceBrowser.invitePeer(peerId, to: peerManager.session, withContext: nil, timeout: 10)
         }
     }
     
+    /// подключился пир
+    /// перемещаем его в список(кастомный) подключенных пользователей и запрашиваем инфу
     func connectedPeer(_ peerID: MCPeerID) {
         let user = self.addToConnectedPeer(peerID)
         if user != nil {
-            self.askUserInfo(user!)
+            self.askUserInfo(peerID)
         }
         
     }
     
-    func addFoundPeer(_ peerID: MCPeerID) {
-        
-        let user: UserInfo = .init(mcPeerId: peerID)
-        DispatchQueue.main.async {
-            if !self.foundUsers.contains([user]) {
-                self.foundUsers.append(user)
-            }
-        }
-        
-        
-    }
+    /// добавить peerID
     func addToConnectedPeer(_ peerID: MCPeerID) -> UserInfo? {
-        
-            if let index = UserViewModel.hasIn(array: self.foundUsers, peerID: peerID) {
-                
-                let user = foundUsers.remove(at: index)
-                if UserViewModel.hasIn(array: self.connectedUsers, peerID: user.mcPeerId) == nil {
-                    self.connectedUsers.append(user)
-                    return user
-                }
+        // если пир есть в списке найденных(но еще не подключенных) пользователей, то
+        if UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
+            let user = self.foundUsers.removeValue(forKey: peerID) // удаляем его из этого списка найденных и
+            // если нет пользователя в списке подключенных пользователей, то
+            if !UserViewModel.hasIn(dict: self.connectedUsers, peerID: peerID) {
+                self.connectedUsers[peerID] = user
+                return user
             }
-            return nil
-        
+        }
+        return nil
+    }
+    
+    /// инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
+    func addFoundPeer(_ peerID: MCPeerID) {
+        DispatchQueue.main.async {
+            if !UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
+                let user: UserInfo = .init()
+                self.foundUsers[peerID] = user
+            }
+        }
         
         
     }
     
-    func askUserInfo(_ userInfo: UserInfo) {
-        if userInfo.id == nil {
+   
+    
+    /// Запрашиваем информацию о пользователе
+    func askUserInfo(_ peerId: MCPeerID) {
+        if self.connectedUsers[peerId]!.id == nil {
             let newMessage = Message(messageType: .askInfo)
-            sendMessageTo(peer: userInfo.mcPeerId, message: newMessage)
+            sendMessageTo(peer: peerId, message: newMessage)
         }
     }
+    ///  Отправить сообщение пиру
     func sendMessageTo(peer: MCPeerID, message: Message) {
         do {
             if let data = try? self.encoder.encode(message) {
@@ -154,22 +149,23 @@ class UserViewModel: ObservableObject, Identifiable, UserDelegate {
             print("Error for sending: \(String(describing: error))")
         }
     }
+    
+    /// Получить сообщение от пира
     func gotMessage(from peer: MCPeerID, data: Data) {
         if let message = try? decoder.decode(Message.self, from: data) {
             DispatchQueue.main.async {
                 switch message.messageType {
-                case .askInfo:
-                    let newMessage = Message(messageType: .userInfo, userName: self.userInfo.name, userId: self.userInfo.id, userType: self.type)
+                case .askInfo: // если пир запросил инфо обо мне, то предоставить эту инфу
+                    let newMessage = Message(messageType: .userInfo, userInfo: self.userInfo)
                     self.sendMessageTo(peer: peer, message: newMessage)
-                case .userInfo:
-                    let userName = message.userName!
-                    let userId = message.userId!
-                    self.updateConnectedUserInfo(for: peer, userName: userName, userId: userId)
+                case .userInfo: // получили инфу от пользователя
+                    let userInfo = message.userInfo!
+                    self.updateConnectedUserInfo(for: peer, userInfo: userInfo)
                     
-                    if self.type == nil {
-                        if let safeGottenUserType = message.userType {
-                            if safeGottenUserType == .viewer {
-                                self.type = .presenter
+                    if self.userInfo.type == nil { // если мой тип пустой, то
+                        if let safeGottenUserType = userInfo.type {
+                            if safeGottenUserType == .viewer { // если он вьюер, то я презентер
+                                self.userInfo.type = .presenter
                             }
                         }
                     }
@@ -178,26 +174,26 @@ class UserViewModel: ObservableObject, Identifiable, UserDelegate {
             }
         }
     }
-    
-    func updateConnectedUserInfo(for peerId: MCPeerID, userName: String, userId: UUID) {
-        if let index = UserViewModel.hasIn(array: connectedUsers, peerID: peerId) {
-            self.connectedUsers[index].name = userName
-            self.connectedUsers[index].id = userId
+    /// апдейтим инфу о пользователе
+    func updateConnectedUserInfo(for peerId: MCPeerID, userInfo: UserInfo) {
+        if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peerId) {
+            self.connectedUsers[peerId]!.name = userInfo.name
+            self.connectedUsers[peerId]!.id = userInfo.id
         }
     }
     
     func updateUserType(_ userType: UserType) {
-        self.type = userType
+        self.userInfo.type = userType
     }
     
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
         if isAccepted {
-            self.type = .viewer
+            self.userInfo.type = .viewer
         }
     }
     
     func canAcceptInvitation() -> Bool {
-        if self.type == nil {
+        if self.userInfo.type == nil {
             return true
         }
         return false 
