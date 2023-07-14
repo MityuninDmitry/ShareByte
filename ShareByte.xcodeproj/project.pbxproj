@@ -16,7 +16,6 @@
 		150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DF2A59C0F20006F4DA /* PresentationScreen.swift */; };
 		150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E12A59C1070006F4DA /* UserViewModel.swift */; };
 		150273E42A59C14C0006F4DA /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E32A59C14C0006F4DA /* UserType.swift */; };
-		150273EA2A5B120F0006F4DA /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E92A5B120F0006F4DA /* MessageType.swift */; };
 		1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1578204D2A5B2E54007FA7BF /* PeerManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,6 @@
 		150273DF2A59C0F20006F4DA /* PresentationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationScreen.swift; sourceTree = "<group>"; };
 		150273E12A59C1070006F4DA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		150273E32A59C14C0006F4DA /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
-		150273E92A5B120F0006F4DA /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		1578204D2A5B2E54007FA7BF /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +89,6 @@
 			children = (
 				1578204D2A5B2E54007FA7BF /* PeerManager.swift */,
 				150273E32A59C14C0006F4DA /* UserType.swift */,
-				150273E92A5B120F0006F4DA /* MessageType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -190,7 +187,6 @@
 				1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */,
 				150273DC2A59C0AA0006F4DA /* TabManager.swift in Sources */,
 				150273CC2A5943590006F4DA /* ContentView.swift in Sources */,
-				150273EA2A5B120F0006F4DA /* MessageType.swift in Sources */,
 				150273CA2A5943590006F4DA /* ShareByteApp.swift in Sources */,
 				150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */,
 			);

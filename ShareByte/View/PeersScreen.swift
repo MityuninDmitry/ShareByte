@@ -40,7 +40,13 @@ struct PeersScreen: View {
             }
             Section("CONNECTED PEERS") {
                 List(Array(user.connectedUsers.keys), id: \.self) { mcPeerId in
-                    Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)" )
+                    HStack {
+                        //Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
+                        Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
+                        Spacer()
+                        Text("\(user.connectedUsers[mcPeerId]!.type?.rawValue ?? "UNKNOWN")" )
+                    }
+                    
                 }
                 .listStyle(.plain)
             }

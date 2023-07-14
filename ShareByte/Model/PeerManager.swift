@@ -61,7 +61,7 @@ extension PeerManager: MCSessionDelegate {
         case .notConnected:
             print("Not connected \(peerID)")
             DispatchQueue.main.async {
-                self.userDelegate?.disconnectPeer(peerID)
+                self.userDelegate?.notConnectedPeer(peerID)
             }
         case .connecting:
             print("Connecting \(peerID)")
@@ -126,6 +126,9 @@ extension PeerManager: MCNearbyServiceBrowserDelegate {
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         print("LOST PEER \(peerID)")
+        DispatchQueue.main.async {
+            self.userDelegate?.lostPeer(peerID)
+        }
     }
     
     
