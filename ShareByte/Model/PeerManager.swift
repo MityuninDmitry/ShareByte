@@ -41,7 +41,6 @@ class PeerManager: NSObject, ObservableObject {
         session.disconnect()
         serviceBrowser.stopBrowsingForPeers()
         serviceAdvertiser.stopAdvertisingPeer()
-         
     }
     
     func discover() {

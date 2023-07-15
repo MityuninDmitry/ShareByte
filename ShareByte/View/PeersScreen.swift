@@ -14,6 +14,9 @@ struct PeersScreen: View {
         
         VStack {
             HStack {
+                Text(user.disoverableStatus.rawValue)
+            }
+            HStack {
                 Spacer()
                 Text("\(user.userInfo.type?.rawValue ?? "Not defined")")
                     .font(.title)
@@ -45,6 +48,9 @@ struct PeersScreen: View {
                         Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
                         Spacer()
                         Text("\(user.connectedUsers[mcPeerId]!.type?.rawValue ?? "UNKNOWN")" )
+                    }
+                    .onTapGesture {
+                        user.sendReconnectTo(peers: [mcPeerId])
                     }
                     
                 }

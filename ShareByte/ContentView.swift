@@ -26,6 +26,12 @@ struct ContentView: View {
                     Label("Peers", systemImage: "person.3")
                 }
                 .tag(1)
+            
+            PersonScreen()
+                .tabItem {
+                    Label("Me", systemImage: "person")
+                }
+                .tag(2)
         }
     }
 }
@@ -33,5 +39,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(TabManager.shared)
+            .environmentObject(UserViewModel.shared)
     }
 }
