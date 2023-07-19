@@ -14,6 +14,8 @@ struct ShareByteApp: App {
             ContentView()
                 .environmentObject(TabManager.shared)
                 .environmentObject(UserViewModel.shared)
+                .environmentObject(PresentationTabManager.shared)
+            
         }
     }
 }

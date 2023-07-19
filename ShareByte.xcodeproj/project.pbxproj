@@ -15,9 +15,17 @@
 		150273DE2A59C0E00006F4DA /* PeersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DD2A59C0E00006F4DA /* PeersScreen.swift */; };
 		150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DF2A59C0F20006F4DA /* PresentationScreen.swift */; };
 		150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E12A59C1070006F4DA /* UserViewModel.swift */; };
-		150273E42A59C14C0006F4DA /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E32A59C14C0006F4DA /* UserType.swift */; };
+		150273E42A59C14C0006F4DA /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E32A59C14C0006F4DA /* Role.swift */; };
 		1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1578204D2A5B2E54007FA7BF /* PeerManager.swift */; };
 		15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C5F2A62E1BA007943BA /* PersonScreen.swift */; };
+		15B78C622A64616A007943BA /* ViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C612A64616A007943BA /* ViewerView.swift */; };
+		15B78C642A6466A6007943BA /* PresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C632A6466A6007943BA /* PresenterView.swift */; };
+		15B78C662A646C51007943BA /* SelectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C652A646C51007943BA /* SelectingImageView.swift */; };
+		15B78C682A646F12007943BA /* UploadingToPeersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C672A646F12007943BA /* UploadingToPeersView.swift */; };
+		15B78C6A2A646FA6007943BA /* PresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C692A646FA6007943BA /* PresentationView.swift */; };
+		15B78C6C2A64718C007943BA /* PresentationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C6B2A64718C007943BA /* PresentationState.swift */; };
+		15B78C6E2A647219007943BA /* PresentationTabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C6D2A647219007943BA /* PresentationTabManager.swift */; };
+		15B78C702A6475CE007943BA /* Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C6F2A6475CE007943BA /* Presentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,9 +39,17 @@
 		150273DD2A59C0E00006F4DA /* PeersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersScreen.swift; sourceTree = "<group>"; };
 		150273DF2A59C0F20006F4DA /* PresentationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationScreen.swift; sourceTree = "<group>"; };
 		150273E12A59C1070006F4DA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		150273E32A59C14C0006F4DA /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
+		150273E32A59C14C0006F4DA /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		1578204D2A5B2E54007FA7BF /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
 		15B78C5F2A62E1BA007943BA /* PersonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonScreen.swift; sourceTree = "<group>"; };
+		15B78C612A64616A007943BA /* ViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerView.swift; sourceTree = "<group>"; };
+		15B78C632A6466A6007943BA /* PresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterView.swift; sourceTree = "<group>"; };
+		15B78C652A646C51007943BA /* SelectingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectingImageView.swift; sourceTree = "<group>"; };
+		15B78C672A646F12007943BA /* UploadingToPeersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingToPeersView.swift; sourceTree = "<group>"; };
+		15B78C692A646FA6007943BA /* PresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationView.swift; sourceTree = "<group>"; };
+		15B78C6B2A64718C007943BA /* PresentationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationState.swift; sourceTree = "<group>"; };
+		15B78C6D2A647219007943BA /* PresentationTabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationTabManager.swift; sourceTree = "<group>"; };
+		15B78C6F2A6475CE007943BA /* Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +106,10 @@
 			isa = PBXGroup;
 			children = (
 				1578204D2A5B2E54007FA7BF /* PeerManager.swift */,
-				150273E32A59C14C0006F4DA /* UserType.swift */,
+				150273E32A59C14C0006F4DA /* Role.swift */,
+				15B78C6B2A64718C007943BA /* PresentationState.swift */,
+				15B78C6D2A647219007943BA /* PresentationTabManager.swift */,
+				15B78C6F2A6475CE007943BA /* Presentation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -101,6 +120,11 @@
 				150273DF2A59C0F20006F4DA /* PresentationScreen.swift */,
 				150273DD2A59C0E00006F4DA /* PeersScreen.swift */,
 				15B78C5F2A62E1BA007943BA /* PersonScreen.swift */,
+				15B78C612A64616A007943BA /* ViewerView.swift */,
+				15B78C632A6466A6007943BA /* PresenterView.swift */,
+				15B78C652A646C51007943BA /* SelectingImageView.swift */,
+				15B78C672A646F12007943BA /* UploadingToPeersView.swift */,
+				15B78C692A646FA6007943BA /* PresentationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -187,9 +211,17 @@
 				150273DE2A59C0E00006F4DA /* PeersScreen.swift in Sources */,
 				150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */,
 				15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */,
-				150273E42A59C14C0006F4DA /* UserType.swift in Sources */,
+				15B78C702A6475CE007943BA /* Presentation.swift in Sources */,
+				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
+				15B78C6A2A646FA6007943BA /* PresentationView.swift in Sources */,
+				15B78C6E2A647219007943BA /* PresentationTabManager.swift in Sources */,
+				15B78C642A6466A6007943BA /* PresenterView.swift in Sources */,
+				15B78C6C2A64718C007943BA /* PresentationState.swift in Sources */,
 				1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */,
+				15B78C682A646F12007943BA /* UploadingToPeersView.swift in Sources */,
 				150273DC2A59C0AA0006F4DA /* TabManager.swift in Sources */,
+				15B78C662A646C51007943BA /* SelectingImageView.swift in Sources */,
+				15B78C622A64616A007943BA /* ViewerView.swift in Sources */,
 				150273CC2A5943590006F4DA /* ContentView.swift in Sources */,
 				150273CA2A5943590006F4DA /* ShareByteApp.swift in Sources */,
 				150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */,

@@ -18,7 +18,7 @@ struct PeersScreen: View {
             }
             HStack {
                 Spacer()
-                Text("\(user.userInfo.type?.rawValue ?? "Not defined")")
+                Text("\(user.user.role?.rawValue ?? "Not defined")")
                     .font(.title)
                 Spacer()
                 Button {
@@ -47,7 +47,7 @@ struct PeersScreen: View {
                         //Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
                         Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
                         Spacer()
-                        Text("\(user.connectedUsers[mcPeerId]!.type?.rawValue ?? "UNKNOWN")" )
+                        Text("\(user.connectedUsers[mcPeerId]!.role?.rawValue ?? "UNKNOWN")" )
                     }
                     .onTapGesture {
                         user.sendReconnectTo(peers: [mcPeerId])

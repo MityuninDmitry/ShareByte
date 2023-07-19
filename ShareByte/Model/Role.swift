@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum UserType: String, Codable {
+enum Role: String, Codable {
     case presenter = "Presenter"
     case viewer = "Viewer"
 }

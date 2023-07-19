@@ -7,14 +7,31 @@
 
 import SwiftUI
 
+
+
 struct PresentationScreen: View {
+ 
+    @EnvironmentObject var user: UserViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            if user.user.role == .presenter {
+                PresenterView()
+            } else if user.user.role == .viewer {
+                ViewerView()
+            } else {
+                Text("NO DATA TO SHOW")
+            }
+        }
+        
+        
+        
     }
 }
 
 struct PresentationScreen_Previews: PreviewProvider {
     static var previews: some View {
         PresentationScreen()
+            .environmentObject(UserViewModel.shared)
     }
 }

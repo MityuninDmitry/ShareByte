@@ -13,7 +13,7 @@ struct PersonScreen: View {
     
     var body: some View {
         VStack() {
-            Text("Your current name is: \(user.userInfo.name ?? "")")
+            Text("Your current name is: \(user.user.name ?? "")")
             
             TextField("Enter your name", text: $userName)
             

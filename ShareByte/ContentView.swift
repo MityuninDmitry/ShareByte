@@ -12,7 +12,6 @@ import MultipeerConnectivity
 struct ContentView: View {
     @EnvironmentObject var tabManager: TabManager
     
-    
     var body: some View {
         TabView(selection: $tabManager.seletedTabId) {
             PresentationScreen()
