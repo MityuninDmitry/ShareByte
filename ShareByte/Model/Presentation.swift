@@ -14,13 +14,7 @@ struct Presentation: Codable, Hashable {
     var imagesData: [Data] = .init()
     var indexToShow: Int? = nil
     /// для вюера свойство, что данные получены и готовы к презентации. А для презентера, что презентация готова к показу - когда все пользователи готовы к нему
-    var readyToShow: Bool = false {
-        didSet {
-            if !readyToShow {
-                clear()
-            }
-        }
-    }
+    var readyToShow: Bool = false
     var imageToShow: Image? {
         get {
             if indexToShow != nil {
@@ -47,5 +41,6 @@ struct Presentation: Codable, Hashable {
     mutating func clear() {
         indexToShow = nil
         imagesData = .init()
+        readyToShow = false 
     }
 }

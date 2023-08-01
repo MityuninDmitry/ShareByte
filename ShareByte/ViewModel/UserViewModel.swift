@@ -96,7 +96,7 @@ class UserViewModel: ObservableObject {
         self.updateUserRole(nil)
         self.connectedUsers = .init()
         self.foundUsers = .init()
-        self.user.presentation.readyToShow = false
+        self.user.presentation.clear()
         peerManager.disconnect()
         self.disoverableStatus = .stopped
         
@@ -262,7 +262,7 @@ extension UserViewModel: UserDelegate {
                             self.connectedUsers[peer]!.presentation.readyToShow = true
                         }
                         
-                        self.user.presentation.readyToShow =  self.isAllConnectedUsersReadyToWatchPresentation()
+                        self.user.presentation.readyToShow = self.isAllConnectedUsersReadyToWatchPresentation()
                     }
                 case .indexToShow:
                     DispatchQueue.main.async {
@@ -270,7 +270,7 @@ extension UserViewModel: UserDelegate {
                     }
                 case .clearPresentation:
                     DispatchQueue.main.async {
-                        self.user.presentation.readyToShow = false 
+                        self.user.presentation.clear()
                     }
                 }
                 
@@ -328,7 +328,7 @@ extension UserViewModel: UserDelegate {
         }
         
         if self.connectedUsers.count == 0 {
-            self.user.presentation.readyToShow = false
+            self.user.presentation.clear()
         }
     }
 }
