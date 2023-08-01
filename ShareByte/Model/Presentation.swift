@@ -31,6 +31,7 @@ struct Presentation: Codable, Hashable {
             return nil
         }
     }
+    //var imageCountInPresentation: Int = 0
     
     func images() -> [Image] {
         var images: [Image] = .init()
@@ -43,7 +44,7 @@ struct Presentation: Codable, Hashable {
         return images 
     }
     
-    private mutating func clear() {
+    mutating func clear() {
         indexToShow = nil
         imagesData = .init()
     }
