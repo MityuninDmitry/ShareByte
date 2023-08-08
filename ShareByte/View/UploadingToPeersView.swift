@@ -16,6 +16,13 @@ struct UploadingToPeersView: View {
             Spacer()
             Text("UPLOADING ... ")
             Spacer()
+            Button {
+                self.user.user.presentation.clear()
+                self.user.sendClearPresentation()
+                presentationTabManager.nextTab()
+            } label: {
+                Text("CREATE NEW PRESENTATION")
+            }
         }
         .onChange(of: user.user.presentation.readyToShow) { newValue in
             print("UPLOADED")

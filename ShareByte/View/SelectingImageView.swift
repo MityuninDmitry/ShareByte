@@ -10,7 +10,6 @@ import PhotosUI
 
 struct SelectingImageView: View {
     @State var selectedItems: [PhotosPickerItem] = .init()
-    //@State var selectedImages: [Image] = .init()
     
     @EnvironmentObject var user: UserViewModel
     @EnvironmentObject var presentationTabManager: PresentationTabManager
@@ -37,14 +36,11 @@ struct SelectingImageView: View {
             }
             .onChange(of: selectedItems) { _ in
                 Task {
-                    //selectedImages.removeAll()
                     user.user.presentation.clear()
                     
                     for item in selectedItems {
                         if let data = try? await item.loadTransferable(type: Data.self) {
                             if let uiImage = UIImage(data: data) {
-                                //let image = Image(uiImage: uiImage)
-                                //selectedImages.append(image)
                                 let data = uiImage.pngData()!
                                 user.user.presentation.imagesData.append(data)
                             }

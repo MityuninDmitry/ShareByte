@@ -25,6 +25,16 @@ struct Presentation: Codable, Hashable {
             return nil
         }
     }
+    var uiImageToShow: UIImage? {
+        get {
+            if indexToShow != nil {
+                if let uiImage = UIImage(data: imagesData[indexToShow!]) {
+                    return uiImage
+                }
+            }
+            return nil
+        }
+    }
     //var imageCountInPresentation: Int = 0
     
     func images() -> [Image] {
@@ -40,7 +50,9 @@ struct Presentation: Codable, Hashable {
     
     mutating func clear() {
         indexToShow = nil
-        imagesData = .init()
+        imagesData = []
         readyToShow = false 
     }
+    
+    
 }

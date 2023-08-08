@@ -33,6 +33,7 @@ struct PresentationView: View {
             }
             Spacer()
             Button {
+                self.user.user.presentation.clear()
                 self.user.sendClearPresentation()
                 presentationTabManager.nextTab()
             } label: {

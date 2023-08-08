@@ -50,7 +50,6 @@ class UserViewModel: ObservableObject {
     private init(name: String) {
         self.user = .init(id: UUID(), name: UIDevice.current.name, role: nil, presentation: .init())
         peerManager.userDelegate = self
-        
     }
     
     private init() {
@@ -74,7 +73,7 @@ class UserViewModel: ObservableObject {
     
     /// Дисконнект, а через какое-то время коннект
     func reconnect() {
-        Task {
+        Task { @MainActor in
             self.disconnectAndStopDiscover()
             try await Task.sleep(for: .seconds(1))
             self.makeDiscoverable()
@@ -286,8 +285,9 @@ extension UserViewModel: UserDelegate {
     
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
         if isAccepted {
-            self.updateUserRole(.viewer)
-            self.sendUserInfoTo(peers: [peerID])
+            Task { @MainActor in
+                self.updateUserRole(.viewer)
+            }
         }
     }
     
@@ -314,8 +314,8 @@ extension UserViewModel: UserDelegate {
             let user = self.connectedUsers.removeValue(forKey: peerID)
             if let disconnectedUser = user {
                 if disconnectedUser.role == .presenter {
-                    self.disconnectAndStopDiscover()
-                    self.makeDiscoverable()
+                    self.reconnect()
+                    //self.makeDiscoverable()
                 }
             }
         }

@@ -26,4 +26,8 @@ class PresentationTabManager: ObservableObject {
         }
     }
     
+    func goTab(state: PresentationState) {
+        self.seletedTabId = state
+    }
+    
 }

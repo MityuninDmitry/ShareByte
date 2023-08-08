@@ -59,14 +59,14 @@ extension PeerManager: MCSessionDelegate {
         switch state {
         case .notConnected:
             print("Not connected \(peerID)")
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self.userDelegate?.notConnectedPeer(peerID)
             }
         case .connecting:
             print("Connecting \(peerID)")
         case .connected:
             print("Connected \(peerID)")
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self.userDelegate?.connectedPeer(peerID)
             }
         @unknown default:
