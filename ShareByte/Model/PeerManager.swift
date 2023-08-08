@@ -76,7 +76,7 @@ extension PeerManager: MCSessionDelegate {
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("Recieve data")
-        DispatchQueue.main.async {
+        Task {
             self.userDelegate?.gotMessage(from: peerID, data: data)
         }
     }
@@ -100,7 +100,7 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         
         print("DID RECIEVE INVITATION FROM \(peerID)")
-        DispatchQueue.main.async {
+        Task {
             if self.userDelegate!.canAcceptInvitation() {
                 invitationHandler(true, self.session)
                 self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
@@ -116,7 +116,7 @@ extension PeerManager: MCNearbyServiceBrowserDelegate {
     
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         print("FOUND PEER \(peerID)")
-        DispatchQueue.main.async {
+        Task {
             self.userDelegate?.addFoundPeer(peerID)
         }
         
@@ -125,7 +125,7 @@ extension PeerManager: MCNearbyServiceBrowserDelegate {
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         print("LOST PEER \(peerID)")
-        DispatchQueue.main.async {
+        Task {
             self.userDelegate?.lostPeer(peerID)
         }
     }

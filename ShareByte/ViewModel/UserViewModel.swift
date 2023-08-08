@@ -34,11 +34,6 @@ struct User: Identifiable, Hashable, Codable {
     }
 }
 
-enum DiscoverableStatus: String {
-    case stopped = "STOPPED"
-    case running = "RUNNING"
-}
-
 class UserViewModel: ObservableObject {
     
     static var shared = UserViewModel()
@@ -79,11 +74,10 @@ class UserViewModel: ObservableObject {
     
     /// Дисконнект, а через какое-то время коннект
     func reconnect() {
-        DispatchQueue.main.async {
+        Task {
             self.disconnectAndStopDiscover()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.makeDiscoverable()
-            }
+            try await Task.sleep(for: .seconds(1))
+            self.makeDiscoverable()
         }
     }
     
@@ -147,7 +141,7 @@ class UserViewModel: ObservableObject {
         }
     }
     func sendImagesData() {
-        DispatchQueue.main.async {
+        Task {
             if self.peerManager.session.connectedPeers.count > 0 {
                 let imagesData = self.user.presentation.imagesData
                 let peers = self.peerManager.session.connectedPeers
@@ -176,6 +170,8 @@ class UserViewModel: ObservableObject {
         let message = Message(messageType: .readyToStartPresentation)
         self.sendMessageTo(peers: peers, message: message)
     }
+    
+    
     func printSessionConnectedPeersInfo() {
         for peer in self.peerManager.session.connectedPeers {
             print(connectedUsers[peer] ?? "")
@@ -208,28 +204,45 @@ extension UserViewModel: UserDelegate {
     /// инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
     func addFoundPeer(_ peerID: MCPeerID) {
         print("[addFoundPeer] \(peerID)")
-        DispatchQueue.main.async {
+        Task { @MainActor in
             if !UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
                 let user: User = .init(presentation: .init())
                 self.foundUsers[peerID] = user
             }
         }
+        
+        
     }
     
     /// подключился пир
     /// перемещаем его в список(кастомный) подключенных пользователей и запрашиваем инфу
     func connectedPeer(_ peerID: MCPeerID) {
-        let user = self.addToConnectedPeer(peerID)
-        if user != nil {
-            self.askUserInfo(peerID)
+        Task { @MainActor in
+            let user = self.addToConnectedPeer(peerID)
+            if user != nil {
+                self.askUserInfo(peerID)
+            }
         }
-        
+    }
+    func isAllConnectedUsersReadyToWatchPresentation() -> Bool {
+        let count = self.connectedUsers.count
+        var countToReady = 0
+        for peer in self.connectedUsers.keys {
+            if self.connectedUsers[peer]!.presentation.readyToShow {
+                countToReady += 1
+            }
+        }
+        if count > 0 && countToReady > 0 && count == countToReady {
+            return true
+        }
+        return false
     }
     
     /// Получить сообщение от пира
     func gotMessage(from peer: MCPeerID, data: Data) {
-        if let message = try? decoder.decode(Message.self, from: data) {
-            DispatchQueue.main.async {
+        Task { @MainActor in
+            if let message = try? decoder.decode(Message.self, from: data) {
+                
                 switch message.messageType {
                 case .askInfo: // если пир запросил инфо обо мне, то предоставить эту инфу
                     self.sendUserInfoTo(peers: [peer])
@@ -248,50 +261,28 @@ extension UserViewModel: UserDelegate {
                 case .reconnect:
                     self.reconnect()
                 case .image:
-                    DispatchQueue.main.async {
-                        let imageDatas = message.imagesData!
-                        for imageData in imageDatas {
-                            self.user.presentation.imagesData.append(imageData)
-                        }
-                        self.sendReadyToStartPresentation(peers: [peer])
-                        
+                    let imageDatas = message.imagesData!
+                    for imageData in imageDatas {
+                        self.user.presentation.imagesData.append(imageData)
                     }
+                    self.sendReadyToStartPresentation(peers: [peer])
                 case .readyToStartPresentation:
-                    DispatchQueue.main.async {
-                        if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peer) {
-                            self.connectedUsers[peer]!.presentation.readyToShow = true
-                        }
-                        
-                        self.user.presentation.readyToShow = self.isAllConnectedUsersReadyToWatchPresentation()
+                    if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peer) {
+                        self.connectedUsers[peer]!.presentation.readyToShow = true
                     }
+                    self.user.presentation.readyToShow = self.isAllConnectedUsersReadyToWatchPresentation()
                 case .indexToShow:
-                    DispatchQueue.main.async {
-                        self.user.presentation.indexToShow = message.indexToShow
-                    }
+                    self.user.presentation.indexToShow = message.indexToShow
                 case .clearPresentation:
-                    DispatchQueue.main.async {
-                        self.user.presentation.clear()
-                    }
+                    self.user.presentation.clear()
                 }
                 
-                
             }
         }
+        
     }
     
-    func isAllConnectedUsersReadyToWatchPresentation() -> Bool {
-        let count = self.connectedUsers.count
-        var countToReady = 0
-        for peer in self.connectedUsers.keys {
-            if self.connectedUsers[peer]!.presentation.readyToShow {
-                countToReady += 1
-            }
-        }
-        if count > 0 && countToReady > 0 && count == countToReady {
-            return true
-        }
-        return false
-    }
+    
     
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
         if isAccepted {
@@ -309,10 +300,12 @@ extension UserViewModel: UserDelegate {
     
     func lostPeer(_ peerID: MCPeerID) {
         print("[lostPeer] \(peerID)")
-        if UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
-            self.foundUsers.removeValue(forKey: peerID)
+        Task { @MainActor in
+            if UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
+                self.foundUsers.removeValue(forKey: peerID)
+            }
+            notConnectedPeer(peerID)
         }
-        notConnectedPeer(peerID)
     }
     
     func notConnectedPeer(_ peerID: MCPeerID) {
