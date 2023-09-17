@@ -11,8 +11,10 @@ import PhotosUI
 struct SelectingImageView: View {
     @State var selectedItems: [PhotosPickerItem] = .init()
     
-    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var viewModel: UserViewModel
     @EnvironmentObject var presentationTabManager: PresentationTabManager
+    
+    
     
     let columns = [
             GridItem(.flexible()),
@@ -24,8 +26,8 @@ struct SelectingImageView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(0..<user.user.presentation.images().count, id: \.self) { i in
-                        user.user.presentation.images()[i]
+                    ForEach(0..<viewModel.user.presentation.images().count, id: \.self) { i in
+                        viewModel.user.presentation.images()[i]
                             .resizable()
                             .scaledToFit()
                     }
@@ -36,32 +38,33 @@ struct SelectingImageView: View {
             }
             .onChange(of: selectedItems) { _ in
                 Task {
-                    user.user.presentation.clear()
+                    viewModel.user.presentation.clear()
                     
                     for item in selectedItems {
                         if let data = try? await item.loadTransferable(type: Data.self) {
                             if let uiImage = UIImage(data: data) {
                                 let data = uiImage.pngData()!
-                                user.user.presentation.imagesData.append(data)
+                                viewModel.user.presentation.imagesData.append(data)
                             }
                         }
                     }
+                    
                 }
             }
             
             HStack {
-                
                     Button {
-                        user.sendImagesData()
+                        viewModel.sendImagesData()
                         presentationTabManager.nextTab()
                     } label: {
                         Text("Upload data to peers")
                     }
-                    .disabled(user.user.presentation.imagesData.count == 0)
+                    .disabled(viewModel.user.presentation.imagesData.count == 0)
                 
                 
             }
         }
+        
     }
 }
 

@@ -29,7 +29,6 @@ class PeerManager: NSObject, ObservableObject {
         session.delegate = self
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
-        
     }
     
     func invitePeer(_ peerId: MCPeerID) {

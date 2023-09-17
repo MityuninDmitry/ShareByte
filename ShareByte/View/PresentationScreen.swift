@@ -15,6 +15,7 @@ struct PresentationScreen: View {
     
     var body: some View {
         VStack {
+            //if user.user.role != .viewer {
             if user.user.role == .presenter {
                 PresenterView()
             } else if user.user.role == .viewer {

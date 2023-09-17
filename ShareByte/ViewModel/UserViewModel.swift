@@ -8,8 +8,6 @@
 import Foundation
 import MultipeerConnectivity
 
-
-
 protocol UserDelegate {
     func notConnectedPeer(_ peerID: MCPeerID)
     func lostPeer(_ peerID: MCPeerID)
@@ -18,20 +16,6 @@ protocol UserDelegate {
     func gotMessage(from: MCPeerID, data: Data)
     func addFoundPeer(_ peerID: MCPeerID)
     func connectedPeer(_ peerID: MCPeerID)
-}
-
-struct User: Identifiable, Hashable, Codable {
-    var id: UUID? = nil
-    var name: String? = nil
-    var role: Role? = nil
-    var presentation: Presentation
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case role
-        case presentation
-    }
 }
 
 class UserViewModel: ObservableObject {
@@ -48,14 +32,14 @@ class UserViewModel: ObservableObject {
     private let decoder = PropertyListDecoder() // для декодинга сообщений
     
     private init(name: String) {
-        self.user = .init(id: UUID(), name: UIDevice.current.name, role: nil, presentation: .init())
+        self.user = .init()
         peerManager.userDelegate = self
     }
     
     private init() {
-        self.user = .init(id: UUID(), name: UIDevice.current.name, role: nil, presentation: .init())
+        self.user = .init()
         peerManager.userDelegate = self
-        
+        self.makeDiscoverable()
     }
     
     func updateUserName(_ name: String) {
