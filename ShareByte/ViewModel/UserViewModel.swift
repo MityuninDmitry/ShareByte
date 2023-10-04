@@ -25,6 +25,7 @@ class UserViewModel: ObservableObject {
     @Published var foundUsers: [MCPeerID: User] = .init()
     @Published var connectedUsers: [MCPeerID: User] = .init()
     @Published var user: User // инфа о пользователе
+    @Published var presentation: Presentation = .init()
     @Published var disoverableStatus: DiscoverableStatus = .stopped
     
     var peerManager: PeerManager = .init() // менеджер управления соединением
@@ -41,7 +42,10 @@ class UserViewModel: ObservableObject {
         peerManager.userDelegate = self
         self.makeDiscoverable()
     }
-    
+    func appendImageToPresentation(_ data: Data) {
+        self.presentation.imagesData.append(data)
+        self.objectWillChange.send()
+    }
     func updateUserName(_ name: String) {
         self.user.name = name
         self.sendUserInfoTo(peers: self.peerManager.session.connectedPeers)
@@ -73,7 +77,7 @@ class UserViewModel: ObservableObject {
         self.updateUserRole(nil)
         self.connectedUsers = .init()
         self.foundUsers = .init()
-        self.user.presentation.clear()
+        self.presentation.clear()
         peerManager.disconnect()
         self.disoverableStatus = .stopped
         
@@ -126,7 +130,7 @@ class UserViewModel: ObservableObject {
     func sendImagesData() {
         Task {
             if self.peerManager.session.connectedPeers.count > 0 {
-                let imagesData = self.user.presentation.imagesData
+                let imagesData = self.presentation.imagesData
                 let peers = self.peerManager.session.connectedPeers
                 let message = Message(messageType: .image, imagesData: imagesData)
                 self.sendMessageTo(peers: peers, message: message)
@@ -150,7 +154,7 @@ class UserViewModel: ObservableObject {
         self.sendMessageTo(peers: peers, message: message)
     }
     func sendReadyToStartPresentation(peers: [MCPeerID]) {
-        let message = Message(messageType: .readyToStartPresentation)
+        let message = Message(messageType: .ready)
         self.sendMessageTo(peers: peers, message: message)
     }
     
@@ -189,7 +193,7 @@ extension UserViewModel: UserDelegate {
         print("[addFoundPeer] \(peerID)")
         Task { @MainActor in
             if !UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
-                let user: User = .init(presentation: .init())
+                let user: User = .init()
                 self.foundUsers[peerID] = user
             }
         }
@@ -211,7 +215,7 @@ extension UserViewModel: UserDelegate {
         let count = self.connectedUsers.count
         var countToReady = 0
         for peer in self.connectedUsers.keys {
-            if self.connectedUsers[peer]!.presentation.readyToShow {
+            if self.connectedUsers[peer]!.ready {
                 countToReady += 1
             }
         }
@@ -246,18 +250,18 @@ extension UserViewModel: UserDelegate {
                 case .image:
                     let imageDatas = message.imagesData!
                     for imageData in imageDatas {
-                        self.user.presentation.imagesData.append(imageData)
+                        self.presentation.imagesData.append(imageData)
                     }
                     self.sendReadyToStartPresentation(peers: [peer])
-                case .readyToStartPresentation:
+                case .ready:
                     if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peer) {
-                        self.connectedUsers[peer]!.presentation.readyToShow = true
+                        self.connectedUsers[peer]!.ready = true
                     }
-                    self.user.presentation.readyToShow = self.isAllConnectedUsersReadyToWatchPresentation()
+                    self.presentation.ready = self.isAllConnectedUsersReadyToWatchPresentation()
                 case .indexToShow:
-                    self.user.presentation.indexToShow = message.indexToShow
+                    self.presentation.indexToShow = message.indexToShow
                 case .clearPresentation:
-                    self.user.presentation.clear()
+                    self.presentation.clear()
                 }
                 
             }
@@ -305,7 +309,7 @@ extension UserViewModel: UserDelegate {
         }
         
         if self.connectedUsers.count == 0 {
-            self.user.presentation.clear()
+            self.presentation.clear()
         }
     }
 }

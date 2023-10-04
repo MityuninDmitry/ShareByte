@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UploadingToPeersView: View {
-    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var presentationTabManager: PresentationTabManager
     
     var body: some View {
@@ -17,14 +17,14 @@ struct UploadingToPeersView: View {
             Text("UPLOADING ... ")
             Spacer()
             Button {
-                self.user.user.presentation.clear()
-                self.user.sendClearPresentation()
+                self.userVM.presentation.clear()
+                self.userVM.sendClearPresentation()
                 presentationTabManager.nextTab()
             } label: {
                 Text("CREATE NEW PRESENTATION")
             }
         }
-        .onChange(of: user.user.presentation.readyToShow) { newValue in
+        .onChange(of: userVM.presentation.ready) { newValue in
             print("UPLOADED")
             if newValue == true {
                 presentationTabManager.nextTab()

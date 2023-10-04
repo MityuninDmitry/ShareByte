@@ -11,14 +11,14 @@ import SwiftUI
 
 struct PresentationScreen: View {
  
-    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
         VStack {
-            //if user.user.role != .viewer {
-            if user.user.role == .presenter {
+            if userVM.user.role != .viewer {
+            //if user.user.role == .presenter {
                 PresenterView()
-            } else if user.user.role == .viewer {
+            } else if userVM.user.role == .viewer {
                 ViewerView()
             } else {
                 Text("NO DATA TO SHOW")

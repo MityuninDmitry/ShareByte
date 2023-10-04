@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PresentationView: View {
-    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var presentationTabManager: PresentationTabManager
     
     let columns = [
@@ -21,26 +21,26 @@ struct PresentationView: View {
         VStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(0..<user.user.presentation.images().count, id: \.self) { i in
-                        user.user.presentation.images()[i]
+                    ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
+                        userVM.presentation.images()[i]
                             .resizable()
                             .scaledToFit()
                             .onTapGesture {
-                                self.user.sendIndexToShow(i)
+                                self.userVM.sendIndexToShow(i)
                             }
                     }
                 }
             }
             Spacer()
             Button {
-                self.user.user.presentation.clear()
-                self.user.sendClearPresentation()
+                self.userVM.presentation.clear()
+                self.userVM.sendClearPresentation()
                 presentationTabManager.nextTab()
             } label: {
                 Text("CREATE NEW PRESENTATION")
             }
         }
-        .onChange(of: self.user.user.presentation.readyToShow) { newValue in
+        .onChange(of: self.userVM.presentation.ready) { newValue in
             if newValue == false {
                 presentationTabManager.nextTab()
             }

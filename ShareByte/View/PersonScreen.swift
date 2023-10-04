@@ -9,18 +9,18 @@ import SwiftUI
 
 struct PersonScreen: View {
     @State var userName: String = ""
-    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
         VStack() {
-            Text("Your current name is: \(user.user.name ?? "")")
+            Text("Your current name is: \(userVM.user.name ?? "")")
             
             TextField("Enter your name", text: $userName)
             
             Spacer()
             
             Button {
-                user.updateUserName(userName)
+                userVM.updateUserName(userName)
             } label: {
                 Text("SAVE")
             }

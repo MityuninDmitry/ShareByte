@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ViewerView: View {
-    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @State private var currentZoom = 0.0
     @State private var totalZoom = 1.0
     
@@ -16,20 +16,20 @@ struct ViewerView: View {
         VStack {
             ScrollView(.horizontal) {
                 LazyHGrid(rows: [GridItem(.fixed(50))]) {
-                    ForEach(0..<user.user.presentation.images().count, id: \.self) { i in
-                        user.user.presentation.images()[i]
+                    ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
+                        userVM.presentation.images()[i]
                             .resizable()
                             .frame(width: 50)
                             .onTapGesture {
-                                user.user.presentation.indexToShow = i
+                                userVM.presentation.indexToShow = i
                             }
                     }
                 }
             }
             .frame(height: 50)
             ScrollView {
-                if user.user.presentation.imageToShow != nil {
-                    user.user.presentation.imageToShow!
+                if userVM.presentation.imageToShow != nil {
+                    userVM.presentation.imageToShow!
                         .resizable()
                         .scaledToFit()
                     

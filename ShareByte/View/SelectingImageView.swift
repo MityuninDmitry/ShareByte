@@ -11,7 +11,7 @@ import PhotosUI
 struct SelectingImageView: View {
     @State var selectedItems: [PhotosPickerItem] = .init()
     
-    @EnvironmentObject var viewModel: UserViewModel
+    @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var presentationTabManager: PresentationTabManager
     
     
@@ -26,8 +26,8 @@ struct SelectingImageView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(0..<viewModel.user.presentation.images().count, id: \.self) { i in
-                        viewModel.user.presentation.images()[i]
+                    ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
+                        userVM.presentation.images()[i]
                             .resizable()
                             .scaledToFit()
                     }
@@ -38,13 +38,13 @@ struct SelectingImageView: View {
             }
             .onChange(of: selectedItems) { _ in
                 Task {
-                    viewModel.user.presentation.clear()
+                    userVM.presentation.clear()
                     
                     for item in selectedItems {
                         if let data = try? await item.loadTransferable(type: Data.self) {
                             if let uiImage = UIImage(data: data) {
                                 let data = uiImage.pngData()!
-                                viewModel.user.presentation.imagesData.append(data)
+                                userVM.appendImageToPresentation(data)
                             }
                         }
                     }
@@ -54,12 +54,12 @@ struct SelectingImageView: View {
             
             HStack {
                     Button {
-                        viewModel.sendImagesData()
+                        userVM.sendImagesData()
                         presentationTabManager.nextTab()
                     } label: {
                         Text("Upload data to peers")
                     }
-                    .disabled(viewModel.user.presentation.imagesData.count == 0)
+                    .disabled(userVM.presentation.imagesData.count == 0)
                 
                 
             }

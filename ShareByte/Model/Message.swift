@@ -13,7 +13,7 @@ struct Message: Codable {
         case userInfo
         case reconnect
         case image
-        case readyToStartPresentation
+        case ready
         case indexToShow
         case clearPresentation
     }
@@ -36,7 +36,7 @@ struct Message: Codable {
             } else {
                 return (true,nil)
             }
-        case .readyToStartPresentation:
+        case .ready:
             return (true,nil)
         case .reconnect:
             return (true,nil)
