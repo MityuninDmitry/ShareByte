@@ -21,7 +21,7 @@ struct ViewerView: View {
                             .resizable()
                             .frame(width: 50)
                             .onTapGesture {
-                                userVM.presentation.indexToShow = i
+                                userVM.changePresentationIndexToShow(i)
                             }
                     }
                 }

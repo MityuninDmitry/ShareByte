@@ -24,35 +24,5 @@ struct Message: Codable {
     var imagesData: [Data]? = nil
     var indexToShow: Int? = nil
     
-    func preparedToSendFully() -> (Bool, String?) {
-        switch self.messageType {
-        case .askInfo:
-            return (true,nil)
-        case .clearPresentation:
-            return (true,nil)
-        case .image:
-            if imagesData == nil {
-                return (false, "need filled imagesData")
-            } else {
-                return (true,nil)
-            }
-        case .ready:
-            return (true,nil)
-        case .reconnect:
-            return (true,nil)
-        case .indexToShow:
-            if indexToShow == nil {
-                return (false, "need filled indexToShow")
-            } else {
-                return (true,nil)
-            }
-        case .userInfo:
-            if self.userInfo == nil {
-                return (false, "need filled userInfo")
-            } else {
-                return (true,nil)
-            }
-        }
-    }
     
 }

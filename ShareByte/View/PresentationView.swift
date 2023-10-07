@@ -40,7 +40,7 @@ struct PresentationView: View {
                 Text("CREATE NEW PRESENTATION")
             }
         }
-        .onChange(of: self.userVM.presentation.ready) { newValue in
+        .onChange(of: self.userVM.user.ready) { newValue in
             if newValue == false {
                 presentationTabManager.nextTab()
             }

@@ -14,7 +14,6 @@ class Presentation: Codable {
     var imagesData: [Data] = .init()
     var indexToShow: Int? = nil
     /// для вюера свойство, что данные получены и готовы к презентации. А для презентера, что презентация готова к показу - когда все пользователи готовы к нему
-    var ready: Bool = false
     var imageToShow: Image? {
         get {
             if indexToShow != nil {
@@ -51,7 +50,6 @@ class Presentation: Codable {
     func clear() {
         indexToShow = nil
         imagesData = []
-        ready = false 
     }
     
     

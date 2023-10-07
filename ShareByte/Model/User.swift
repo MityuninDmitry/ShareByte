@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 
 
-struct User: Identifiable, Codable {
-    var id: UUID? = nil
+class User: Identifiable, Codable {
+    var id: UUID = .init()
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
@@ -22,7 +22,7 @@ struct User: Identifiable, Codable {
         case ready
     }
     
-    init(id: UUID? = nil, name: String? = nil, role: Role? = nil) {
+    init(id: UUID, name: String? = nil, role: Role? = nil) {
         self.id = id
         self.name = name
         self.role = role

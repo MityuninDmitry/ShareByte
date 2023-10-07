@@ -24,7 +24,7 @@ struct UploadingToPeersView: View {
                 Text("CREATE NEW PRESENTATION")
             }
         }
-        .onChange(of: userVM.presentation.ready) { newValue in
+        .onChange(of: userVM.user.ready) { newValue in
             print("UPLOADED")
             if newValue == true {
                 presentationTabManager.nextTab()

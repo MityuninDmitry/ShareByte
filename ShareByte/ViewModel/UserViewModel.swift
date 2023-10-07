@@ -49,6 +49,7 @@ class UserViewModel: ObservableObject {
     func updateUserName(_ name: String) {
         self.user.name = name
         self.sendUserInfoTo(peers: self.peerManager.session.connectedPeers)
+        sendWillChange()
     }
     /// Есть ли в переданном массиве объект с таким peerID
     /// Если есть. то возращает индекс. Иначе возращает нул.
@@ -174,14 +175,15 @@ class UserViewModel: ObservableObject {
     
     func updateUserRole(_ role: Role?) {
         self.user.role = role
+        sendWillChange()
     }
     
     /// Запрашиваем информацию о пользователе
     func askUserInfo(_ peerId: MCPeerID) {
-        if self.connectedUsers[peerId]!.id == nil {
-            let newMessage = Message(messageType: .askInfo)
-            sendMessageTo(peers: [peerId], message: newMessage)
-        }
+        print("[askUserInfo] \(peerId)")
+        let newMessage = Message(messageType: .askInfo)
+        sendMessageTo(peers: [peerId], message: newMessage)
+        print("sendMessageTo(peers: [peerId], message: newMessage)")
     }
 }
 
@@ -204,12 +206,12 @@ extension UserViewModel: UserDelegate {
     /// подключился пир
     /// перемещаем его в список(кастомный) подключенных пользователей и запрашиваем инфу
     func connectedPeer(_ peerID: MCPeerID) {
-        Task { @MainActor in
-            let user = self.addToConnectedPeer(peerID)
-            if user != nil {
-                self.askUserInfo(peerID)
-            }
+        let user = self.addToConnectedPeer(peerID)
+        if user != nil {
+            print("[connectedPeer] \(peerID)")
+            self.askUserInfo(peerID)
         }
+        
     }
     func isAllConnectedUsersReadyToWatchPresentation() -> Bool {
         let count = self.connectedUsers.count
@@ -227,9 +229,10 @@ extension UserViewModel: UserDelegate {
     
     /// Получить сообщение от пира
     func gotMessage(from peer: MCPeerID, data: Data) {
+        
         Task { @MainActor in
             if let message = try? decoder.decode(Message.self, from: data) {
-                
+                print("[gotMessage] \(message.messageType)")
                 switch message.messageType {
                 case .askInfo: // если пир запросил инфо обо мне, то предоставить эту инфу
                     self.sendUserInfoTo(peers: [peer])
@@ -242,6 +245,7 @@ extension UserViewModel: UserDelegate {
                             if safeGottenUserRole == .viewer { // если он вьюер, то я презентер
                                 self.updateUserRole(.presenter)
                                 self.sendUserInfoTo(peers: [peer])
+                                print("self.sendUserInfoTo(peers: [peer])")
                             }
                         }
                     }
@@ -250,25 +254,35 @@ extension UserViewModel: UserDelegate {
                 case .image:
                     let imageDatas = message.imagesData!
                     for imageData in imageDatas {
-                        self.presentation.imagesData.append(imageData)
+                        self.appendImageToPresentation(imageData)
                     }
+                    self.user.ready = true
+                    sendWillChange()
                     self.sendReadyToStartPresentation(peers: [peer])
                 case .ready:
                     if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peer) {
                         self.connectedUsers[peer]!.ready = true
                     }
-                    self.presentation.ready = self.isAllConnectedUsersReadyToWatchPresentation()
+                    self.user.ready = self.isAllConnectedUsersReadyToWatchPresentation()
+                    sendWillChange()
                 case .indexToShow:
-                    self.presentation.indexToShow = message.indexToShow
+                    self.changePresentationIndexToShow(message.indexToShow!)
                 case .clearPresentation:
                     self.presentation.clear()
+                    sendWillChange()
                 }
                 
             }
         }
         
     }
-    
+    func changePresentationIndexToShow(_ index: Int) {
+        self.presentation.indexToShow = index
+        sendWillChange()
+    }
+    func sendWillChange() {
+        self.objectWillChange.send()
+    }
     
     
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
