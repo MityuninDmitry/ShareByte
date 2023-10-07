@@ -39,6 +39,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(TabManager.shared)
-            .environmentObject(UserViewModel.shared)
+            .environmentObject(UserViewModel())
     }
 }

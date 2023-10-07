@@ -20,7 +20,6 @@ protocol UserDelegate {
 
 class UserViewModel: ObservableObject {
     
-    static var shared = UserViewModel()
     
     @Published var foundUsers: [MCPeerID: User] = .init()
     @Published var connectedUsers: [MCPeerID: User] = .init()
@@ -31,14 +30,17 @@ class UserViewModel: ObservableObject {
     var peerManager: PeerManager = .init() // менеджер управления соединением
     private let encoder = PropertyListEncoder() // для энкодинга сообщений
     private let decoder = PropertyListDecoder() // для декодинга сообщений
-    
-    private init(name: String) {
+
+    init() {
         self.user = .init()
-        peerManager.userDelegate = self
-    }
-    
-    private init() {
-        self.user = .init()
+        self.user.load()
+//        let usersInDB = RealmDataBase.shared.open(type: User.self)
+//        if usersInDB.count < 1 {
+//            RealmDataBase.shared.add(user)
+//        } else {
+//            self.user = usersInDB[0]
+//        }
+        
         peerManager.userDelegate = self
         self.makeDiscoverable()
     }
@@ -48,6 +50,7 @@ class UserViewModel: ObservableObject {
     }
     func updateUserName(_ name: String) {
         self.user.name = name
+        self.user.save()
         self.sendUserInfoTo(peers: self.peerManager.session.connectedPeers)
         sendWillChange()
     }

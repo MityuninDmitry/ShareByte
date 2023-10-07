@@ -71,7 +71,7 @@ struct SelectingImageView: View {
 struct SelectingImageView_Previews: PreviewProvider {
     static var previews: some View {
         SelectingImageView()
-            .environmentObject(UserViewModel.shared)
+            .environmentObject(UserViewModel())
             .environmentObject(PresentationTabManager.shared)
     }
 }

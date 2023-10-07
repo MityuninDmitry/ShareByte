@@ -50,6 +50,6 @@ struct ViewerView: View {
 struct ViewerView_Previews: PreviewProvider {
     static var previews: some View {
         ViewerView()
-            .environmentObject(UserViewModel.shared)
+            .environmentObject(UserViewModel())
     }
 }

@@ -65,6 +65,6 @@ struct PeersScreen: View {
 struct PeersScreen_Previews: PreviewProvider {
     static var previews: some View {
         PeersScreen()
-            .environmentObject(UserViewModel.shared)
+            .environmentObject(UserViewModel())
     }
 }

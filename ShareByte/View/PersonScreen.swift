@@ -13,6 +13,7 @@ struct PersonScreen: View {
     
     var body: some View {
         VStack() {
+            Text("User id is: \(userVM.user.id ?? "")")
             Text("Your current name is: \(userVM.user.name ?? "")")
             
             TextField("Enter your name", text: $userName)
@@ -32,6 +33,6 @@ struct PersonScreen: View {
 struct PersonScreen_Previews: PreviewProvider {
     static var previews: some View {
         PersonScreen()
-            .environmentObject(UserViewModel.shared)
+            .environmentObject(UserViewModel())
     }
 }

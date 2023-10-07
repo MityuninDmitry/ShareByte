@@ -7,10 +7,10 @@
 
 import Foundation
 import UIKit
+import RealmSwift
 
-
-class User: Identifiable, Codable {
-    var id: UUID = .init()
+struct User: Identifiable, Codable {
+    var id: String = ObjectId.generate().stringValue
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
@@ -22,19 +22,21 @@ class User: Identifiable, Codable {
         case ready
     }
     
-    init(id: UUID, name: String? = nil, role: Role? = nil) {
-        self.id = id
-        self.name = name
-        self.role = role
-        
-    }
-    
     init() {
-        self.id = UUID()
         self.name = UIDevice.current.name
         self.role = nil
     }
     
+    func save() {
+        SavableUser.save(user: self)
+    }
     
-        
+    mutating func load() -> Bool {
+        let users = SavableUser.loadInstances()
+        if users.count > 0 {
+            self = users[0]
+            return true
+        }
+        return false 
+    }
 }

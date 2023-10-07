@@ -18,6 +18,7 @@
 		150273E42A59C14C0006F4DA /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E32A59C14C0006F4DA /* Role.swift */; };
 		153215BC2A7970EC0038B0FA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153215BB2A7970EC0038B0FA /* Message.swift */; };
 		153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */; };
+		15653BC92AD1CF47005A0D06 /* RealmDataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15653BC82AD1CF47005A0D06 /* RealmDataBase.swift */; };
 		1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1578204D2A5B2E54007FA7BF /* PeerManager.swift */; };
 		15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C5F2A62E1BA007943BA /* PersonScreen.swift */; };
 		15B78C622A64616A007943BA /* ViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C612A64616A007943BA /* ViewerView.swift */; };
@@ -47,6 +48,7 @@
 		150273E32A59C14C0006F4DA /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		153215BB2A7970EC0038B0FA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverableStatus.swift; sourceTree = "<group>"; };
+		15653BC82AD1CF47005A0D06 /* RealmDataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDataBase.swift; sourceTree = "<group>"; };
 		1578204D2A5B2E54007FA7BF /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
 		15B78C5F2A62E1BA007943BA /* PersonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonScreen.swift; sourceTree = "<group>"; };
 		15B78C612A64616A007943BA /* ViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				150273E52A59C1BC0006F4DA /* View */,
 				150273E62A59C1D20006F4DA /* ViewModel */,
 				150273DA2A59C08C0006F4DA /* Model */,
+				15653BC72AD1CD82005A0D06 /* Module */,
 				150273CD2A59435B0006F4DA /* Assets.xcassets */,
 				150273CF2A59435B0006F4DA /* Preview Content */,
 			);
@@ -157,6 +160,14 @@
 				153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		15653BC72AD1CD82005A0D06 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				15653BC82AD1CF47005A0D06 /* RealmDataBase.swift */,
+			);
+			path = Module;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,6 +249,7 @@
 			files = (
 				150273DE2A59C0E00006F4DA /* PeersScreen.swift in Sources */,
 				150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */,
+				15653BC92AD1CF47005A0D06 /* RealmDataBase.swift in Sources */,
 				15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */,
 				153215BC2A7970EC0038B0FA /* Message.swift in Sources */,
 				15B78C702A6475CE007943BA /* Presentation.swift in Sources */,
