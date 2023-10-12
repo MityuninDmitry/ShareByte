@@ -33,26 +33,18 @@ class UserViewModel: ObservableObject {
 
     init() {
         self.user = .init()
-        self.user.load()
-//        let usersInDB = RealmDataBase.shared.open(type: User.self)
-//        if usersInDB.count < 1 {
-//            RealmDataBase.shared.add(user)
-//        } else {
-//            self.user = usersInDB[0]
-//        }
+        _ = self.user.load() // загружаем пользователя из БД, если он есть
         
         peerManager.userDelegate = self
         self.makeDiscoverable()
     }
     func appendImageToPresentation(_ data: Data) {
         self.presentation.imagesData.append(data)
-        self.objectWillChange.send()
     }
     func updateUserName(_ name: String) {
         self.user.name = name
         self.user.save()
         self.sendUserInfoTo(peers: self.peerManager.session.connectedPeers)
-        sendWillChange()
     }
     /// Есть ли в переданном массиве объект с таким peerID
     /// Если есть. то возращает индекс. Иначе возращает нул.
@@ -178,7 +170,7 @@ class UserViewModel: ObservableObject {
     
     func updateUserRole(_ role: Role?) {
         self.user.role = role
-        sendWillChange()
+        
     }
     
     /// Запрашиваем информацию о пользователе
@@ -260,19 +252,19 @@ extension UserViewModel: UserDelegate {
                         self.appendImageToPresentation(imageData)
                     }
                     self.user.ready = true
-                    sendWillChange()
+                    
                     self.sendReadyToStartPresentation(peers: [peer])
                 case .ready:
                     if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peer) {
                         self.connectedUsers[peer]!.ready = true
                     }
                     self.user.ready = self.isAllConnectedUsersReadyToWatchPresentation()
-                    sendWillChange()
+                    
                 case .indexToShow:
                     self.changePresentationIndexToShow(message.indexToShow!)
                 case .clearPresentation:
                     self.presentation.clear()
-                    sendWillChange()
+                    
                 }
                 
             }
@@ -281,12 +273,8 @@ extension UserViewModel: UserDelegate {
     }
     func changePresentationIndexToShow(_ index: Int) {
         self.presentation.indexToShow = index
-        sendWillChange()
+        
     }
-    func sendWillChange() {
-        self.objectWillChange.send()
-    }
-    
     
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
         if isAccepted {

@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 
-class Presentation: Codable {
+struct Presentation: Codable {
     var imagesData: [Data] = .init()
     var indexToShow: Int? = nil
     /// для вюера свойство, что данные получены и готовы к презентации. А для презентера, что презентация готова к показу - когда все пользователи готовы к нему
@@ -47,7 +47,7 @@ class Presentation: Codable {
         return images 
     }
     
-    func clear() {
+    mutating func clear() {
         indexToShow = nil
         imagesData = []
     }

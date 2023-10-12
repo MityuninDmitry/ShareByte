@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 import RealmSwift
 
 struct User: Identifiable, Codable {
@@ -14,6 +15,8 @@ struct User: Identifiable, Codable {
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
+    var image: UIImage =  .init(systemName: "person.circle")!
+    
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -39,4 +42,5 @@ struct User: Identifiable, Codable {
         }
         return false 
     }
+    
 }

@@ -46,10 +46,13 @@ import UIKit
 //    }
 //}
 
+// пользователь для сохранения в БД
+// забираем нужные для сохранения поля пользователя и сохраняем в БД 
 class SavableUser: Object {
 
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String = ""
+    @Persisted var imageData: Data
     
     static func save(user: User) {
         let realm = try! Realm()
@@ -59,9 +62,10 @@ class SavableUser: Object {
             let firstUser = objects[0]
             try! realm.write {
                 firstUser.name = user.name ?? UIDevice.current.name
+                firstUser.imageData = user.image.pngData()!
             }
         } else {
-            let savableUser = createFromUser(user)
+            let savableUser = mapFrom(user)
             try! realm.write {
                 realm.add(savableUser)
             }
@@ -69,13 +73,15 @@ class SavableUser: Object {
         
         
     }
-    static func createFromUser(_ user: User) -> SavableUser {
+    
+    static func mapFrom(_ user: User) -> SavableUser {
         let savableUser = SavableUser()
         savableUser._id = try! ObjectId(string: user.id)
         savableUser.name = user.name ?? ""
-        
+        savableUser.imageData = user.image.pngData()!
         return savableUser
     }
+    
     static func loadInstances() -> [User] {
         let realm = try! Realm()
         let objects = realm.objects(SavableUser.self)

@@ -10,9 +10,19 @@ import SwiftUI
 struct PersonScreen: View {
     @State var userName: String = ""
     @EnvironmentObject var userVM: UserViewModel
+    @State var isChangingAvatar: Bool = false
     
     var body: some View {
         VStack() {
+            Image(uiImage: userVM.user.image)
+                .resizable()
+                .padding()
+                .frame(width: 100, height: 100)
+                .onTapGesture {
+                    isChangingAvatar = true
+                }
+                
+                
             Text("User id is: \(userVM.user.id ?? "")")
             Text("Your current name is: \(userVM.user.name ?? "")")
             
@@ -27,6 +37,19 @@ struct PersonScreen: View {
             }
         }
         .padding()
+        .sheet(isPresented: $isChangingAvatar) {
+            VStack {
+                Text("Select your new avatar...")
+                    .padding()
+                SelectAvatarView()
+                Spacer()
+                Button {
+                    isChangingAvatar = false
+                } label: {
+                    Text("Save")
+                }
+            }
+        }
     }
 }
 
