@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SelectAvatarView: View {
     @ObservedObject var searchAvatar: SearchAvatar = .init()
+    @EnvironmentObject var userVM: UserViewModel
+    @Environment(\.dismiss) var dismiss
     
     let columns = [
         GridItem(.flexible()),
@@ -20,7 +22,7 @@ struct SelectAvatarView: View {
         VStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(self.searchAvatar.rickAndMorty?.results ?? [], id: \.self) { avatar in
+                    ForEach(self.searchAvatar.rickAndMortyItems, id: \.self) { avatar in
                         VStack {
                             AsyncImage(
                                 url: URL(string:avatar.image),
@@ -32,33 +34,46 @@ struct SelectAvatarView: View {
                                 placeholder: {
                                     ProgressView()
                                 }
+                                
                             )
-                            
+                            .onTapGesture {
+                                let url = URL(string: avatar.image)
+                                Task { @MainActor in
+                                    userVM.user.image = await downloadPhoto(url: url!)!
+                                    userVM.user.name = avatar.name
+                                }
+                                
+                                
+                                dismiss()
+                            }
                             Text("\(avatar.name)")
                         }
+                        .onAppear {
+                            if self.searchAvatar.rickAndMortyItems.isLastItem(avatar) {
+                                searchAvatar.setNextPage()
+                                searchAvatar.loadRickAndMorty()
+                            }
+                        }
                     }
-                }
-            }
-            HStack {
-                Button {
                     
-                } label: {
-                    Text("Previous page")
                 }
-                
-                Button {
-                    searchAvatar.setNextPage()
-                    searchAvatar.loadRickAndMorty()
-                } label: {
-                    Text("Next page")
-                }.disabled(self.searchAvatar.rickAndMorty?.info.next == nil)
             }
+           
         }
         .onAppear {
             searchAvatar.loadRickAndMorty()
         }
         
         
+    }
+    
+    func downloadPhoto(url: URL) async -> UIImage? {
+        async let data = try? Data(contentsOf: url)
+        if await data != nil {
+                return await UIImage(data: data!)!
+        }
+        
+        return nil
     }
 }
 

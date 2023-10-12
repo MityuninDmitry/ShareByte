@@ -56,7 +56,7 @@ class RickAndMortyAPI: AppNetwork<RickAndMortyModel> {
     public override var url: URL {
         get {
             //https://rickandmortyapi.com/api/character?page=41
-            return URL(string: baseStringURL + "?page=\(page)")!
+            return URL(string: baseStringURL + "?page=\(page!)")!
         }
     }
     
@@ -78,7 +78,7 @@ struct RickAndMortyModel: Codable {
     var results: [RickAndMortyItem]
 }
 
-struct RickAndMortyItem: Codable, Hashable {
+struct RickAndMortyItem: Codable, Hashable, Identifiable {
     var id: Int
     var name: String
     var image: String

@@ -89,6 +89,7 @@ class SavableUser: Object {
             var user = User()
             user.id = "\(object._id)"
             user.name = object.name
+            user.image = UIImage(data: object.imageData)!
             return user
         }
         return array

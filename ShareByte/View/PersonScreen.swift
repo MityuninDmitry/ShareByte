@@ -23,10 +23,11 @@ struct PersonScreen: View {
                 }
                 
                 
-            Text("User id is: \(userVM.user.id ?? "")")
-            Text("Your current name is: \(userVM.user.name ?? "")")
+            Text("User id is: \(userVM.user.id)")
+            Text("Your current name is:")
             
             TextField("Enter your name", text: $userName)
+                .disableAutocorrection(true)
             
             Spacer()
             
@@ -36,12 +37,18 @@ struct PersonScreen: View {
                 Text("SAVE")
             }
         }
+        .onAppear(perform: {
+            userName = userVM.user.name ?? ""
+        })
         .padding()
         .sheet(isPresented: $isChangingAvatar) {
             VStack {
                 Text("Select your new avatar...")
                     .padding()
                 SelectAvatarView()
+                    .onDisappear {
+                        userName = userVM.user.name ?? "Default name"
+                    }
                 Spacer()
                 Button {
                     isChangingAvatar = false
