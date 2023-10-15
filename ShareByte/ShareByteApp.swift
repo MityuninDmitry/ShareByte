@@ -9,12 +9,18 @@ import SwiftUI
 
 @main
 struct ShareByteApp: App {
+    
+    init() {
+        Configurator.shared.registerServices()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(TabManager.shared)
-                .environmentObject(UserViewModel())
+                .environmentObject(UserViewModel.shared)
                 .environmentObject(PresentationTabManager.shared)
+                .environmentObject(SearchAvatar.shared)
             
         }
     }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SelectAvatarView: View {
-    @ObservedObject var searchAvatar: SearchAvatar = .init()
+    @EnvironmentObject var searchAvatar: SearchAvatar 
     @EnvironmentObject var userVM: UserViewModel
     @Environment(\.dismiss) var dismiss
     
@@ -39,7 +39,7 @@ struct SelectAvatarView: View {
                             .onTapGesture {
                                 let url = URL(string: avatar.image)
                                 Task { @MainActor in
-                                    userVM.user.image = await downloadPhoto(url: url!)!
+                                    userVM.user.imageData = await downloadPhoto(url: url!)!
                                     userVM.user.name = avatar.name
                                 }
                                 
@@ -67,10 +67,11 @@ struct SelectAvatarView: View {
         
     }
     
-    func downloadPhoto(url: URL) async -> UIImage? {
+    func downloadPhoto(url: URL) async -> Data? {
         async let data = try? Data(contentsOf: url)
         if await data != nil {
-                return await UIImage(data: data!)!
+                //return await UIImage(data: data!)!
+                return await data!
         }
         
         return nil

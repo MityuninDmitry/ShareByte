@@ -14,10 +14,7 @@ struct PersonScreen: View {
     
     var body: some View {
         VStack() {
-            Image(uiImage: userVM.user.image)
-                .resizable()
-                .padding()
-                .frame(width: 100, height: 100)
+            ImageView(imageData: userVM.user.imageData)
                 .onTapGesture {
                     isChangingAvatar = true
                 }
@@ -32,7 +29,8 @@ struct PersonScreen: View {
             Spacer()
             
             Button {
-                userVM.updateUserName(userName)
+                userVM.user.name = userName
+                userVM.updateUser()
             } label: {
                 Text("SAVE")
             }
@@ -63,6 +61,6 @@ struct PersonScreen: View {
 struct PersonScreen_Previews: PreviewProvider {
     static var previews: some View {
         PersonScreen()
-            .environmentObject(UserViewModel())
+            .environmentObject(UserViewModel.shared)
     }
 }

@@ -37,7 +37,7 @@ struct UploadingToPeersView: View {
 struct UploadingToPeersView_Previews: PreviewProvider {
     static var previews: some View {
         UploadingToPeersView()
-            .environmentObject(UserViewModel())
+            .environmentObject(UserViewModel.shared)
             .environmentObject(PresentationTabManager.shared)
     }
 }

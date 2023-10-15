@@ -33,6 +33,6 @@ struct PresentationScreen: View {
 struct PresentationScreen_Previews: PreviewProvider {
     static var previews: some View {
         PresentationScreen()
-            .environmentObject(UserViewModel())
+            .environmentObject(UserViewModel.shared)
     }
 }

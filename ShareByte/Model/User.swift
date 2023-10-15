@@ -15,14 +15,15 @@ struct User: Identifiable, Codable {
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
-    var image: UIImage =  .init(systemName: "person.circle")!
-    
+    var imageData: Data = UIImage(systemName: "person.circle")!.pngData()!
+    @Injected var database: SavableUser?
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case role
         case ready
+        case imageData
     }
     
     init() {
@@ -30,17 +31,18 @@ struct User: Identifiable, Codable {
         self.role = nil
     }
     
-    func save() {
-        SavableUser.save(user: self)
+    mutating func save() {
+        //SavableUser.save(user: self)
+        database!.save(instance: self)
+        
     }
     
-    mutating func load() -> Bool {
-        let users = SavableUser.loadInstances()
+    mutating func load() {
+        //let users = SavableUser.loadInstances()
+        let users = database!.loadInstances()
         if users.count > 0 {
             self = users[0]
-            return true
         }
-        return false 
     }
     
 }

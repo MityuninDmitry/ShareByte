@@ -29,7 +29,7 @@ struct PresenterView: View {
 struct PresenterView_Previews: PreviewProvider {
     static var previews: some View {
         PresenterView()
-            .environmentObject(UserViewModel())
+            .environmentObject(UserViewModel.shared)
             .environmentObject(PresentationTabManager.shared)
     }
 }

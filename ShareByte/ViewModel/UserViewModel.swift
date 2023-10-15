@@ -19,7 +19,7 @@ protocol UserDelegate {
 }
 
 class UserViewModel: ObservableObject {
-    
+    static var shared = UserViewModel()
     
     @Published var foundUsers: [MCPeerID: User] = .init()
     @Published var connectedUsers: [MCPeerID: User] = .init()
@@ -31,9 +31,11 @@ class UserViewModel: ObservableObject {
     private let encoder = PropertyListEncoder() // для энкодинга сообщений
     private let decoder = PropertyListDecoder() // для декодинга сообщений
 
-    init() {
+    private init() {
         self.user = .init()
-        _ = self.user.load() // загружаем пользователя из БД, если он есть
+        self.user.load() // загружаем пользователя из БД, если он есть
+        
+        
         
         peerManager.userDelegate = self
         self.makeDiscoverable()
@@ -41,8 +43,7 @@ class UserViewModel: ObservableObject {
     func appendImageToPresentation(_ data: Data) {
         self.presentation.imagesData.append(data)
     }
-    func updateUserName(_ name: String) {
-        self.user.name = name
+    func updateUser() {
         self.user.save()
         self.sendUserInfoTo(peers: self.peerManager.session.connectedPeers)
     }
@@ -234,7 +235,7 @@ extension UserViewModel: UserDelegate {
                 case .userInfo: // получили инфу от пользователя
                     let userInfo = message.userInfo!
                     self.updateConnectedUserInfo(for: peer, user: userInfo)
-                    
+                    print("GOT IMAGE = \(userInfo.imageData)")
                     if self.user.role == nil { // если мой тип пустой, то
                         if let safeGottenUserRole = userInfo.role {
                             if safeGottenUserRole == .viewer { // если он вьюер, то я презентер

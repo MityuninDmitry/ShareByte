@@ -44,10 +44,13 @@ struct PeersScreen: View {
             Section("CONNECTED PEERS") {
                 List(Array(userVM.connectedUsers.keys), id: \.self) { mcPeerId in
                     HStack {
-                        //Text(user.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
+                        ImageView(
+                            imageData: userVM.connectedUsers[mcPeerId]!.imageData,
+                            width: 100,
+                            height: 100)
                         Text(userVM.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
                         Spacer()
-                        Text("\(userVM.connectedUsers[mcPeerId]!.role?.rawValue ?? "UNKNOWN")" )
+                        Text("\(userVM.connectedUsers[mcPeerId]!.role?.rawValue ?? "UNKNOWN ROLE")" )
                     }
                     .onTapGesture {
                         userVM.sendReconnectTo(peers: [mcPeerId])
@@ -58,13 +61,12 @@ struct PeersScreen: View {
             }
             
         }
-        .padding()
     }
 }
 
 struct PeersScreen_Previews: PreviewProvider {
     static var previews: some View {
         PeersScreen()
-            .environmentObject(UserViewModel())
+            .environmentObject(UserViewModel.shared)
     }
 }

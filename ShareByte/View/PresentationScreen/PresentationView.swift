@@ -17,6 +17,10 @@ struct PresentationView: View {
             GridItem(.flexible()),
         ]
     
+    var cellWidth: CGFloat {
+        UIScreen.main.bounds.size.width / CGFloat(columns.count)
+    }
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -24,7 +28,7 @@ struct PresentationView: View {
                     ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
                         userVM.presentation.images()[i]
                             .resizable()
-                            .scaledToFit()
+                            .frame(width: cellWidth, height: cellWidth, alignment: .center)
                             .onTapGesture {
                                 self.userVM.sendIndexToShow(i)
                             }
@@ -52,7 +56,7 @@ struct PresentationView: View {
 struct PresentationView_Previews: PreviewProvider {
     static var previews: some View {
         PresentationView()
-            .environmentObject(UserViewModel())
+            .environmentObject(UserViewModel.shared)
             .environmentObject(PresentationTabManager.shared)
     }
 }
