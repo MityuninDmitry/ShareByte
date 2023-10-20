@@ -19,7 +19,7 @@ class RickAndMortyAPI: AppNetwork<RickAndMortyModel> {
         }
     }
     
-    func setNextPage() {
+    override func setNextPage() {
         if mappedResponse != nil {
             if mappedResponse!.info.next != nil {
                 if self.page != nil {

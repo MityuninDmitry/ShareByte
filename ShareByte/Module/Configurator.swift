@@ -13,14 +13,15 @@ class Configurator {
     
     func registerServices() {
         // Network Service
-        ServiceLocator.shared.addService(RickAndMortyAPI(url: "https://rickandmortyapi.com/api/character"))
+        let rickAndMortyAPI = RickAndMortyAPI(url: "https://rickandmortyapi.com/api/character") as AppNetwork
+        ServiceLocator.shared.addService(rickAndMortyAPI)
         
         
         // DataBase Service
         let realm = try! Realm()
         ServiceLocator.shared.addService(realm)
         
-        let savableUser: SavableUser = .init()
+        let savableUser: SavableUserModel = .init()
         ServiceLocator.shared.addService(savableUser)
     }
 }

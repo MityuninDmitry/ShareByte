@@ -13,7 +13,7 @@ class SearchAvatar: ObservableObject {
     
     @Published var rickAndMortyInfo: RickAndMortyInfo?
     @Published var rickAndMortyItems: [RickAndMortyItem] = .init()
-    @Injected var api: RickAndMortyAPI?
+    @Injected var api: AppNetwork<RickAndMortyModel>?
         
     func loadRickAndMorty() {
         if api != nil {
@@ -33,7 +33,7 @@ class SearchAvatar: ObservableObject {
     
     func setNextPage() {
         if api != nil {
-            api!.page! += 1
+            api!.setNextPage()
         }
         
     }

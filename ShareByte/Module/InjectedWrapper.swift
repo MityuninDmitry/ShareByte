@@ -17,9 +17,9 @@ struct Injected<T: Any> {
             if service == nil {
                 
                 self.service = serviceLocator.getService()
-                return self.service
+                return self.service!
             }
-            return service
+            return service!
         }
         mutating set {
             service = newValue

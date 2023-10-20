@@ -16,7 +16,8 @@ struct User: Identifiable, Codable {
     var role: Role? = nil
     var ready: Bool = false
     var imageData: Data = UIImage(systemName: "person.circle")!.pngData()!
-    @Injected var database: SavableUser?
+    @Injected var database: SavableUserModel?
+    //@Injected var database: DataBase<SavableUserModel>?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -32,16 +33,14 @@ struct User: Identifiable, Codable {
     }
     
     mutating func save() {
-        //SavableUser.save(user: self)
         database!.save(instance: self)
         
     }
     
     mutating func load() {
-        //let users = SavableUser.loadInstances()
         let users = database!.loadInstances()
         if users.count > 0 {
-            self = users[0]
+            self = users[0] 
         }
     }
     

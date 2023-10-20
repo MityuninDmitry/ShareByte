@@ -9,59 +9,35 @@ import Foundation
 import RealmSwift
 import UIKit
 
-//struct RealmDataBase {
-//    static var shared = RealmDataBase()
-//    let realm: Realm
+
+// НАРАБОТКИ НАЧАЛО 
+//public protocol DataBaseProtocol<SavableModel> {
+//    associatedtype SavableModel: Any
 //    
-//    func add(_ object: Object) {
-//        try! realm.write {
-//            realm.add(object)
-//        }
-//        
+//    func save(instance: Any)
+//    func loadInstances() -> [Any]
+//}
+//class DataBase: DataBaseProtocol {
+//    typealias SavableModel = Any
+//    
+//    func save(instance: Any) {
+//        // заглушка
 //    }
 //    
-//    func open<T>(type: T.Type) -> [T] where T: Object  {
-//        
-//        let objects = realm.objects(type)
-//        let  array: [T] = objects.map { $0 as T
-//        }
-//        return array
-//    }
-//    
-//    func save(_ object: Object) {
-//        
-//        try! realm.write {
-//            realm.delete(object)
-//            
-//        }
-//        try! realm.write {
-//            add(object)
-//            
-//        }
-//        
-//        
-//    }
-//    private init() {
-//         realm = try! Realm()
+//    func loadInstances() -> [Any] {
+//        // заглушка
+//        return .init()
 //    }
 //}
+// НАРАБОТКИ КОНЕЦ
 
 // пользователь для сохранения в БД
-// забираем нужные для сохранения поля пользователя и сохраняем в БД 
-protocol DataBaseProtocol {
-    associatedtype T where T: Any
-    associatedtype DB where DB: Object
-    
-    func save(instance: T)
-    func loadInstances() -> [T]
-    func mapFrom(_ instance: T) -> DB
-}
-
-class SavableUser: Object, DataBaseProtocol  {
+// забираем нужные для сохранения поля пользователя и сохраняем в БД
+class SavableUserModel: Object  {
     @Persisted(primaryKey: true) var _id: ObjectId
     @Persisted var name: String = ""
     @Persisted var imageData: Data
-    @Injected var api: Realm!
+    @Injected var api: Realm?
     
     func save(instance: User) {
         if api != nil {
@@ -98,8 +74,8 @@ class SavableUser: Object, DataBaseProtocol  {
         return array
     }
     
-    func mapFrom(_ instance: User) -> SavableUser {
-        let savableUser = SavableUser()
+    func mapFrom(_ instance: User) -> SavableUserModel {
+        let savableUser = SavableUserModel()
         savableUser._id = try! ObjectId(string: instance.id)
         savableUser.name = instance.name ?? ""
         savableUser.imageData = instance.imageData
