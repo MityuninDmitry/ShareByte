@@ -21,7 +21,8 @@ class Configurator {
         let realm = try! Realm()
         ServiceLocator.shared.addService(realm)
         
-        let savableUser: SavableUserModel = .init()
-        ServiceLocator.shared.addService(savableUser)
+        // DataBase Service
+        let userDB = DataBaseUser() as DataBase
+        ServiceLocator.shared.addService(userDB)
     }
 }

@@ -10,14 +10,14 @@ import UIKit
 import SwiftUI
 import RealmSwift
 
-struct User: Identifiable, Codable {
+struct User: Identifiable, Codable, SavableProtocol {
+    
     var id: String = ObjectId.generate().stringValue
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
     var imageData: Data = UIImage(systemName: "person.circle")!.pngData()!
-    @Injected var database: SavableUserModel?
-    //@Injected var database: DataBase<SavableUserModel>?
+    @Injected var db: DataBase<UserLoadable, User>? 
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -33,15 +33,24 @@ struct User: Identifiable, Codable {
     }
     
     mutating func save() {
-        database!.save(instance: self)
-        
+        db!.save(instance: self)
     }
     
     mutating func load() {
-        let users = database!.loadInstances()
+        let users = db!.load()
+        print("user count = \(users.count)")
         if users.count > 0 {
-            self = users[0] 
+                   self = users[0]
         }
+               
     }
     
+    
+    func mapToLoadable() -> LoadableProtocol {
+        let loadableUser = UserLoadable()
+        loadableUser._id = try! ObjectId(string: self.id)
+        loadableUser.name = self.name ?? ""
+        loadableUser.imageData = self.imageData
+        return loadableUser
+    }
 }

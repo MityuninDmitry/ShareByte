@@ -9,77 +9,75 @@ import Foundation
 import RealmSwift
 import UIKit
 
+protocol LoadableProtocol { // объект, который выгружаем из БД
+    func mapToSavable() -> SavableProtocol
+    func updateFrom(instance: SavableProtocol)
+}
+protocol SavableProtocol { // объект, который хотим сохранить
+    func mapToLoadable() -> LoadableProtocol
+}
+class DataBase<LoadableType: LoadableProtocol, SavableType: SavableProtocol> {
+    // сохранить инстанс протокола в БД
+    func save(instance: SavableType) {
+            
+    }
+    
+    func load() -> [SavableType] {
+        return .init()
+    }
+}
 
-// НАРАБОТКИ НАЧАЛО 
-//public protocol DataBaseProtocol<SavableModel> {
-//    associatedtype SavableModel: Any
-//    
-//    func save(instance: Any)
-//    func loadInstances() -> [Any]
-//}
-//class DataBase: DataBaseProtocol {
-//    typealias SavableModel = Any
-//    
-//    func save(instance: Any) {
-//        // заглушка
-//    }
-//    
-//    func loadInstances() -> [Any] {
-//        // заглушка
-//        return .init()
-//    }
-//}
-// НАРАБОТКИ КОНЕЦ
-
-// пользователь для сохранения в БД
-// забираем нужные для сохранения поля пользователя и сохраняем в БД
-class SavableUserModel: Object  {
-    @Persisted(primaryKey: true) var _id: ObjectId
-    @Persisted var name: String = ""
-    @Persisted var imageData: Data
+class DataBaseUser: DataBase<UserLoadable, User> {
+    typealias LoadableType = UserLoadable
+    typealias SavableType = User
     @Injected var api: Realm?
     
-    func save(instance: User) {
+    override func save(instance: SavableType) {
         if api != nil {
-            if loadInstances().count > 0 {
-                
-                let objects = api!.objects(type(of: self))
+            if load().count > 0 {
+                let objects = api!.objects(LoadableType.self)
                 let firstUser = objects[0]
                 try! api!.write {
-                    firstUser.name = instance.name ?? UIDevice.current.name
-                    firstUser.imageData = instance.imageData 
+                    firstUser.updateFrom(instance: instance)
                 }
             } else {
-                let savableUser = mapFrom(instance)
+                let savableUser = instance.mapToLoadable() as! UserLoadable
                 try! api!.write {
                     api!.add(savableUser)
                 }
             }
         }
-        
-        
-        
     }
     
-    func loadInstances() -> [User] {
-        let realm = try! Realm()
-        let objects = realm.objects(type(of: self))
-        let array: [User] = objects.map { object in
-            var user = User()
-            user.id = "\(object._id)"
-            user.name = object.name
-            user.imageData = object.imageData
-            return user
+    override func load() -> [SavableType] {
+        if api != nil {
+            let objects = api!.objects(LoadableType.self)
+            let array: [SavableType] = objects.map { object in
+                return object.mapToSavable() as! SavableType
+            }
+            return array
         }
-        return array
+        return .init()
+    }
+}
+
+class UserLoadable: Object, LoadableProtocol {
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var name: String = ""
+    @Persisted var imageData: Data
+    
+    func mapToSavable() -> SavableProtocol {
+        var user = User()
+        user.id = "\(self._id)"
+        user.name = self.name
+        user.imageData = self.imageData
+        return user
     }
     
-    func mapFrom(_ instance: User) -> SavableUserModel {
-        let savableUser = SavableUserModel()
-        savableUser._id = try! ObjectId(string: instance.id)
-        savableUser.name = instance.name ?? ""
-        savableUser.imageData = instance.imageData
-        return savableUser
+    func updateFrom(instance: SavableProtocol) {
+        let loadableInstance = instance.mapToLoadable() as! UserLoadable
+        self.name = loadableInstance.name
+        self.imageData = loadableInstance.imageData
     }
-        
+    
 }
