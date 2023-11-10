@@ -26,16 +26,10 @@ struct SelectingImageView: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
-                        userVM.presentation.images()[i]
-                            .resizable()
-                            .frame(width: cellWidth, height: cellWidth, alignment: .center)
-                            
-                    }
-                }
-            }
+            PresentationImagesView(
+                images: userVM.presentation.images(),
+                tapImageAction: {index in userVM.changePresentationIndexToShow(index)}
+            )
             .toolbar {
                 PhotosPicker("Select images", selection: $selectedItems, matching: .images)
             }

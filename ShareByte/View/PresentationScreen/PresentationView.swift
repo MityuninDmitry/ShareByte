@@ -10,7 +10,6 @@ import SwiftUI
 struct PresentationView: View {
     @EnvironmentObject var userVM: UserViewModel
     @EnvironmentObject var presentationTabManager: PresentationTabManager
-    
     let columns = [
             GridItem(.flexible()),
             GridItem(.flexible()),
@@ -23,21 +22,16 @@ struct PresentationView: View {
     
     var body: some View {
         VStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
-                        userVM.presentation.images()[i]
-                            .resizable()
-                            .frame(width: cellWidth, height: cellWidth, alignment: .center)
-                            .onTapGesture {
-                                self.userVM.sendIndexToShow(i)
-                            }
-                    }
+            PresentationImagesView(
+                images: userVM.presentation.images(),
+                tapImageAction: {
+                    index in self.userVM.sendIndexToShow(index)
                 }
-            }
+            )
             Spacer()
             Button {
                 self.userVM.presentation.clear()
+                self.userVM.user.ready = false
                 self.userVM.sendClearPresentation()
                 presentationTabManager.nextTab()
             } label: {

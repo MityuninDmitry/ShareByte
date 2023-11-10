@@ -29,6 +29,8 @@
 		156B0BB72AD7048B0095E837 /* SearchAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB62AD7048B0095E837 /* SearchAvatar.swift */; };
 		156B0BBA2AD86B2E0095E837 /* RandomAccessCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */; };
 		1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1578204D2A5B2E54007FA7BF /* PeerManager.swift */; };
+		15A2E0DE2AFE6FB100B9DC57 /* PresentationImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A2E0DD2AFE6FB100B9DC57 /* PresentationImagesView.swift */; };
+		15AA092E2AFD380000B5151A /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA092D2AFD380000B5151A /* FileManager.swift */; };
 		15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C5F2A62E1BA007943BA /* PersonScreen.swift */; };
 		15B78C622A64616A007943BA /* ViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C612A64616A007943BA /* ViewerView.swift */; };
 		15B78C642A6466A6007943BA /* PresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C632A6466A6007943BA /* PresenterView.swift */; };
@@ -68,6 +70,8 @@
 		156B0BB62AD7048B0095E837 /* SearchAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAvatar.swift; sourceTree = "<group>"; };
 		156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessCollection.swift; sourceTree = "<group>"; };
 		1578204D2A5B2E54007FA7BF /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
+		15A2E0DD2AFE6FB100B9DC57 /* PresentationImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationImagesView.swift; sourceTree = "<group>"; };
+		15AA092D2AFD380000B5151A /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		15B78C5F2A62E1BA007943BA /* PersonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonScreen.swift; sourceTree = "<group>"; };
 		15B78C612A64616A007943BA /* ViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerView.swift; sourceTree = "<group>"; };
 		15B78C632A6466A6007943BA /* PresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterView.swift; sourceTree = "<group>"; };
@@ -173,8 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				150273DF2A59C0F20006F4DA /* PresentationScreen.swift */,
-				15B78C632A6466A6007943BA /* PresenterView.swift */,
 				15B78C612A64616A007943BA /* ViewerView.swift */,
+				15B78C632A6466A6007943BA /* PresenterView.swift */,
 				15B78C652A646C51007943BA /* SelectingImageView.swift */,
 				15B78C672A646F12007943BA /* UploadingToPeersView.swift */,
 				15B78C692A646FA6007943BA /* PresentationView.swift */,
@@ -219,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				150DED3F2ADC407F00F642E8 /* ImageView.swift */,
+				15A2E0DD2AFE6FB100B9DC57 /* PresentationImagesView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -249,6 +254,7 @@
 			isa = PBXGroup;
 			children = (
 				156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */,
+				15AA092D2AFD380000B5151A /* FileManager.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -333,6 +339,8 @@
 				150DED402ADC407F00F642E8 /* ImageView.swift in Sources */,
 				150DED382AD9C66200F642E8 /* ServiceLocator.swift in Sources */,
 				150273DE2A59C0E00006F4DA /* PeersScreen.swift in Sources */,
+				15AA092E2AFD380000B5151A /* FileManager.swift in Sources */,
+				15A2E0DE2AFE6FB100B9DC57 /* PresentationImagesView.swift in Sources */,
 				150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */,
 				156B0BB72AD7048B0095E837 /* SearchAvatar.swift in Sources */,
 				150DED3A2AD9C68E00F642E8 /* Configurator.swift in Sources */,

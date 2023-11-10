@@ -7,43 +7,19 @@
 
 import SwiftUI
 
+
 struct ViewerView: View {
     @EnvironmentObject var userVM: UserViewModel
     @State private var currentZoom = 0.0
     @State private var totalZoom = 1.0
     
     var body: some View {
-        VStack {
-            ScrollView(.horizontal) {
-                LazyHGrid(rows: [GridItem(.fixed(50))]) {
-                    ForEach(0..<userVM.presentation.images().count, id: \.self) { i in
-                        userVM.presentation.images()[i]
-                            .resizable()
-                            .frame(width: 50)
-                            .onTapGesture {
-                                userVM.changePresentationIndexToShow(i)
-                            }
-                    }
-                }
+        PresentationImagesView(
+            images: userVM.presentation.images(),
+            tapImageAction: { index in
+                userVM.changePresentationIndexToShow(index)
             }
-            .frame(height: 50)
-            ScrollView {
-                if userVM.presentation.imageToShow != nil {
-                    userVM.presentation.imageToShow!
-                        .resizable()
-                        .scaledToFit()
-                    
-                    
-                } else {
-                    VStack {
-                        
-                        Text("NO DATA TO SHOW")
-                        
-                    }
-                    
-                }
-            }
-        }
+        )
     }
 }
 

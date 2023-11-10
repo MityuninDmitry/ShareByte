@@ -41,7 +41,7 @@ class UserViewModel: ObservableObject {
         self.makeDiscoverable()
     }
     func appendImageToPresentation(_ data: Data) {
-        self.presentation.imagesData.append(data)
+        self.presentation.appendImageData(data)
     }
     func updateUser() {
         self.user.save()
@@ -265,7 +265,6 @@ extension UserViewModel: UserDelegate {
                     self.changePresentationIndexToShow(message.indexToShow!)
                 case .clearPresentation:
                     self.presentation.clear()
-                    
                 }
                 
             }
@@ -273,8 +272,8 @@ extension UserViewModel: UserDelegate {
         
     }
     func changePresentationIndexToShow(_ index: Int) {
+        self.presentation.indexToShow = nil
         self.presentation.indexToShow = index
-        
     }
     
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
@@ -316,6 +315,7 @@ extension UserViewModel: UserDelegate {
         
         if self.connectedUsers.count == 0 {
             self.presentation.clear()
+            self.user.role = nil
         }
     }
 }
