@@ -4,5 +4,10 @@
 <dict>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>It needs to use your phone’s data to discover devices nearby</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_share-byte._tcp</string>
+		<string>_share-byte._udp</string>
+	</array>
 </dict>
 </plist>

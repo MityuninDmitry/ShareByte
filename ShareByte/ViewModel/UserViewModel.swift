@@ -111,6 +111,7 @@ class UserViewModel: ObservableObject {
     func sendMessageTo(peers: [MCPeerID], message: Message) {
         do {
             if let data = try? self.encoder.encode(message) {
+                
                 try self.peerManager.session.send(data, toPeers: peers, with: .reliable)
             }
         } catch {
@@ -132,7 +133,6 @@ class UserViewModel: ObservableObject {
                 let message = Message(messageType: .image, imagesData: imagesData)
                 self.sendMessageTo(peers: peers, message: message)
             }
-            
         }
     }
     
@@ -195,10 +195,7 @@ extension UserViewModel: UserDelegate {
                 self.foundUsers[peerID] = user
             }
         }
-        
-        
     }
-    
     /// подключился пир
     /// перемещаем его в список(кастомный) подключенных пользователей и запрашиваем инфу
     func connectedPeer(_ peerID: MCPeerID) {
@@ -225,7 +222,6 @@ extension UserViewModel: UserDelegate {
     
     /// Получить сообщение от пира
     func gotMessage(from peer: MCPeerID, data: Data) {
-        
         Task { @MainActor in
             if let message = try? decoder.decode(Message.self, from: data) {
                 print("[gotMessage] \(message.messageType)")
@@ -235,13 +231,11 @@ extension UserViewModel: UserDelegate {
                 case .userInfo: // получили инфу от пользователя
                     let userInfo = message.userInfo!
                     self.updateConnectedUserInfo(for: peer, user: userInfo)
-                    print("GOT IMAGE = \(userInfo.imageData)")
                     if self.user.role == nil { // если мой тип пустой, то
                         if let safeGottenUserRole = userInfo.role {
                             if safeGottenUserRole == .viewer { // если он вьюер, то я презентер
                                 self.updateUserRole(.presenter)
                                 self.sendUserInfoTo(peers: [peer])
-                                print("self.sendUserInfoTo(peers: [peer])")
                             }
                         }
                     }
@@ -260,7 +254,6 @@ extension UserViewModel: UserDelegate {
                         self.connectedUsers[peer]!.ready = true
                     }
                     self.user.ready = self.isAllConnectedUsersReadyToWatchPresentation()
-                    
                 case .indexToShow:
                     self.changePresentationIndexToShow(message.indexToShow!)
                 case .clearPresentation:
@@ -272,7 +265,6 @@ extension UserViewModel: UserDelegate {
         
     }
     func changePresentationIndexToShow(_ index: Int) {
-        self.presentation.indexToShow = nil
         self.presentation.indexToShow = index
     }
     

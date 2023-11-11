@@ -39,7 +39,7 @@ struct SelectingImageView: View {
                     
                     for item in selectedItems {
                         if let data = try? await item.loadTransferable(type: Data.self) {
-                            if let uiImage = UIImage(data: data) {
+                            if let uiImage = UIImage(data: data)?.fixedOrientation {
                                 let data = uiImage.pngData()!
                                 userVM.appendImageToPresentation(data)
                             }

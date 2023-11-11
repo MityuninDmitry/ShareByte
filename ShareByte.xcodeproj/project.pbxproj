@@ -29,6 +29,8 @@
 		156B0BB72AD7048B0095E837 /* SearchAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB62AD7048B0095E837 /* SearchAvatar.swift */; };
 		156B0BBA2AD86B2E0095E837 /* RandomAccessCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */; };
 		1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1578204D2A5B2E54007FA7BF /* PeerManager.swift */; };
+		159E93012AFFE12000A5E6F7 /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E93002AFFE12000A5E6F7 /* Compressor.swift */; };
+		159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E93022AFFF41000A5E6F7 /* UIImage.swift */; };
 		15A2E0DE2AFE6FB100B9DC57 /* PresentationImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A2E0DD2AFE6FB100B9DC57 /* PresentationImagesView.swift */; };
 		15AA092E2AFD380000B5151A /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA092D2AFD380000B5151A /* FileManager.swift */; };
 		15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C5F2A62E1BA007943BA /* PersonScreen.swift */; };
@@ -70,6 +72,8 @@
 		156B0BB62AD7048B0095E837 /* SearchAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAvatar.swift; sourceTree = "<group>"; };
 		156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessCollection.swift; sourceTree = "<group>"; };
 		1578204D2A5B2E54007FA7BF /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
+		159E93002AFFE12000A5E6F7 /* Compressor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compressor.swift; sourceTree = "<group>"; };
+		159E93022AFFF41000A5E6F7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		15A2E0DD2AFE6FB100B9DC57 /* PresentationImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationImagesView.swift; sourceTree = "<group>"; };
 		15AA092D2AFD380000B5151A /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		15B78C5F2A62E1BA007943BA /* PersonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonScreen.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 				153215BB2A7970EC0038B0FA /* Message.swift */,
 				7CB20DA42AB7582900C4CEE5 /* User.swift */,
 				153215BD2A79719F0038B0FA /* Enum */,
+				159E93002AFFE12000A5E6F7 /* Compressor.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 			children = (
 				156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */,
 				15AA092D2AFD380000B5151A /* FileManager.swift */,
+				159E93022AFFF41000A5E6F7 /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -349,6 +355,7 @@
 				153215BC2A7970EC0038B0FA /* Message.swift in Sources */,
 				15B78C702A6475CE007943BA /* Presentation.swift in Sources */,
 				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
+				159E93012AFFE12000A5E6F7 /* Compressor.swift in Sources */,
 				15B78C6A2A646FA6007943BA /* PresentationView.swift in Sources */,
 				15B78C6E2A647219007943BA /* PresentationTabManager.swift in Sources */,
 				7CB20DA52AB7582900C4CEE5 /* User.swift in Sources */,
@@ -358,6 +365,7 @@
 				15B78C682A646F12007943BA /* UploadingToPeersView.swift in Sources */,
 				153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */,
 				150273DC2A59C0AA0006F4DA /* TabManager.swift in Sources */,
+				159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */,
 				156B0BBA2AD86B2E0095E837 /* RandomAccessCollection.swift in Sources */,
 				150DED362AD9C5B000F642E8 /* AppNetwork.swift in Sources */,
 				1565C09A2AD45B2100AAB651 /* RickAndMortyAPI.swift in Sources */,

@@ -29,6 +29,7 @@ struct PresentationImagesView: View {
                     images[i]
                         .resizable()
                         .frame(width: cellWidth, height: cellWidth, alignment: .center)
+                        .scaledToFill()
                         .onTapGesture {
                             if tapImageAction != nil {
                                 self.tapImageAction!(i)

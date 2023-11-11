@@ -14,7 +14,8 @@ struct UploadingToPeersView: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("UPLOADING ... ")
+            Text("UPLOADING")
+            ProgressView()
             Spacer()
             Button {
                 self.userVM.presentation.clear()
