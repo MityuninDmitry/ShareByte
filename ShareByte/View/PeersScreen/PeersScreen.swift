@@ -14,11 +14,11 @@ struct PeersScreen: View {
         
         VStack {
             HStack {
-                Text(userVM.disoverableStatus.rawValue)
+                Text("Status: \(userVM.disoverableStatus.rawValue)")
             }
             HStack {
                 Spacer()
-                Text("\(userVM.user.role?.rawValue ?? "Not defined")")
+                Text("Your role is: \(userVM.user.role?.rawValue ?? "Not defined")")
                     .font(.title)
                 Spacer()
                 Button {
@@ -34,7 +34,7 @@ struct PeersScreen: View {
             }
             Section("FOUND PEERS") {
                 List(Array(userVM.foundUsers.keys), id: \.self) { mcPeerId in
-                    Text(mcPeerId.description)
+                    Text(mcPeerId.displayName)
                         .onTapGesture {
                             self.userVM.inviteUser(mcPeerId)
                         }

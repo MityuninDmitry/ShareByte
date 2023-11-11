@@ -27,7 +27,7 @@ class UserViewModel: ObservableObject {
     @Published var presentation: Presentation = .init()
     @Published var disoverableStatus: DiscoverableStatus = .stopped
     
-    var peerManager: PeerManager = .init() // менеджер управления соединением
+    var peerManager: PeerManager?  // менеджер управления соединением
     private let encoder = PropertyListEncoder() // для энкодинга сообщений
     private let decoder = PropertyListDecoder() // для декодинга сообщений
 
@@ -35,9 +35,9 @@ class UserViewModel: ObservableObject {
         self.user = .init()
         self.user.load() // загружаем пользователя из БД, если он есть
         
+        peerManager = .init(userName: user.name ?? "NO NAME")
+        peerManager!.userDelegate = self
         
-        
-        peerManager.userDelegate = self
         self.makeDiscoverable()
     }
     func appendImageToPresentation(_ data: Data) {
@@ -45,7 +45,7 @@ class UserViewModel: ObservableObject {
     }
     func updateUser() {
         self.user.save()
-        self.sendUserInfoTo(peers: self.peerManager.session.connectedPeers)
+        self.sendUserInfoTo(peers: self.peerManager!.session.connectedPeers)
     }
     /// Есть ли в переданном массиве объект с таким peerID
     /// Если есть. то возращает индекс. Иначе возращает нул.
@@ -75,21 +75,21 @@ class UserViewModel: ObservableObject {
         self.connectedUsers = .init()
         self.foundUsers = .init()
         self.presentation.clear()
-        peerManager.disconnect()
+        peerManager!.disconnect()
         self.disoverableStatus = .stopped
         
     }
     
     func makeDiscoverable() {
         print("[makeDiscoverable]")
-        self.peerManager.discover()
+        self.peerManager!.discover()
         self.disoverableStatus = .running
     }
     
     // шлем приглашение пользователю
     func inviteUser(_ peerId: MCPeerID) {
         if self.user.role != .viewer {
-            self.peerManager.serviceBrowser.invitePeer(peerId, to: peerManager.session, withContext: nil, timeout: 10)
+            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: nil, timeout: 10)
         }
     }
     
@@ -112,7 +112,7 @@ class UserViewModel: ObservableObject {
         do {
             if let data = try? self.encoder.encode(message) {
                 
-                try self.peerManager.session.send(data, toPeers: peers, with: .reliable)
+                try self.peerManager!.session.send(data, toPeers: peers, with: .reliable)
             }
         } catch {
             print("Error for sending: \(String(describing: error))")
@@ -127,9 +127,9 @@ class UserViewModel: ObservableObject {
     }
     func sendImagesData() {
         Task {
-            if self.peerManager.session.connectedPeers.count > 0 {
+            if self.peerManager!.session.connectedPeers.count > 0 {
                 let imagesData = self.presentation.imagesData
-                let peers = self.peerManager.session.connectedPeers
+                let peers = self.peerManager!.session.connectedPeers
                 let message = Message(messageType: .image, imagesData: imagesData)
                 self.sendMessageTo(peers: peers, message: message)
             }
@@ -138,12 +138,12 @@ class UserViewModel: ObservableObject {
     
     func sendIndexToShow(_ index: Int) {
         let message = Message(messageType: .indexToShow, indexToShow: index)
-        let peers = self.peerManager.session.connectedPeers
+        let peers = self.peerManager!.session.connectedPeers
         sendMessageTo(peers: peers, message: message)
     }
     func sendClearPresentation() {
         let message = Message(messageType: .clearPresentation)
-        let peers = self.peerManager.session.connectedPeers
+        let peers = self.peerManager!.session.connectedPeers
         sendMessageTo(peers: peers, message: message)
     }
     func sendReconnectTo(peers: [MCPeerID]) {
@@ -157,7 +157,7 @@ class UserViewModel: ObservableObject {
     
     
     func printSessionConnectedPeersInfo() {
-        for peer in self.peerManager.session.connectedPeers {
+        for peer in self.peerManager!.session.connectedPeers {
             print(connectedUsers[peer] ?? "")
         }
     }
@@ -185,7 +185,6 @@ class UserViewModel: ObservableObject {
 
 
 extension UserViewModel: UserDelegate {
-    
     /// инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
     func addFoundPeer(_ peerID: MCPeerID) {
         print("[addFoundPeer] \(peerID)")

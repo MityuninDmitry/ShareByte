@@ -11,15 +11,30 @@ import MultipeerConnectivity
 
 class PeerManager: NSObject, ObservableObject {
     var session: MCSession!
-    var myPeerId = MCPeerID(displayName: UIDevice.current.name)
+    var myPeerId: MCPeerID = MCPeerID(displayName: UIDevice.current.name)
     var userDelegate: UserDelegate?
-    
     var serviceAdvertiser: MCNearbyServiceAdvertiser!
     var serviceBrowser: MCNearbyServiceBrowser!
 
     private var serviceType = "share-byte"
     
     override init() {
+        session = .init(peer: myPeerId)
+        serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
+        serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)
+        
+        super.init()
+        
+        session.delegate = self
+        serviceAdvertiser.delegate = self
+        serviceBrowser.delegate = self
+    }
+    
+    init(userName: String) {
+        
+        myPeerId = MCPeerID(displayName: userName)
+        
+        
         session = .init(peer: myPeerId)
         serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
         serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)

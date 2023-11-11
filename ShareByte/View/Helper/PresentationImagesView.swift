@@ -59,3 +59,4 @@ struct PresentationImagesView: View {
         tapImageAction: {index in }
     )
 }
+
