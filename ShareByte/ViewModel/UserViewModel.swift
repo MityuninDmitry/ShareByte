@@ -26,7 +26,6 @@ class UserViewModel: ObservableObject {
     @Published var user: User // инфа о пользователе
     @Published var presentation: Presentation = .init()
     @Published var disoverableStatus: DiscoverableStatus = .stopped
-    
     var peerManager: PeerManager?  // менеджер управления соединением
     private let encoder = PropertyListEncoder() // для энкодинга сообщений
     private let decoder = PropertyListDecoder() // для декодинга сообщений
@@ -43,7 +42,7 @@ class UserViewModel: ObservableObject {
     func appendImageToPresentation(_ data: Data) {
         self.presentation.appendImageData(data)
     }
-    func updateUser() {
+    func saveUser() {
         self.user.save()
         self.sendUserInfoTo(peers: self.peerManager!.session.connectedPeers)
     }
@@ -307,6 +306,13 @@ extension UserViewModel: UserDelegate {
         if self.connectedUsers.count == 0 {
             self.presentation.clear()
             self.user.role = nil
+        }
+    }
+    
+    func lostAllPeers() {
+        print("[lostAllPeers]")
+        for (key, _) in self.connectedUsers {
+            lostPeer(key)
         }
     }
 }

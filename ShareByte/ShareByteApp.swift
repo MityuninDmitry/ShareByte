@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct ShareByteApp: App {
+
     
     init() {
         Configurator.shared.registerServices()
@@ -21,7 +22,6 @@ struct ShareByteApp: App {
                 .environmentObject(UserViewModel.shared)
                 .environmentObject(PresentationTabManager.shared)
                 .environmentObject(SearchAvatar.shared)
-            
         }
     }
 }

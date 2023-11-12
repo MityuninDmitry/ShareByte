@@ -11,6 +11,8 @@ import MultipeerConnectivity
 
 struct ContentView: View {
     @EnvironmentObject var tabManager: TabManager
+    @Environment(\.scenePhase) var scenePhase
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
         TabView(selection: $tabManager.seletedTabId) {
@@ -32,6 +34,19 @@ struct ContentView: View {
                 }
                 .tag(2)
         }
+        .onChange(of: scenePhase, perform: { value in
+            switch value {
+            case .background:
+                print("Background")
+                userVM.lostAllPeers()
+            case .active:
+                print("Active")
+            case .inactive:
+                print("Inactive")
+            @unknown default:
+                print("default")
+            }
+        })
     }
 }
 

@@ -30,7 +30,7 @@ struct PersonScreen: View {
             
             Button {
                 userVM.user.name = userName
-                userVM.updateUser()
+                userVM.saveUser()
             } label: {
                 Text("SAVE")
             }
