@@ -11,6 +11,7 @@ import SwiftUI
 
 
 struct Presentation: Codable {
+    var id: UUID = .init()
     var imagesData: [Data] = .init()
     var indexToShow: Int? = nil {
         didSet {
@@ -72,6 +73,7 @@ struct Presentation: Codable {
     }
     
     mutating func clear() {
+        id = .init()
         indexToShow = nil
         imagesData = []
         FileManager().clearTmpDirectory()

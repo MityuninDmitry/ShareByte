@@ -33,7 +33,7 @@ class UserViewModel: ObservableObject {
     private init() {
         self.user = .init()
         self.user.load() // загружаем пользователя из БД, если он есть
-        
+
         peerManager = .init(userName: user.name ?? "NO NAME")
         peerManager!.userDelegate = self
         
@@ -152,13 +152,6 @@ class UserViewModel: ObservableObject {
     func sendReadyToStartPresentation(peers: [MCPeerID]) {
         let message = Message(messageType: .ready)
         self.sendMessageTo(peers: peers, message: message)
-    }
-    
-    
-    func printSessionConnectedPeersInfo() {
-        for peer in self.peerManager!.session.connectedPeers {
-            print(connectedUsers[peer] ?? "")
-        }
     }
     
     /// апдейтим инфу о пользователе

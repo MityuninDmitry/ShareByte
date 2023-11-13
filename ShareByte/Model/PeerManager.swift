@@ -24,18 +24,17 @@ class PeerManager: NSObject, ObservableObject {
         serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)
         
         super.init()
-        
+
         session.delegate = self
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
     }
     
     init(userName: String) {
-        
         myPeerId = MCPeerID(displayName: userName)
         
-        
         session = .init(peer: myPeerId)
+        
         serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
         serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)
         
@@ -45,7 +44,7 @@ class PeerManager: NSObject, ObservableObject {
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
     }
-    
+   
     func invitePeer(_ peerId: MCPeerID) {
         serviceBrowser.invitePeer(peerId, to: self.session, withContext: nil, timeout: 10)
     }
@@ -60,14 +59,15 @@ class PeerManager: NSObject, ObservableObject {
     func discover() {
         serviceAdvertiser.startAdvertisingPeer()
         serviceBrowser.startBrowsingForPeers()
+        
     }
-    
-    
+
     
     
 }
 
 extension PeerManager: MCSessionDelegate {
+    
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         print("\(session) : \(peerID) : ")
         switch state {
@@ -111,6 +111,7 @@ extension PeerManager: MCSessionDelegate {
 }
 
 extension PeerManager: MCNearbyServiceAdvertiserDelegate {
+    
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         
         print("DID RECIEVE INVITATION FROM \(peerID)")
