@@ -327,7 +327,9 @@ extension UserViewModel: UserDelegate {
             if self.presentation.id == presentationId {
                 return true
             } else {
-                self.presentation.clear()
+                Task { @MainActor in
+                    self.presentation.clear()
+                }
                 return true
             }
             
