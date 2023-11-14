@@ -113,17 +113,33 @@ extension PeerManager: MCSessionDelegate {
 extension PeerManager: MCNearbyServiceAdvertiserDelegate {
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        
         print("DID RECIEVE INVITATION FROM \(peerID)")
-        Task {
-            if self.userDelegate!.canAcceptInvitation() {
-                invitationHandler(true, self.session)
-                self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
-            } else {
-                invitationHandler(false, self.session)
-                self.userDelegate?.peerAcceptInvitation(isAccepted: false, from: peerID)
+        if context != nil {
+            Task {
+                
+                if self.userDelegate!.canAcceptInvitation(AppDecoder.dataToString(context!)) {
+                    invitationHandler(true, self.session)
+                    self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
+                } else {
+                    invitationHandler(false, self.session)
+                    self.userDelegate?.peerAcceptInvitation(isAccepted: false, from: peerID)
+                }
+                
             }
         }
+        else {
+            Task {
+                if self.userDelegate!.canAcceptInvitation() {
+                    invitationHandler(true, self.session)
+                    self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
+                } else {
+                    invitationHandler(false, self.session)
+                    self.userDelegate?.peerAcceptInvitation(isAccepted: false, from: peerID)
+                }
+                
+            }
+        }
+        
     }
 }
 

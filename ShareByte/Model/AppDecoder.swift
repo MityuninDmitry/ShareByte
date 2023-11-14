@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Compressor {
+struct AppDecoder {
     static func compress(data: Data) -> NSData? {
         do {
             let compressedData = try (data as NSData).compressed(using: .lz4)
@@ -27,6 +27,14 @@ struct Compressor {
             print(error.localizedDescription)
         }
         return nil
+    }
+    
+    static func stringToData(_ str: String) -> Data {
+        return Data(str.utf8)
+    }
+    
+    static func dataToString(_ data: Data) -> String {
+        return String(decoding: data, as: UTF8.self)
     }
 }
 

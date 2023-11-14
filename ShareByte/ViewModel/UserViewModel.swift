@@ -13,6 +13,7 @@ protocol UserDelegate {
     func lostPeer(_ peerID: MCPeerID)
     func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID)
     func canAcceptInvitation() -> Bool
+    func canAcceptInvitation(_ presentationId: String?) -> Bool
     func gotMessage(from: MCPeerID, data: Data)
     func addFoundPeer(_ peerID: MCPeerID)
     func connectedPeer(_ peerID: MCPeerID)
@@ -73,7 +74,7 @@ class UserViewModel: ObservableObject {
         self.updateUserRole(nil)
         self.connectedUsers = .init()
         self.foundUsers = .init()
-        self.presentation.clear()
+        //self.presentation.clear()
         peerManager!.disconnect()
         self.disoverableStatus = .stopped
         
@@ -87,9 +88,15 @@ class UserViewModel: ObservableObject {
     
     // шлем приглашение пользователю
     func inviteUser(_ peerId: MCPeerID) {
-        if self.user.role != .viewer {
-            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: nil, timeout: 10)
+        if self.user.role == .viewer && UserViewModel.hasIn(dict: self.foundUsers, peerID: peerId) {
+            return
+        } else {
+            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
         }
+        
+//        if self.user.role != .viewer {
+//            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
+//        }
     }
     
     /// добавить peerID
@@ -171,8 +178,13 @@ class UserViewModel: ObservableObject {
     }
     
     func updateUserRole(_ role: Role?) {
-        self.user.role = role
+        if self.user.role == nil {
+            self.user.role = role
+        }
         
+        if role == nil {
+            self.user.role = nil
+        }
     }
     
     /// Запрашиваем информацию о пользователе
@@ -186,6 +198,8 @@ class UserViewModel: ObservableObject {
 
 
 extension UserViewModel: UserDelegate {
+    
+    
     /// инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
     func addFoundPeer(_ peerID: MCPeerID) {
         print("[addFoundPeer] \(peerID)")
@@ -235,6 +249,10 @@ extension UserViewModel: UserDelegate {
                         if let safeGottenUserRole = userInfo.role {
                             if safeGottenUserRole == .viewer { // если он вьюер, то я презентер
                                 self.updateUserRole(.presenter)
+                                self.sendUserInfoTo(peers: [peer])
+                            }
+                            else if safeGottenUserRole == .presenter {
+                                self.updateUserRole(.viewer)
                                 self.sendUserInfoTo(peers: [peer])
                             }
                         }
@@ -292,6 +310,31 @@ extension UserViewModel: UserDelegate {
         return false
     }
     
+    func canAcceptInvitation(_ presentationId: String?) -> Bool {
+        if self.user.role == .presenter {
+            if self.presentation.id == presentationId! {
+                return true
+            } else {
+                return false
+            }
+        } else if self.user.role == .viewer {
+            if self.presentation.id == presentationId! {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            if self.presentation.id == presentationId {
+                return true
+            } else {
+                self.presentation.clear()
+                return true
+            }
+            
+        }
+        
+    }
+    
     func lostPeer(_ peerID: MCPeerID) {
         print("[lostPeer] \(peerID)")
         Task { @MainActor in
@@ -314,10 +357,10 @@ extension UserViewModel: UserDelegate {
             }
         }
         
-        if self.connectedUsers.count == 0 {
-            self.presentation.clear()
-            self.user.role = nil
-        }
+//        if self.connectedUsers.count == 0 {
+//            self.presentation.clear()
+//            self.user.role = nil
+//        }
     }
     
     func lostAllPeers() {
