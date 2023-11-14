@@ -10,9 +10,16 @@ import UIKit
 import SwiftUI
 
 
-struct Presentation: Codable {
-    var id: UUID = .init()
+struct Presentation: Identifiable, Codable {
+    var id: String = UUID().uuidString
     var imagesData: [Data] = .init()
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case imagesData
+    }
+    
+    
     var indexToShow: Int? = nil {
         didSet {
             if indexToShow != nil {
@@ -60,7 +67,6 @@ struct Presentation: Codable {
     
     var imageURL: URL?
    
-    
     func images() -> [Image] {
         var images: [Image] = .init()
         for imageData in imagesData {
@@ -73,7 +79,7 @@ struct Presentation: Codable {
     }
     
     mutating func clear() {
-        id = .init()
+        id = UUID().uuidString
         indexToShow = nil
         imagesData = []
         FileManager().clearTmpDirectory()
@@ -103,7 +109,7 @@ struct Presentation: Codable {
         } else {
             print("CREATE NEW FILE IN TMP DIR")
             let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageName)
-            let pngData = UIImage(data: imagesData[indexToShow!])!.pngData();
+            let pngData = UIImage(data: imagesData[index])!.pngData();
             do {
                 try pngData?.write(to: imageURL!);
             } catch { }
@@ -112,16 +118,12 @@ struct Presentation: Codable {
         }
     }
     
-    var imageURLs: [URL] {
-        return getAllImageURLs()
-    }
-    func getAllImageURLs() -> [URL] {
-        var imageURLs: [URL] = .init()
-        if self.imagesData.count > 0 {
-            for (index, _) in self.imagesData.enumerated() {
-                imageURLs.append(setImageURLFor(index: index))
+    func moveImagesToTMPDirectory() {
+        Task(priority: .high) {
+            for (index,_) in self.imagesData.enumerated() {
+                _ = setImageURLFor(index: index)
             }
         }
-        return imageURLs
+        
     }
 }

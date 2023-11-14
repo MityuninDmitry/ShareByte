@@ -134,6 +134,15 @@ class UserViewModel: ObservableObject {
             }
         }
     }
+    func sendPresentation() {
+        Task {
+            if self.peerManager!.session.connectedPeers.count > 0 {
+                let peers = self.peerManager!.session.connectedPeers
+                let message = Message(messageType: .presentation, presentation: self.presentation)
+                self.sendMessageTo(peers: peers, message: message)
+            }
+        }
+    }
     
     func sendIndexToShow(_ index: Int) {
         let message = Message(messageType: .indexToShow, indexToShow: index)
@@ -249,7 +258,16 @@ extension UserViewModel: UserDelegate {
                     self.changePresentationIndexToShow(message.indexToShow!)
                 case .clearPresentation:
                     self.presentation.clear()
+                case .presentation:
+                    print("GOT PRESENTATION FROM \(peer)")
+                    self.presentation = message.presentation!
+                    self.presentation.moveImagesToTMPDirectory()
+                    self.user.ready = true
+                    self.sendReadyToStartPresentation(peers: [peer])
+                case .presentationID:
+                    print("GOT PRESENTATION ID FROM \(peer)")
                 }
+            
                 
             }
         }

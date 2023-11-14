@@ -51,7 +51,8 @@ struct SelectingImageView: View {
             
             HStack {
                     Button {
-                        userVM.sendImagesData()
+                        //userVM.sendImagesData()
+                        userVM.sendPresentation()
                         presentationTabManager.nextTab()
                     } label: {
                         Text("Upload data to peers")
