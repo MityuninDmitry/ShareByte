@@ -11,7 +11,7 @@ import MultipeerConnectivity
 protocol UserDelegate {
     func notConnectedPeer(_ peerID: MCPeerID)
     func lostPeer(_ peerID: MCPeerID)
-    func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID)
+    func acceptInvitation(isAccepted: Bool, from peerID: MCPeerID)
     func canAcceptInvitation() -> Bool
     func canAcceptInvitation(_ presentationId: String?) -> Bool
     func gotMessage(from: MCPeerID, data: Data)
@@ -88,11 +88,14 @@ class UserViewModel: ObservableObject {
     
     // шлем приглашение пользователю
     func inviteUser(_ peerId: MCPeerID) {
-        if self.user.role == .viewer && UserViewModel.hasIn(dict: self.foundUsers, peerID: peerId) {
-            return
-        } else {
-            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
-        }
+        
+        self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
+        
+//        if self.user.role == .viewer && UserViewModel.hasIn(dict: self.foundUsers, peerID: peerId) {
+//            return
+//        } else {
+//            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
+//        }
         
 //        if self.user.role != .viewer {
 //            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
@@ -141,13 +144,32 @@ class UserViewModel: ObservableObject {
             }
         }
     }
-    func sendPresentation() {
+    func sendPresentation(to peers: [MCPeerID]) {
         Task {
-            if self.peerManager!.session.connectedPeers.count > 0 {
-                let peers = self.peerManager!.session.connectedPeers
+            if peers.count > 0 {
                 let message = Message(messageType: .presentation, presentation: self.presentation)
                 self.sendMessageTo(peers: peers, message: message)
+            } else {
+                if self.peerManager!.session.connectedPeers.count > 0 {
+                    let peers = self.peerManager!.session.connectedPeers
+                    let message = Message(messageType: .presentation, presentation: self.presentation)
+                    self.sendMessageTo(peers: peers, message: message)
+                }
             }
+            
+            
+        }
+    }
+    func sendPresentationId(to peers: [MCPeerID]) {
+        Task {
+            let message = Message(messageType: .presentationId, presentationId: self.presentation.id)
+            self.sendMessageTo(peers: peers, message: message)
+        }
+    }
+    func askPresentationId(to peers: [MCPeerID]) {
+        Task {
+            let message = Message(messageType: .askPresentationId)
+            self.sendMessageTo(peers: peers, message: message)
         }
     }
     
@@ -250,12 +272,22 @@ extension UserViewModel: UserDelegate {
                             if safeGottenUserRole == .viewer { // если он вьюер, то я презентер
                                 self.updateUserRole(.presenter)
                                 self.sendUserInfoTo(peers: [peer])
+                                
                             }
                             else if safeGottenUserRole == .presenter {
                                 self.updateUserRole(.viewer)
                                 self.sendUserInfoTo(peers: [peer])
                             }
                         }
+                    } else if self.user.role == .presenter {
+                        if let safeGottenUserRole = userInfo.role {
+                            if safeGottenUserRole == .viewer {
+                                if self.presentation.state == .Presentation {
+                                    self.askPresentationId(to: [peer])
+                                }
+                            }
+                        }
+                        
                     }
                 case .reconnect:
                     self.reconnect()
@@ -282,8 +314,20 @@ extension UserViewModel: UserDelegate {
                     self.presentation.moveImagesToTMPDirectory()
                     self.user.ready = true
                     self.sendReadyToStartPresentation(peers: [peer])
-                case .presentationID:
+                case .askPresentationId:
+                    print("ASKED PRESENTATION ID \(peer)")
+                    self.sendPresentationId(to: [peer])
+                case .presentationId:
                     print("GOT PRESENTATION ID FROM \(peer)")
+                    if self.user.role == .presenter {
+                        if self.presentation.state == .Presentation {
+                            if self.presentation.id != message.presentationId! {
+                                self.sendPresentation(to: [peer])
+                            }
+                        }
+                    }
+                    
+                    
                 }
             
                 
@@ -295,7 +339,7 @@ extension UserViewModel: UserDelegate {
         self.presentation.indexToShow = index
     }
     
-    func peerAcceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
+    func acceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
         if isAccepted {
             Task { @MainActor in
                 self.updateUserRole(.viewer)
@@ -317,24 +361,15 @@ extension UserViewModel: UserDelegate {
             } else {
                 return false
             }
-        } else if self.user.role == .viewer {
-            if self.presentation.id == presentationId! {
-                return true
-            } else {
-                return false
+        }
+        else if self.user.role == nil {
+            Task { @MainActor in
+                self.presentation.clear()
             }
-        } else {
-            if self.presentation.id == presentationId {
-                return true
-            } else {
-                Task { @MainActor in
-                    self.presentation.clear()
-                }
-                return true
-            }
-            
+            return true
         }
         
+        return false
     }
     
     func lostPeer(_ peerID: MCPeerID) {

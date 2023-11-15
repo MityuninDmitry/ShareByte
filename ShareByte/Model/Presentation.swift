@@ -18,6 +18,7 @@ struct Presentation: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case imagesData
+        case state
     }
     
     
@@ -116,5 +117,23 @@ struct Presentation: Identifiable, Codable {
             }
         }
         
+    }
+    
+    
+   mutating func nextState() {
+        switch state {
+        case .Selecting:
+            state = .Uploading
+        case .Uploading:
+            state = .Presentation
+        case .Presentation:
+            state = .Selecting
+        case .none:
+            state = .Uploading
+        }
+    }
+    
+    mutating func goTab(state: PresentationState) {
+        self.state = state
     }
 }

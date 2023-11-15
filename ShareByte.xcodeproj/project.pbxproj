@@ -40,7 +40,6 @@
 		15B78C682A646F12007943BA /* UploadingToPeersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C672A646F12007943BA /* UploadingToPeersView.swift */; };
 		15B78C6A2A646FA6007943BA /* PresentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C692A646FA6007943BA /* PresentationView.swift */; };
 		15B78C6C2A64718C007943BA /* PresentationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C6B2A64718C007943BA /* PresentationState.swift */; };
-		15B78C6E2A647219007943BA /* PresentationTabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C6D2A647219007943BA /* PresentationTabManager.swift */; };
 		15B78C702A6475CE007943BA /* Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C6F2A6475CE007943BA /* Presentation.swift */; };
 		7CB20DA52AB7582900C4CEE5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB20DA42AB7582900C4CEE5 /* User.swift */; };
 		7CB20DA82AB75B0B00C4CEE5 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 7CB20DA72AB75B0B00C4CEE5 /* Realm */; };
@@ -83,7 +82,6 @@
 		15B78C672A646F12007943BA /* UploadingToPeersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadingToPeersView.swift; sourceTree = "<group>"; };
 		15B78C692A646FA6007943BA /* PresentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationView.swift; sourceTree = "<group>"; };
 		15B78C6B2A64718C007943BA /* PresentationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationState.swift; sourceTree = "<group>"; };
-		15B78C6D2A647219007943BA /* PresentationTabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationTabManager.swift; sourceTree = "<group>"; };
 		15B78C6F2A6475CE007943BA /* Presentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presentation.swift; sourceTree = "<group>"; };
 		7CB20DA42AB7582900C4CEE5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -146,7 +144,6 @@
 			children = (
 				156B0BB82AD86B110095E837 /* Extension */,
 				1578204D2A5B2E54007FA7BF /* PeerManager.swift */,
-				15B78C6D2A647219007943BA /* PresentationTabManager.swift */,
 				15B78C6F2A6475CE007943BA /* Presentation.swift */,
 				153215BB2A7970EC0038B0FA /* Message.swift */,
 				7CB20DA42AB7582900C4CEE5 /* User.swift */,
@@ -357,7 +354,6 @@
 				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
 				159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */,
 				15B78C6A2A646FA6007943BA /* PresentationView.swift in Sources */,
-				15B78C6E2A647219007943BA /* PresentationTabManager.swift in Sources */,
 				7CB20DA52AB7582900C4CEE5 /* User.swift in Sources */,
 				15B78C642A6466A6007943BA /* PresenterView.swift in Sources */,
 				15B78C6C2A64718C007943BA /* PresentationState.swift in Sources */,

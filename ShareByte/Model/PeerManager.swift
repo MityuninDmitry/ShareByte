@@ -119,10 +119,10 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
                 
                 if self.userDelegate!.canAcceptInvitation(AppDecoder.dataToString(context!)) {
                     invitationHandler(true, self.session)
-                    self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
+                    self.userDelegate?.acceptInvitation(isAccepted: true, from: peerID)
                 } else {
                     invitationHandler(false, self.session)
-                    self.userDelegate?.peerAcceptInvitation(isAccepted: false, from: peerID)
+                    self.userDelegate?.acceptInvitation(isAccepted: false, from: peerID)
                 }
                 
             }
@@ -131,10 +131,10 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
             Task {
                 if self.userDelegate!.canAcceptInvitation() {
                     invitationHandler(true, self.session)
-                    self.userDelegate?.peerAcceptInvitation(isAccepted: true, from: peerID)
+                    self.userDelegate?.acceptInvitation(isAccepted: true, from: peerID)
                 } else {
                     invitationHandler(false, self.session)
-                    self.userDelegate?.peerAcceptInvitation(isAccepted: false, from: peerID)
+                    self.userDelegate?.acceptInvitation(isAccepted: false, from: peerID)
                 }
                 
             }

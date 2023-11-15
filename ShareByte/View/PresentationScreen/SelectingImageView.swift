@@ -12,7 +12,6 @@ struct SelectingImageView: View {
     @State var selectedItems: [PhotosPickerItem] = .init()
     
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var presentationTabManager: PresentationTabManager
     
     let columns = [
         GridItem(.flexible()),
@@ -51,9 +50,8 @@ struct SelectingImageView: View {
             
             HStack {
                     Button {
-                        //userVM.sendImagesData()
-                        userVM.sendPresentation()
-                        presentationTabManager.nextTab()
+                        userVM.presentation.nextState()
+                        userVM.sendPresentation(to: [])
                     } label: {
                         Text("Upload data to peers")
                     }
@@ -70,6 +68,5 @@ struct SelectingImageView_Previews: PreviewProvider {
     static var previews: some View {
         SelectingImageView()
             .environmentObject(UserViewModel.shared)
-            .environmentObject(PresentationTabManager.shared)
     }
 }

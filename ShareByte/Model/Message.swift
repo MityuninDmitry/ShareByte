@@ -17,7 +17,8 @@ struct Message: Codable {
         case indexToShow
         case clearPresentation
         case presentation
-        case presentationID
+        case askPresentationId
+        case presentationId
     }
     
     var messageType: MessageType = .askInfo
@@ -26,5 +27,6 @@ struct Message: Codable {
     var imagesData: [Data]? = nil
     var indexToShow: Int? = nil
     var presentation: Presentation? = nil
+    var presentationId: String?
     
 }

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct UploadingToPeersView: View {
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var presentationTabManager: PresentationTabManager
     
     var body: some View {
         VStack {
@@ -20,7 +19,7 @@ struct UploadingToPeersView: View {
             Button {
                 self.userVM.presentation.clear()
                 self.userVM.sendClearPresentation()
-                presentationTabManager.nextTab()
+                userVM.presentation.nextState()
             } label: {
                 Text("CREATE NEW PRESENTATION")
             }
@@ -28,7 +27,7 @@ struct UploadingToPeersView: View {
         .onChange(of: userVM.user.ready) { newValue in
             print("UPLOADED")
             if newValue == true {
-                presentationTabManager.nextTab()
+                userVM.presentation.nextState()
             }
         }
         
@@ -39,6 +38,5 @@ struct UploadingToPeersView_Previews: PreviewProvider {
     static var previews: some View {
         UploadingToPeersView()
             .environmentObject(UserViewModel.shared)
-            .environmentObject(PresentationTabManager.shared)
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PresentationView: View {
     @EnvironmentObject var userVM: UserViewModel
-    @EnvironmentObject var presentationTabManager: PresentationTabManager
+    
     let columns = [
             GridItem(.flexible()),
             GridItem(.flexible()),
@@ -33,14 +33,14 @@ struct PresentationView: View {
                 self.userVM.presentation.clear()
                 self.userVM.user.ready = false
                 self.userVM.sendClearPresentation()
-                presentationTabManager.nextTab()
+                userVM.presentation.nextState()
             } label: {
                 Text("CREATE NEW PRESENTATION")
             }
         }
         .onChange(of: self.userVM.user.ready) { newValue in
             if newValue == false {
-                presentationTabManager.nextTab()
+                userVM.presentation.nextState()
             }
         }
         
@@ -51,6 +51,5 @@ struct PresentationView_Previews: PreviewProvider {
     static var previews: some View {
         PresentationView()
             .environmentObject(UserViewModel.shared)
-            .environmentObject(PresentationTabManager.shared)
     }
 }

@@ -9,18 +9,30 @@ import SwiftUI
 import PhotosUI
 
 struct PresenterView: View {
-    @EnvironmentObject var presentationTabManager: PresentationTabManager
+    //@EnvironmentObject var presentationTabManager: PresentationTabManager
+    @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
         VStack {
-            switch presentationTabManager.seletedTabId {
+            switch userVM.presentation.state {
             case .Selecting:
                 SelectingImageView()
             case .Uploading:
                 UploadingToPeersView()
             case .Presentation:
                 PresentationView()
+            case .none:
+                SelectingImageView()
             }
+            
+//            switch presentationTabManager.seletedTabId {
+//            case .Selecting:
+//                SelectingImageView()
+//            case .Uploading:
+//                UploadingToPeersView()
+//            case .Presentation:
+//                PresentationView()
+//            }
            
         }
     }
@@ -30,6 +42,5 @@ struct PresenterView_Previews: PreviewProvider {
     static var previews: some View {
         PresenterView()
             .environmentObject(UserViewModel.shared)
-            .environmentObject(PresentationTabManager.shared)
     }
 }
