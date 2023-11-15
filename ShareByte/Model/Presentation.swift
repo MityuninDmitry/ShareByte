@@ -13,6 +13,7 @@ import SwiftUI
 struct Presentation: Identifiable, Codable {
     var id: String = UUID().uuidString
     var imagesData: [Data] = .init()
+    var state: PresentationState? = nil
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -23,20 +24,7 @@ struct Presentation: Identifiable, Codable {
     var indexToShow: Int? = nil {
         didSet {
             if indexToShow != nil {
-                let imageName = "\(indexToShow!).png"
-                let tempDir = FileManager.default.temporaryDirectory.appendingPathComponent(imageName)
-                if FileManager.default.fileExists(atPath: tempDir.path(percentEncoded: true)) {
-                    print("FILE EXIST")
-                    self.imageURL = tempDir
-                } else {
-                    print("CREATE NEW FILE IN TMP DIR")
-                    let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageName)
-                    let pngData = UIImage(data: imagesData[indexToShow!])!.pngData();
-                    do {
-                        try pngData?.write(to: imageURL!);
-                    } catch { }
-                    self.imageURL = imageURL
-                }
+                self.imageURL = setImageURLFor(index: indexToShow!)
             } else {
                 self.imageURL = nil
             }
@@ -100,7 +88,7 @@ struct Presentation: Identifiable, Codable {
         
     }
     
-    func setImageURLFor(index: Int) -> URL {
+    func setImageURLFor(index: Int) -> URL? {
         let imageName = "\(index).png"
         let tempDir = FileManager.default.temporaryDirectory.appendingPathComponent(imageName)
         if FileManager.default.fileExists(atPath: tempDir.path(percentEncoded: true)) {
@@ -108,6 +96,9 @@ struct Presentation: Identifiable, Codable {
             return tempDir
         } else {
             print("CREATE NEW FILE IN TMP DIR")
+            if imagesData.count == 0 {
+                return nil
+            }
             let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageName)
             let pngData = UIImage(data: imagesData[index])!.pngData();
             do {

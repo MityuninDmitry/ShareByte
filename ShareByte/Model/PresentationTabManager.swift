@@ -15,7 +15,7 @@ class PresentationTabManager: ObservableObject {
         self.seletedTabId = selectedTabId
     }
     
-    func nextTab()  {
+    func nextTab() {
         switch seletedTabId {
         case .Selecting:
             seletedTabId = .Uploading
