@@ -45,15 +45,18 @@ struct PeersScreen: View {
                 List(Array(userVM.connectedUsers.keys), id: \.self) { mcPeerId in
                     HStack {
                         ImageView(
-                            imageData: userVM.connectedUsers[mcPeerId]!.imageData,
+                            imageData: (userVM.connectedUsers[mcPeerId]?.imageData) ?? UIImage(systemName: "person.circle")!.pngData()!,
                             width: 100,
                             height: 100)
-                        Text(userVM.connectedUsers[mcPeerId]!.name ?? "\(mcPeerId.description)")
+                        Text((userVM.connectedUsers[mcPeerId]?.name) ?? "\(mcPeerId.description)")
                         Spacer()
-                        Text("\(userVM.connectedUsers[mcPeerId]!.role?.rawValue ?? "UNKNOWN ROLE")" )
+                        Text("\((userVM.connectedUsers[mcPeerId]?.role?.rawValue) ?? "UNKNOWN ROLE")" )
                     }
                     .onTapGesture {
-                        userVM.sendReconnectTo(peers: [mcPeerId])
+                        if userVM.user.role == .presenter {
+                            userVM.sendReconnectTo(peers: [mcPeerId])
+                        }
+                        
                     }
                     
                 }

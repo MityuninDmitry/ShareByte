@@ -112,6 +112,7 @@ struct Presentation: Identifiable, Codable {
     
     func moveImagesToTMPDirectory() {
         Task(priority: .high) {
+            FileManager().clearTmpDirectory()
             for (index,_) in self.imagesData.enumerated() {
                 _ = setImageURLFor(index: index)
             }
@@ -122,18 +123,22 @@ struct Presentation: Identifiable, Codable {
     
    mutating func nextState() {
         switch state {
-        case .Selecting:
-            state = .Uploading
-        case .Uploading:
-            state = .Presentation
-        case .Presentation:
-            state = .Selecting
+        case .selecting:
+            state = .uploading
+        case .uploading:
+            state = .presentation
+        case .presentation:
+            state = .selecting
         case .none:
-            state = .Uploading
+            state = .uploading
         }
     }
     
     mutating func goTab(state: PresentationState) {
         self.state = state
+    }
+    
+    mutating func generateId() {
+        id = UUID().uuidString
     }
 }

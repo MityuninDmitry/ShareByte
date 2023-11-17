@@ -200,12 +200,22 @@ class UserViewModel: ObservableObject {
     }
     
     func updateUserRole(_ role: Role?) {
+        let oldRole = self.user.role
+        
         if self.user.role == nil {
             self.user.role = role
         }
         
         if role == nil {
             self.user.role = nil
+        }
+        
+        let newRole = self.user.role
+        
+        if oldRole != newRole && newRole == .presenter { // если сменил роль и стал новым презентером, то поменяй ИД презентации
+            // для защиты от ситуации, когда презентер отключился и один из оставшихся двух захотел стать презентером
+            print("GENERATE PRESENTATION ID")
+            self.presentation.clear()
         }
     }
     
@@ -282,7 +292,7 @@ extension UserViewModel: UserDelegate {
                     } else if self.user.role == .presenter {
                         if let safeGottenUserRole = userInfo.role {
                             if safeGottenUserRole == .viewer {
-                                if self.presentation.state == .Presentation {
+                                if self.presentation.state == .presentation {
                                     self.askPresentationId(to: [peer])
                                 }
                             }
@@ -310,18 +320,22 @@ extension UserViewModel: UserDelegate {
                     self.presentation.clear()
                 case .presentation:
                     print("GOT PRESENTATION FROM \(peer)")
+                    print("MY PRESENTATION ID = \(self.presentation.id)")
                     self.presentation = message.presentation!
+                    print("MY PRESENTATION ID = \(self.presentation.id)")
                     self.presentation.moveImagesToTMPDirectory()
                     self.user.ready = true
                     self.sendReadyToStartPresentation(peers: [peer])
                 case .askPresentationId:
                     print("ASKED PRESENTATION ID \(peer)")
+                    print("MY PRESENTATION ID = \(self.presentation.id)")
                     self.sendPresentationId(to: [peer])
                 case .presentationId:
                     print("GOT PRESENTATION ID FROM \(peer)")
                     if self.user.role == .presenter {
-                        if self.presentation.state == .Presentation {
+                        if self.presentation.state == .presentation {
                             if self.presentation.id != message.presentationId! {
+                                print("PRESENTATION ID IS = \(self.presentation.id) and GOTTEN PRESENTATION ID = \(message.presentationId!)")
                                 self.sendPresentation(to: [peer])
                             }
                         }
@@ -363,9 +377,6 @@ extension UserViewModel: UserDelegate {
             }
         }
         else if self.user.role == nil {
-            Task { @MainActor in
-                self.presentation.clear()
-            }
             return true
         }
         

@@ -8,7 +8,7 @@
 import Foundation
 
 enum PresentationState: String, Codable {
-    case Selecting = "SELECTING"
-    case Uploading = "UPLOADING"
-    case Presentation = "PRESENTATION"
+    case selecting = "SELECTING"
+    case uploading = "UPLOADING"
+    case presentation = "PRESENTATION"
 }

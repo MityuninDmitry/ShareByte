@@ -15,11 +15,11 @@ struct PresenterView: View {
     var body: some View {
         VStack {
             switch userVM.presentation.state {
-            case .Selecting:
+            case .selecting:
                 SelectingImageView()
-            case .Uploading:
+            case .uploading:
                 UploadingToPeersView()
-            case .Presentation:
+            case .presentation:
                 PresentationView()
             case .none:
                 SelectingImageView()
