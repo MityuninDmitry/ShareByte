@@ -88,18 +88,7 @@ class UserViewModel: ObservableObject {
     
     // шлем приглашение пользователю
     func inviteUser(_ peerId: MCPeerID) {
-        
         self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
-        
-//        if self.user.role == .viewer && UserViewModel.hasIn(dict: self.foundUsers, peerID: peerId) {
-//            return
-//        } else {
-//            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
-//        }
-        
-//        if self.user.role != .viewer {
-//            self.peerManager!.serviceBrowser.invitePeer(peerId, to: peerManager!.session, withContext: AppDecoder.stringToData(self.presentation.id), timeout: 10)
-//        }
     }
     
     /// добавить peerID
@@ -214,7 +203,6 @@ class UserViewModel: ObservableObject {
         
         if oldRole != newRole && newRole == .presenter { // если сменил роль и стал новым презентером, то поменяй ИД презентации
             // для защиты от ситуации, когда презентер отключился и один из оставшихся двух захотел стать презентером
-            print("GENERATE PRESENTATION ID")
             self.presentation.clear()
         }
     }
@@ -224,7 +212,6 @@ class UserViewModel: ObservableObject {
         print("[askUserInfo] \(peerId)")
         let newMessage = Message(messageType: .askInfo)
         sendMessageTo(peers: [peerId], message: newMessage)
-        print("sendMessageTo(peers: [peerId], message: newMessage)")
     }
 }
 
@@ -319,23 +306,16 @@ extension UserViewModel: UserDelegate {
                 case .clearPresentation:
                     self.presentation.clear()
                 case .presentation:
-                    print("GOT PRESENTATION FROM \(peer)")
-                    print("MY PRESENTATION ID = \(self.presentation.id)")
                     self.presentation = message.presentation!
-                    print("MY PRESENTATION ID = \(self.presentation.id)")
                     self.presentation.moveImagesToTMPDirectory()
                     self.user.ready = true
                     self.sendReadyToStartPresentation(peers: [peer])
                 case .askPresentationId:
-                    print("ASKED PRESENTATION ID \(peer)")
-                    print("MY PRESENTATION ID = \(self.presentation.id)")
                     self.sendPresentationId(to: [peer])
                 case .presentationId:
-                    print("GOT PRESENTATION ID FROM \(peer)")
                     if self.user.role == .presenter {
                         if self.presentation.state == .presentation {
                             if self.presentation.id != message.presentationId! {
-                                print("PRESENTATION ID IS = \(self.presentation.id) and GOTTEN PRESENTATION ID = \(message.presentationId!)")
                                 self.sendPresentation(to: [peer])
                             }
                         }
@@ -404,11 +384,6 @@ extension UserViewModel: UserDelegate {
                 }
             }
         }
-        
-//        if self.connectedUsers.count == 0 {
-//            self.presentation.clear()
-//            self.user.role = nil
-//        }
     }
     
     func lostAllPeers() {

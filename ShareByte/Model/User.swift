@@ -38,7 +38,6 @@ struct User: Identifiable, Codable, SavableProtocol {
     
     mutating func load() {
         let users = db!.load()
-        print("user count = \(users.count)")
         if users.count > 0 {
                    self = users[0]
         }

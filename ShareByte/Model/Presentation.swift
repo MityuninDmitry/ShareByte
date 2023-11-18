@@ -97,7 +97,7 @@ struct Presentation: Identifiable, Codable {
             return tempDir
         } else {
             print("CREATE NEW FILE IN TMP DIR")
-            if imagesData.count == 0 {
+            if imagesData.count == 0 || imagesData.count < index {
                 return nil
             }
             let imageURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(imageName)

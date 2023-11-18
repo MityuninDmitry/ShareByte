@@ -24,15 +24,6 @@ struct PresenterView: View {
             case .none:
                 SelectingImageView()
             }
-            
-//            switch presentationTabManager.seletedTabId {
-//            case .Selecting:
-//                SelectingImageView()
-//            case .Uploading:
-//                UploadingToPeersView()
-//            case .Presentation:
-//                PresentationView()
-//            }
            
         }
     }

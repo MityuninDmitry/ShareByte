@@ -17,7 +17,7 @@ struct SelectingImageView: View {
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())
-        ]
+    ]
     
     var cellWidth: CGFloat {
         UIScreen.main.bounds.size.width / CGFloat(columns.count)
@@ -25,40 +25,52 @@ struct SelectingImageView: View {
     
     var body: some View {
         NavigationStack {
-            PresentationImagesView(
-                images: userVM.presentation.images(),
-                tapImageAction: {index in userVM.changePresentationIndexToShow(index)}
-            )
-            .toolbar {
-                PhotosPicker("Select images", selection: $selectedItems, matching: .images)
-            }
-            .onChange(of: selectedItems) { _ in
-                Task {
-                    userVM.presentation.clear()
-                    
-                    for item in selectedItems {
-                        if let data = try? await item.loadTransferable(type: Data.self) {
-                            if let uiImage = UIImage(data: data)?.fixedOrientation {
-                                let data = uiImage.pngData()!
-                                userVM.appendImageToPresentation(data)
+            ZStack {
+                
+                PresentationImagesView(
+                    images: userVM.presentation.images(),
+                    tapImageAction: {index in userVM.changePresentationIndexToShow(index)}
+                )
+                .toolbar {
+                    Text("\(userVM.presentation.imagesData.count) / \(selectedItems.count)")
+                    PhotosPicker("Select images", selection: $selectedItems, matching: .images)
+                }
+                .onChange(of: selectedItems) { _ in
+                    Task(priority: .medium) {
+                        userVM.presentation.clear()
+                        for item in selectedItems {
+                            if let data = try? await item.loadTransferable(type: Data.self) {
+                                if let uiImage = UIImage(data: data)?.fixedOrientation {
+                                    Task {
+                                        let data = uiImage.reducedDataForUploading(uiImage: uiImage)
+                                        Task { @MainActor in
+                                            userVM.appendImageToPresentation(data)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    
                 }
+
+                VStack {
+                    Spacer()
+                    HStack {
+                        Button {
+                            userVM.presentation.nextState()
+                            userVM.sendPresentation(to: [])
+                        } label: {
+                            Text("Upload data to peers")
+                        }
+                        .disabled(userVM.presentation.imagesData.count == 0 || userVM.presentation.imagesData.count != selectedItems.count)
+                    }
+                    .strockedFilledCapsule()
+                    .padding(.bottom, 5)
+                }
+                
+                
             }
             
-            HStack {
-                    Button {
-                        userVM.presentation.nextState()
-                        userVM.sendPresentation(to: [])
-                    } label: {
-                        Text("Upload data to peers")
-                    }
-                    .disabled(userVM.presentation.imagesData.count == 0)
-                
-                
-            }
         }
         
     }

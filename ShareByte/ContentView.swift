@@ -37,14 +37,13 @@ struct ContentView: View {
         .onChange(of: scenePhase, perform: { value in
             switch value {
             case .background:
-                print("Background")
                 userVM.lostAllPeers()
             case .active:
-                print("Active")
+                return
             case .inactive:
-                print("Inactive")
+                return
             @unknown default:
-                print("default")
+                return
             }
         })
     }

@@ -37,6 +37,7 @@ struct PresentationView: View {
             } label: {
                 Text("CREATE NEW PRESENTATION")
             }
+            .strockedCapsule()
         }
         .onChange(of: self.userVM.user.ready) { newValue in
             if newValue == false {

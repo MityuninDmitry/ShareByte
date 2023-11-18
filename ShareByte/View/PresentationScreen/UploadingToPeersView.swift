@@ -23,9 +23,9 @@ struct UploadingToPeersView: View {
             } label: {
                 Text("CREATE NEW PRESENTATION")
             }
+            .strockedCapsule()
         }
         .onChange(of: userVM.user.ready) { newValue in
-            print("UPLOADED")
             if newValue == true {
                 userVM.presentation.nextState()
             }

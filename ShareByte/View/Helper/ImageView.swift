@@ -15,6 +15,7 @@ struct ImageView: View {
     var body: some View {
         Image(uiImage: UIImage(data: imageData)!)
             .resizable()
+            .scaledToFill()
             .frame(width: width, height: height)
             .clipShape(Circle())
             

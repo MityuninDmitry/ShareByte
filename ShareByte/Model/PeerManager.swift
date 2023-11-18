@@ -113,7 +113,6 @@ extension PeerManager: MCSessionDelegate {
 extension PeerManager: MCNearbyServiceAdvertiserDelegate {
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        print("DID RECIEVE INVITATION FROM \(peerID)")
         if context != nil {
             Task {
                 

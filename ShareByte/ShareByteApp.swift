@@ -21,6 +21,7 @@ struct ShareByteApp: App {
                 .environmentObject(TabManager.shared)
                 .environmentObject(UserViewModel.shared)
                 .environmentObject(SearchAvatar.shared)
+                .environmentObject(NetworkMonitor())
         }
     }
 }
