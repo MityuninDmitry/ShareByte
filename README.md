@@ -20,7 +20,14 @@ ShareByte - приложение для проведения презентац�
 - [MultipeerConnectivity](https://developer.apple.com/documentation/multipeerconnectivity)
 - [Realm](https://realm.io)  
 ## Пример взаимодействия 
-- Два и более устройств заходят в приложение
+- Два и более устройств открывают приложение
+- Переход на вкладку Peers
+<img width="1440" alt="image" src="https://github.com/MityuninDmitry/ShareByte/assets/11716199/f8c3b6a5-81a4-4a7f-88f3-5ea752ec724e">
 - Один из пользователей нажимает на найденное устройство, в результате он становится Presenter, а другой Viewer
-- Presenter выбирает контент для шаринга и отправляет подключенным к сессии устройствам
+<img width="1397" alt="image" src="https://github.com/MityuninDmitry/ShareByte/assets/11716199/7a0e2ded-381a-4437-aa0d-a7c56efce0be">
+- Presenter выбирает контент для шаринга
+<img width="1388" alt="image" src="https://github.com/MityuninDmitry/ShareByte/assets/11716199/1506b1f1-6e99-45c8-905c-c30f6c114159">
+- Нажимает upload to peers - в результате данные передаются на другие устройства сессии
+<img width="1391" alt="image" src="https://github.com/MityuninDmitry/ShareByte/assets/11716199/4478b7da-234f-476f-8076-83bfbd554398">
 - После загрузки Presenter нажимает на контент, чтобы тот открывался у Viewer
+<img width="1407" alt="image" src="https://github.com/MityuninDmitry/ShareByte/assets/11716199/36f19599-a8d1-4ec1-aace-1a035b5b8c1b">
