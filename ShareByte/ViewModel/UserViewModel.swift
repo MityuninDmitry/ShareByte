@@ -12,10 +12,9 @@ protocol UserDelegate {
     func notConnectedPeer(_ peerID: MCPeerID)
     func lostPeer(_ peerID: MCPeerID)
     func acceptInvitation(isAccepted: Bool, from peerID: MCPeerID)
-    func canAcceptInvitation() -> Bool
     func canAcceptInvitation(_ presentationId: String?) -> Bool
-    func gotMessage(from: MCPeerID, data: Data)
-    func addFoundPeer(_ peerID: MCPeerID)
+    func processMessage(from: MCPeerID, data: Data)
+    func foundPeer(_ peerID: MCPeerID)
     func connectedPeer(_ peerID: MCPeerID)
 }
 
@@ -213,14 +212,16 @@ class UserViewModel: ObservableObject {
         let newMessage = Message(messageType: .askInfo)
         sendMessageTo(peers: [peerId], message: newMessage)
     }
+    
+    func changePresentationIndexToShow(_ index: Int) {
+        self.presentation.indexToShow = index
+    }
 }
 
 
 extension UserViewModel: UserDelegate {
-    
-    
     /// инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
-    func addFoundPeer(_ peerID: MCPeerID) {
+    func foundPeer(_ peerID: MCPeerID) {
         print("[addFoundPeer] \(peerID)")
         Task { @MainActor in
             if !UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
@@ -254,7 +255,7 @@ extension UserViewModel: UserDelegate {
     }
     
     /// Получить сообщение от пира
-    func gotMessage(from peer: MCPeerID, data: Data) {
+    func processMessage(from peer: MCPeerID, data: Data) {
         Task { @MainActor in
             if let message = try? decoder.decode(Message.self, from: data) {
                 print("[gotMessage] \(message.messageType)")
@@ -329,9 +330,7 @@ extension UserViewModel: UserDelegate {
         }
         
     }
-    func changePresentationIndexToShow(_ index: Int) {
-        self.presentation.indexToShow = index
-    }
+    
     
     func acceptInvitation(isAccepted: Bool, from peerID: MCPeerID) {
         if isAccepted {
@@ -339,13 +338,6 @@ extension UserViewModel: UserDelegate {
                 self.updateUserRole(.viewer)
             }
         }
-    }
-    
-    func canAcceptInvitation() -> Bool {
-        if self.user.role == nil {
-            return true
-        }
-        return false
     }
     
     func canAcceptInvitation(_ presentationId: String?) -> Bool {

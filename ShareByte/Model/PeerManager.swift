@@ -91,7 +91,7 @@ extension PeerManager: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("Recieve data")
         Task {
-            self.userDelegate?.gotMessage(from: peerID, data: data)
+            self.userDelegate?.processMessage(from: peerID, data: data)
         }
     }
     
@@ -115,7 +115,6 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         if context != nil {
             Task {
-                
                 if self.userDelegate!.canAcceptInvitation(AppDecoder.dataToString(context!)) {
                     invitationHandler(true, self.session)
                     self.userDelegate?.acceptInvitation(isAccepted: true, from: peerID)
@@ -123,22 +122,8 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
                     invitationHandler(false, self.session)
                     self.userDelegate?.acceptInvitation(isAccepted: false, from: peerID)
                 }
-                
             }
         }
-        else {
-            Task {
-                if self.userDelegate!.canAcceptInvitation() {
-                    invitationHandler(true, self.session)
-                    self.userDelegate?.acceptInvitation(isAccepted: true, from: peerID)
-                } else {
-                    invitationHandler(false, self.session)
-                    self.userDelegate?.acceptInvitation(isAccepted: false, from: peerID)
-                }
-                
-            }
-        }
-        
     }
 }
 
@@ -147,7 +132,7 @@ extension PeerManager: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         print("FOUND PEER \(peerID)")
         Task {
-            self.userDelegate?.addFoundPeer(peerID)
+            self.userDelegate?.foundPeer(peerID)
         }
         
         
