@@ -58,7 +58,7 @@ struct SelectingImageView: View {
                     HStack {
                         Button {
                             userVM.presentation.nextState()
-                            userVM.sendPresentation(to: [])
+                            userVM.sendPresentationtToAll()
                         } label: {
                             Text("Upload data to peers")
                         }

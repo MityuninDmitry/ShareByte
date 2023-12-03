@@ -16,6 +16,7 @@
 		150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DF2A59C0F20006F4DA /* PresentationScreen.swift */; };
 		150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E12A59C1070006F4DA /* UserViewModel.swift */; };
 		150273E42A59C14C0006F4DA /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E32A59C14C0006F4DA /* Role.swift */; };
+		1502FC162B1B1D3C0076D0D4 /* MessageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502FC152B1B1D3C0076D0D4 /* MessageProcessor.swift */; };
 		150DED362AD9C5B000F642E8 /* AppNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED352AD9C5B000F642E8 /* AppNetwork.swift */; };
 		150DED382AD9C66200F642E8 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED372AD9C66200F642E8 /* ServiceLocator.swift */; };
 		150DED3A2AD9C68E00F642E8 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED392AD9C68E00F642E8 /* Configurator.swift */; };
@@ -62,6 +63,7 @@
 		150273DF2A59C0F20006F4DA /* PresentationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationScreen.swift; sourceTree = "<group>"; };
 		150273E12A59C1070006F4DA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		150273E32A59C14C0006F4DA /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
+		1502FC152B1B1D3C0076D0D4 /* MessageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageProcessor.swift; sourceTree = "<group>"; };
 		150DED352AD9C5B000F642E8 /* AppNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNetwork.swift; sourceTree = "<group>"; };
 		150DED372AD9C66200F642E8 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		150DED392AD9C68E00F642E8 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
@@ -152,9 +154,10 @@
 			children = (
 				156B0BB82AD86B110095E837 /* Extension */,
 				1578204D2A5B2E54007FA7BF /* PeerManager.swift */,
-				15B78C6F2A6475CE007943BA /* Presentation.swift */,
 				153215BB2A7970EC0038B0FA /* Message.swift */,
+				1502FC152B1B1D3C0076D0D4 /* MessageProcessor.swift */,
 				7CB20DA42AB7582900C4CEE5 /* User.swift */,
+				15B78C6F2A6475CE007943BA /* Presentation.swift */,
 				153215BD2A79719F0038B0FA /* Enum */,
 				159E93002AFFE12000A5E6F7 /* AppDecoder.swift */,
 				15B7E3112B0905AE00AB4E17 /* NetworkMonitor.swift */,
@@ -374,6 +377,7 @@
 				15B78C702A6475CE007943BA /* Presentation.swift in Sources */,
 				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
 				159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */,
+				1502FC162B1B1D3C0076D0D4 /* MessageProcessor.swift in Sources */,
 				15B78C6A2A646FA6007943BA /* PresentationView.swift in Sources */,
 				7CB20DA52AB7582900C4CEE5 /* User.swift in Sources */,
 				15B78C642A6466A6007943BA /* PresenterView.swift in Sources */,

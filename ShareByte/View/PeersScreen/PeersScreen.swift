@@ -22,7 +22,9 @@ struct PeersScreen: View {
                     .font(.title)
                 Spacer()
                 Button {
-                    userVM.disconnectAndStopDiscover()
+                    Task { @MainActor in
+                       await userVM.disconnectAndStopDiscover()
+                    }
                 } label: {
                     Image.init(systemName: "xmark.icloud")
                 }
