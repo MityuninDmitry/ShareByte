@@ -18,7 +18,6 @@ struct ShareByteApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(TabManager.shared)
                 .environmentObject(UserViewModel.shared)
                 .environmentObject(SearchAvatar.shared)
                 .environmentObject(NetworkMonitor())

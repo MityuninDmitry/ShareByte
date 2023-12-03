@@ -11,12 +11,15 @@
 		150273CC2A5943590006F4DA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273CB2A5943590006F4DA /* ContentView.swift */; };
 		150273CE2A59435B0006F4DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150273CD2A59435B0006F4DA /* Assets.xcassets */; };
 		150273D12A59435B0006F4DA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 150273D02A59435B0006F4DA /* Preview Assets.xcassets */; };
-		150273DC2A59C0AA0006F4DA /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DB2A59C0AA0006F4DA /* TabManager.swift */; };
 		150273DE2A59C0E00006F4DA /* PeersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DD2A59C0E00006F4DA /* PeersScreen.swift */; };
 		150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273DF2A59C0F20006F4DA /* PresentationScreen.swift */; };
 		150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E12A59C1070006F4DA /* UserViewModel.swift */; };
 		150273E42A59C14C0006F4DA /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150273E32A59C14C0006F4DA /* Role.swift */; };
 		1502FC162B1B1D3C0076D0D4 /* MessageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502FC152B1B1D3C0076D0D4 /* MessageProcessor.swift */; };
+		1502FC182B1CE0A10076D0D4 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502FC172B1CE0A10076D0D4 /* AppTab.swift */; };
+		1502FC1A2B1D00EE0076D0D4 /* TabItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502FC192B1D00EE0076D0D4 /* TabItemView.swift */; };
+		1502FC1C2B1D012B0076D0D4 /* TabShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502FC1B2B1D012B0076D0D4 /* TabShape.swift */; };
+		1502FC1E2B1D03530076D0D4 /* TabPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1502FC1D2B1D03530076D0D4 /* TabPosition.swift */; };
 		150DED362AD9C5B000F642E8 /* AppNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED352AD9C5B000F642E8 /* AppNetwork.swift */; };
 		150DED382AD9C66200F642E8 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED372AD9C66200F642E8 /* ServiceLocator.swift */; };
 		150DED3A2AD9C68E00F642E8 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED392AD9C68E00F642E8 /* Configurator.swift */; };
@@ -58,12 +61,15 @@
 		150273CD2A59435B0006F4DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		150273D02A59435B0006F4DA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		150273D72A5944AC0006F4DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		150273DB2A59C0AA0006F4DA /* TabManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		150273DD2A59C0E00006F4DA /* PeersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeersScreen.swift; sourceTree = "<group>"; };
 		150273DF2A59C0F20006F4DA /* PresentationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationScreen.swift; sourceTree = "<group>"; };
 		150273E12A59C1070006F4DA /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		150273E32A59C14C0006F4DA /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		1502FC152B1B1D3C0076D0D4 /* MessageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageProcessor.swift; sourceTree = "<group>"; };
+		1502FC172B1CE0A10076D0D4 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
+		1502FC192B1D00EE0076D0D4 /* TabItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemView.swift; sourceTree = "<group>"; };
+		1502FC1B2B1D012B0076D0D4 /* TabShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabShape.swift; sourceTree = "<group>"; };
+		1502FC1D2B1D03530076D0D4 /* TabPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPosition.swift; sourceTree = "<group>"; };
 		150DED352AD9C5B000F642E8 /* AppNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNetwork.swift; sourceTree = "<group>"; };
 		150DED372AD9C66200F642E8 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		150DED392AD9C68E00F642E8 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
@@ -161,6 +167,7 @@
 				153215BD2A79719F0038B0FA /* Enum */,
 				159E93002AFFE12000A5E6F7 /* AppDecoder.swift */,
 				15B7E3112B0905AE00AB4E17 /* NetworkMonitor.swift */,
+				1502FC172B1CE0A10076D0D4 /* AppTab.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,7 +189,6 @@
 			isa = PBXGroup;
 			children = (
 				150273E12A59C1070006F4DA /* UserViewModel.swift */,
-				150273DB2A59C0AA0006F4DA /* TabManager.swift */,
 				156B0BB62AD7048B0095E837 /* SearchAvatar.swift */,
 			);
 			path = ViewModel;
@@ -240,6 +246,9 @@
 				150DED3F2ADC407F00F642E8 /* ImageView.swift */,
 				15A2E0DD2AFE6FB100B9DC57 /* PresentationImagesView.swift */,
 				15B7E31A2B0937D900AB4E17 /* StrockedCapsule.swift */,
+				1502FC192B1D00EE0076D0D4 /* TabItemView.swift */,
+				1502FC1B2B1D012B0076D0D4 /* TabShape.swift */,
+				1502FC1D2B1D03530076D0D4 /* TabPosition.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -375,6 +384,8 @@
 				15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */,
 				153215BC2A7970EC0038B0FA /* Message.swift in Sources */,
 				15B78C702A6475CE007943BA /* Presentation.swift in Sources */,
+				1502FC1A2B1D00EE0076D0D4 /* TabItemView.swift in Sources */,
+				1502FC1E2B1D03530076D0D4 /* TabPosition.swift in Sources */,
 				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
 				159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */,
 				1502FC162B1B1D3C0076D0D4 /* MessageProcessor.swift in Sources */,
@@ -386,12 +397,13 @@
 				15B78C682A646F12007943BA /* UploadingToPeersView.swift in Sources */,
 				153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */,
 				15B7E3142B09101A00AB4E17 /* Data.swift in Sources */,
-				150273DC2A59C0AA0006F4DA /* TabManager.swift in Sources */,
+				1502FC182B1CE0A10076D0D4 /* AppTab.swift in Sources */,
 				159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */,
 				156B0BBA2AD86B2E0095E837 /* RandomAccessCollection.swift in Sources */,
 				150DED362AD9C5B000F642E8 /* AppNetwork.swift in Sources */,
 				15B7E3122B0905AE00AB4E17 /* NetworkMonitor.swift in Sources */,
 				1565C09A2AD45B2100AAB651 /* RickAndMortyAPI.swift in Sources */,
+				1502FC1C2B1D012B0076D0D4 /* TabShape.swift in Sources */,
 				15B7E31B2B0937D900AB4E17 /* StrockedCapsule.swift in Sources */,
 				15B78C662A646C51007943BA /* SelectingImageView.swift in Sources */,
 				150DED3C2AD9C80000F642E8 /* InjectedWrapper.swift in Sources */,

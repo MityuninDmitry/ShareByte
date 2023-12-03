@@ -10,29 +10,31 @@ import MultipeerConnectivity
 
 
 struct ContentView: View {
-    @EnvironmentObject var tabManager: TabManager
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var userVM: UserViewModel
     
+    @State private var activeTab: AppTab = .peers
+    @Namespace private var animation
+    @State private var tabShapePosition: CGPoint = .zero
+    
+    init() {
+        UITabBar.appearance().isHidden = true // баг, из-за которого при переключении табов вьюха с анимацией выезжала снизу
+    }
+    
     var body: some View {
-        TabView(selection: $tabManager.seletedTabId) {
-            PresentationScreen()
-                .tabItem {
-                    Label("Presentation", systemImage: "tv")
-                }
-                .tag(0)
+        VStack(spacing: 0) {
+            TabView(selection: $activeTab) {
+                PresentationScreen()
+                    .tag(AppTab.presentation)
+                
+                PeersScreen()
+                    .tag(AppTab.peers)
+                
+                PersonScreen()
+                    .tag(AppTab.me)
+            }
             
-            PeersScreen()
-                .tabItem {
-                    Label("Peers", systemImage: "person.3")
-                }
-                .tag(1)
-            
-            PersonScreen()
-                .tabItem {
-                    Label("Me", systemImage: "person")
-                }
-                .tag(2)
+            CustomTabBar()
         }
         .onChange(of: scenePhase, perform: { value in
             switch value {
@@ -47,12 +49,41 @@ struct ContentView: View {
             }
         })
     }
+    
+    @ViewBuilder
+    func CustomTabBar(_ tint: Color = Color("Indigo"), _ inactiveTint: Color = .indigo) -> some View {
+        HStack(alignment: .bottom ,spacing: 0) {
+            ForEach(AppTab.allCases, id: \.rawValue) {
+                TabItemView (
+                    tint: tint,
+                    inactiveTint: inactiveTint,
+                    tab: $0,
+                    animation: animation,
+                    activeTab: $activeTab,
+                    position: $tabShapePosition
+                )
+            }
+        }
+        .padding(.horizontal, 15)
+        .padding(.vertical, 10)
+        .background(content: {
+            TabShape(midpoint: tabShapePosition.x)
+                .fill(.white)
+                .ignoresSafeArea()
+                .shadow(color: tint.opacity(0.2), radius: 5, x: 0, y: -5)
+                .blur(radius: 2)
+                .padding(.top, 25)
+        })
+        .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7), value: activeTab)
+        
+    }
 }
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(TabManager.shared)
             .environmentObject(UserViewModel.shared)
     }
 }
