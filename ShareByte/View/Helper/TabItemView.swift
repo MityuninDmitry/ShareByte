@@ -31,7 +31,7 @@ struct TabItemView: View {
             
             Text(tab.rawValue)
                 .font(.caption)
-                .foregroundStyle(activeTab == tab ? tint : .gray)
+                .foregroundStyle(activeTab == tab ? .white : .gray)
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())

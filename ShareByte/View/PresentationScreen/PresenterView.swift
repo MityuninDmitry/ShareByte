@@ -13,19 +13,7 @@ struct PresenterView: View {
     @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
-        VStack {
-            switch userVM.presentation.state {
-            case .selecting:
-                SelectingImageView()
-            case .uploading:
-                UploadingToPeersView()
-            case .presentation:
-                PresentationView()
-            case .none:
-                SelectingImageView()
-            }
-           
-        }
+        ImageItemsView()
     }
 }
 

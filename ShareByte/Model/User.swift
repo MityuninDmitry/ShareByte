@@ -23,7 +23,6 @@ struct User: Identifiable, Codable, SavableProtocol {
         case id
         case name
         case role
-        case ready
         case imageData
     }
     

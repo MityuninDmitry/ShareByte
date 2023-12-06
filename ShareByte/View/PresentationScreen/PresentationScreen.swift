@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct PresentationScreen: View {
- 
+    
     @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
@@ -20,9 +20,22 @@ struct PresentationScreen: View {
             } else if userVM.user.role == .viewer {
                 ViewerView()
             } else {
-                Text("You have no any role at the moment.")
+                VStack {
+                    Spacer()
+                    Text("You have no any role at the moment.")
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .background {
+                    Rectangle()
+                        .fill(Color("BG").opacity(0.6).gradient)
+                        .rotationEffect(.init(degrees: -180))
+                        .ignoresSafeArea()
+                }
+                
             }
         }
+        
         
         
         

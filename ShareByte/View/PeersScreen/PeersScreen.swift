@@ -22,9 +22,7 @@ struct PeersScreen: View {
                     .font(.title)
                 Spacer()
                 Button {
-                    Task { @MainActor in
-                       await userVM.disconnectAndStopDiscover()
-                    }
+                    userVM.disconnectAndStopDiscover()
                 } label: {
                     Image.init(systemName: "xmark.icloud")
                 }
@@ -40,9 +38,13 @@ struct PeersScreen: View {
                         .onTapGesture {
                             self.userVM.inviteUser(mcPeerId)
                         }
+                        .listRowBackground(Color.clear)
                 }
                 .listStyle(.plain)
+                
+                
             }
+            
             Section("CONNECTED PEERS") {
                 List(Array(userVM.connectedUsers.keys), id: \.self) { mcPeerId in
                     HStack {
@@ -54,6 +56,7 @@ struct PeersScreen: View {
                         Spacer()
                         Text("\((userVM.connectedUsers[mcPeerId]?.role?.rawValue) ?? "UNKNOWN ROLE")" )
                     }
+                    .listRowBackground(Color.clear)
                     .onTapGesture {
                         if userVM.user.role == .presenter {
                             userVM.sendReconnectTo(peers: [mcPeerId])
@@ -63,8 +66,15 @@ struct PeersScreen: View {
                     
                 }
                 .listStyle(.plain)
+                
             }
             
+        }
+        .background {
+            Rectangle()
+                .fill(Color("BG").opacity(0.6).gradient)
+                .rotationEffect(.init(degrees: -180))
+                .ignoresSafeArea()
         }
     }
 }

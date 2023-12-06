@@ -97,6 +97,12 @@ struct PersonScreen: View {
                     showNetworkAlert = connection == false
         }
         .alert("No internet connection.", isPresented: $showNetworkAlert) {}
+        .background {
+            Rectangle()
+                .fill(Color("BG").opacity(0.6).gradient)
+                .rotationEffect(.init(degrees: -180))
+                .ignoresSafeArea()
+        }
         
     }
 }

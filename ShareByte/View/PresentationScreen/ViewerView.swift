@@ -12,19 +12,14 @@ struct ViewerView: View {
     @EnvironmentObject var userVM: UserViewModel
     @State private var currentZoom = 0.0
     @State private var totalZoom = 1.0
-    private var hasImages: Bool {
-        userVM.presentation.images().count > 0
+    private var hasImageFiles: Bool {
+        userVM.presentation.imageFiles.count > 0
     }
     
     var body: some View {
         VStack {
-            if hasImages {
-                PresentationImagesView(
-                    images: userVM.presentation.images(),
-                    tapImageAction: { index in
-                        userVM.changePresentationIndexToShow(index)
-                    }
-                )
+            if hasImageFiles {
+                ImageItemsView()
             }
             else {
                 VStack {
@@ -32,6 +27,13 @@ struct ViewerView: View {
                     Text("Waiting for presenter uploads content")
                     ProgressView()
                     Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .background {
+                    Rectangle()
+                        .fill(Color("BG").opacity(0.6).gradient)
+                        .rotationEffect(.init(degrees: -180))
+                        .ignoresSafeArea()
                 }
             }
         }

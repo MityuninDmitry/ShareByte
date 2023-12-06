@@ -26,8 +26,10 @@ class UserViewModel: ObservableObject {
         
         self.makeDiscoverable()
     }
-    func appendImageToPresentation(_ data: Data) {
-        self.presentation.appendImageData(data)
+    func appendImageToPresentation(_ data: Data) async {
+        Task { @MainActor in
+            await self.presentation.appendImageFile(data)
+        }
     }
     func saveUser() {
         self.user.save()
@@ -60,6 +62,7 @@ class UserViewModel: ObservableObject {
         self.updateUserRole(nil)
         self.connectedUsers = .init()
         self.foundUsers = .init()
+        self.presentation.clear()
         self.messageProcessor?.stopRecieveMessages()
         self.disoverableStatus = .stopped
         
@@ -148,12 +151,18 @@ extension UserViewModel: BusinessProcessorProtocol {
             if self.user.role == nil { // если мой тип пустой, то
                 if let safeGottenUserRole = userInfo.role {
                     if safeGottenUserRole == .viewer { // если он вьюер, то я презентер
-                        self.updateUserRole(.presenter)
-                        return Message.userInfoMessage(user: self.user)
+                        let task = Task { @MainActor in
+                            self.updateUserRole(.presenter)
+                            return Message.userInfoMessage(user: self.user)
+                        }
+                        return await task.value
                     }
                     else if safeGottenUserRole == .presenter {
-                        self.updateUserRole(.viewer)
-                        return Message.userInfoMessage(user: self.user)
+                        let task = Task { @MainActor in
+                            self.updateUserRole(.viewer)
+                            return Message.userInfoMessage(user: self.user)
+                        }
+                        return await task.value
                     }
                 }
             } else if self.user.role == .presenter {
@@ -180,6 +189,9 @@ extension UserViewModel: BusinessProcessorProtocol {
                     self.connectedUsers[peer]!.ready = true
                 }
                 self.user.ready = self.isAllConnectedUsersReadyToWatchPresentation()
+                if self.user.ready {
+                    self.presentation.nextState()
+                }
             }
             return nil
         case .indexToShow:
@@ -194,8 +206,15 @@ extension UserViewModel: BusinessProcessorProtocol {
             return nil
         case .presentation:
             let task = Task { @MainActor in
-                self.presentation = message.presentation!
-                self.presentation.moveImagesToTMPDirectory()
+                let presentation = message.presentation!
+                self.presentation = .init()
+                self.presentation.id = presentation.id
+                for imageFile in presentation.imageFiles {
+                    var nImageFile = imageFile
+                    nImageFile.setimage()
+                    nImageFile.setThumbnail()
+                    self.presentation.imageFiles.append(nImageFile)
+                }
                 self.user.ready = true
                 
                 return Message.readyMessage()
