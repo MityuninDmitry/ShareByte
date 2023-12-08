@@ -12,6 +12,7 @@ struct ImageView: View {
     var width: CGFloat = 150
     var height: CGFloat = 150
     
+    
     var body: some View {
         Image(uiImage: UIImage(data: imageData)!)
             .resizable()

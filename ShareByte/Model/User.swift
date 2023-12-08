@@ -17,7 +17,8 @@ struct User: Identifiable, Codable, SavableProtocol {
     var role: Role? = nil
     var ready: Bool = false
     var imageData: Data = UIImage(systemName: "person.circle")!.pngData()!
-    @Injected var db: DataBase<UserLoadable, User>? 
+    var connected: Bool = false
+    @Injected var db: DataBase<UserLoadable, User>?
     
     enum CodingKeys: String, CodingKey {
         case id

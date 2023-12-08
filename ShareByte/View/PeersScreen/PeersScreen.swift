@@ -6,69 +6,67 @@
 //
 
 import SwiftUI
+import MultipeerConnectivity
 
 struct PeersScreen: View {
     @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
         
-        VStack {
-            HStack {
-                Text("Status: \(userVM.disoverableStatus.rawValue)")
-            }
-            HStack {
-                Spacer()
-                Text("Your role is: \(userVM.user.role?.rawValue ?? "Not defined")")
-                    .font(.title)
-                Spacer()
-                Button {
-                    userVM.disconnectAndStopDiscover()
-                } label: {
-                    Image.init(systemName: "xmark.icloud")
-                }
-                Button {
-                    userVM.makeDiscoverable()
-                } label: {
-                    Image.init(systemName: "icloud")
-                }
-            }
-            Section("FOUND PEERS") {
-                List(Array(userVM.foundUsers.keys), id: \.self) { mcPeerId in
-                    Text(mcPeerId.displayName)
-                        .onTapGesture {
-                            self.userVM.inviteUser(mcPeerId)
+        VStack(spacing: 0) {
+            Text("\(userVM.user.role?.rawValue ?? "Not defined role")")
+                .fontWeight(.semibold)
+                .font(.title2)
+                .frame(maxWidth: .infinity)
+                .overlay(alignment: .trailing) {
+                    if userVM.disoverableStatus == .running {
+                        Button {
+                            userVM.disconnectAndStopDiscover()
+                        } label: {
+                            Image.init(systemName: "xmark.icloud")
+                                .font(.title2)
+                                .foregroundStyle(.red)
                         }
-                        .listRowBackground(Color.clear)
-                }
-                .listStyle(.plain)
-                
-                
-            }
-            
-            Section("CONNECTED PEERS") {
-                List(Array(userVM.connectedUsers.keys), id: \.self) { mcPeerId in
-                    HStack {
-                        ImageView(
-                            imageData: (userVM.connectedUsers[mcPeerId]?.imageData) ?? UIImage(systemName: "person.circle")!.pngData()!,
-                            width: 100,
-                            height: 100)
-                        Text((userVM.connectedUsers[mcPeerId]?.name) ?? "\(mcPeerId.description)")
-                        Spacer()
-                        Text("\((userVM.connectedUsers[mcPeerId]?.role?.rawValue) ?? "UNKNOWN ROLE")" )
+                    } else {
+                        Button {
+                            userVM.makeDiscoverable()
+                        } label: {
+                            Image.init(systemName: "icloud")
+                                .font(.title2)
+                                .foregroundStyle(.indigo)
+                        }
                     }
-                    .listRowBackground(Color.clear)
+                }
+                .padding([.horizontal], 15)
+                .padding(.top, 10)
+           
+            List(Array(userVM.users.keys), id: \.self) { mcPeerId in
+                if userVM.users[mcPeerId]!.connected {
+                    PeerRowView(
+                        userName: (userVM.users[mcPeerId]?.name) ?? "\(mcPeerId.description)",
+                        userRole: "\((userVM.users[mcPeerId]?.role?.rawValue) ?? "UNKNOWN ROLE")",
+                        userImageData: (userVM.users[mcPeerId]?.imageData) ?? UIImage(systemName: "person.circle")!.pngData()!
+                    )
+                    .listRowBackground(EmptyView())
                     .onTapGesture {
                         if userVM.user.role == .presenter {
                             userVM.sendReconnectTo(peers: [mcPeerId])
                         }
                         
                     }
-                    
+                } else {
+                    PeerRowView(
+                        userName: mcPeerId.displayName,
+                        userRole: "UNKNOWN ROLE",
+                        userImageData: UIImage( systemName: "person.circle")!.pngData()!
+                    )
+                    .listRowBackground(EmptyView())
+                    .onTapGesture {
+                        self.userVM.inviteUser(mcPeerId)
+                    }
                 }
-                .listStyle(.plain)
-                
             }
-            
+            .listStyle(.plain)
         }
         .background {
             Rectangle()

@@ -11,8 +11,11 @@ import MultipeerConnectivity
 class UserViewModel: ObservableObject {
     static var shared = UserViewModel()
     
-    @Published var foundUsers: [MCPeerID: User] = .init()
-    @Published var connectedUsers: [MCPeerID: User] = .init()
+    //@Published var foundUsers: [MCPeerID: User] = .init()
+    //@Published var connectedUsers: [MCPeerID: User] = .init()
+    
+    @Published var users: [MCPeerID: User] = .init()
+    
     @Published var user: User // инфа о пользователе
     @Published var presentation: Presentation = .init()
     @Published var disoverableStatus: DiscoverableStatus = .stopped
@@ -60,8 +63,9 @@ class UserViewModel: ObservableObject {
         // прежде чем отключиться
         print("[disconnectAndStopDiscover]")
         self.updateUserRole(nil)
-        self.connectedUsers = .init()
-        self.foundUsers = .init()
+        self.users = .init()
+        //self.connectedUsers = .init()
+        //self.foundUsers = .init()
         self.presentation.clear()
         self.messageProcessor?.stopRecieveMessages()
         self.disoverableStatus = .stopped
@@ -106,9 +110,9 @@ extension UserViewModel: BusinessProcessorProtocol {
         case .foundPeer:
             // инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
             Task { @MainActor in
-                if !UserViewModel.hasIn(dict: self.foundUsers, peerID: peer) {
+                if !UserViewModel.hasIn(dict: self.users, peerID: peer) {
                     let user: User = .init()
-                    self.foundUsers[peer] = user
+                    self.users[peer] = user
                 }
             }
             return nil
@@ -131,10 +135,12 @@ extension UserViewModel: BusinessProcessorProtocol {
             }
             return await task.value
         case .connected:
-            if await connectedPeer(peer) != nil {
-                return Message.askInfoMessage()
+            if UserViewModel.hasIn(dict: self.users, peerID: peer) {
+                Task { @MainActor in
+                    self.users[peer]!.connected = true
+                }
             }
-            return nil
+            return Message.askInfoMessage()
         case .lostPeer:
             Task { @MainActor in
                 lostPeer(peer)
@@ -185,8 +191,8 @@ extension UserViewModel: BusinessProcessorProtocol {
             return nil
         case .ready:
             Task { @MainActor in
-                if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peer) {
-                    self.connectedUsers[peer]!.ready = true
+                if UserViewModel.hasIn(dict: self.users, peerID: peer) {
+                    self.users[peer]!.ready = true
                 }
                 self.user.ready = self.isAllConnectedUsersReadyToWatchPresentation()
                 if self.user.ready {
@@ -238,16 +244,16 @@ extension UserViewModel: BusinessProcessorProtocol {
     
     func lostPeer(_ peerID: MCPeerID) {
         print("[lostPeer] \(peerID)")
-        if UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
-            self.foundUsers.removeValue(forKey: peerID)
-        }
+//        if UserViewModel.hasIn(dict: self.users, peerID: peerID) {
+//            self.users.removeValue(forKey: peerID)
+//        }
         notConnectedPeer(peerID)
     }
     
     func notConnectedPeer(_ peerID: MCPeerID) {
         print("[notConnectedPeer] \(peerID)")
-        if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peerID) {
-            let user = self.connectedUsers.removeValue(forKey: peerID)
+        if UserViewModel.hasIn(dict: self.users, peerID: peerID) {
+            let user = self.users.removeValue(forKey: peerID)
             if let disconnectedUser = user {
                 if disconnectedUser.role == .presenter {
                     self.reconnect()
@@ -259,44 +265,25 @@ extension UserViewModel: BusinessProcessorProtocol {
     
     func lostAllPeers() {
         print("[lostAllPeers]")
-        for (key, _) in self.connectedUsers {
+        for (key, _) in self.users {
             lostPeer(key)
         }
     }
     
-    /// подключился пир
-    /// перемещаем его в список(кастомный) подключенных пользователей и запрашиваем инфу
-    func connectedPeer(_ peerID: MCPeerID) async -> User? {
-        
-        // если пир есть в списке найденных(но еще не подключенных) пользователей, то
-        if UserViewModel.hasIn(dict: self.foundUsers, peerID: peerID) {
-            let task = Task { @MainActor in
-                return self.foundUsers.removeValue(forKey: peerID) // удаляем его из этого списка найденных и
-            }
-            let user = await task.value
-            // если нет пользователя в списке подключенных пользователей, то
-            if !UserViewModel.hasIn(dict: self.connectedUsers, peerID: peerID) {
-                Task { @MainActor in
-                    self.connectedUsers[peerID] = user
-                }
-                
-                
-                return user
-            }
-        }
-        return nil
-    }
+   
     
     func changePresentationIndexToShow(_ index: Int) {
         self.presentation.indexToShow = index
     }
     
     func isAllConnectedUsersReadyToWatchPresentation() -> Bool {
-        let count = self.connectedUsers.count
+        let count = self.users.count
         var countToReady = 0
-        for peer in self.connectedUsers.keys {
-            if self.connectedUsers[peer]!.ready {
-                countToReady += 1
+        for peer in self.users.keys {
+            if self.users[peer]!.connected {
+                if self.users[peer]!.ready {
+                    countToReady += 1
+                }
             }
         }
         if count > 0 && countToReady > 0 && count == countToReady {
@@ -326,11 +313,15 @@ extension UserViewModel: BusinessProcessorProtocol {
     
     /// апдейтим инфу о пользователе
     func updateConnectedUserInfo(for peerId: MCPeerID, user: User) {
-        if UserViewModel.hasIn(dict: self.connectedUsers, peerID: peerId) {
+        if UserViewModel.hasIn(dict: self.users, peerID: peerId) {
             Task { @MainActor in
-                self.connectedUsers[peerId]! = user
+                let connected = self.users[peerId]!.connected
+                let ready = self.users[peerId]!.ready
+                
+                self.users[peerId]! = user
+                self.users[peerId]!.connected = connected
+                self.users[peerId]!.ready = ready
             }
-            
         }
     }
 }

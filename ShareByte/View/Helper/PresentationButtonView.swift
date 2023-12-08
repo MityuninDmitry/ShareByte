@@ -16,12 +16,12 @@ struct PresentationButtonView: View {
         case .selecting:
             Image(systemName: "paperplane.circle")
                 .font(.title2)
-                .foregroundStyle(userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 ? .gray : .blue)
-                .disabled(userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0)
+                .foregroundStyle(userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0 ? .gray : .blue)
                 .onTapGesture {
                     userVM.presentation.nextState()
                     userVM.sendPresentationtToAll()
                 }
+                .disabled(userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0)
         case .uploading:
             ProgressView()
         case .presentation:
@@ -31,8 +31,8 @@ struct PresentationButtonView: View {
                 .onTapGesture {
                     self.userVM.presentation.clear()
                     self.userVM.user.ready = false
-                    for (key, _) in self.userVM.connectedUsers {
-                        self.userVM.connectedUsers[key]!.ready = false
+                    for (key, _) in self.userVM.users {
+                        self.userVM.users[key]!.ready = false
                     }
                     self.userVM.sendClearPresentation()
                     userVM.presentation.nextState()
