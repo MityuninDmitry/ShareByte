@@ -77,9 +77,9 @@ extension UIImage {
     
     func reduceImageDataRecursively(uiImage: UIImage, limitSizeInMB: Double = 2) -> Data? {
         var copiedData = uiImage.pngData()!
-        let copiedUIImage = uiImage 
-//        print("Size in MB \(copiedData.sizeInMB)")
-//        print("Dimenstions is \(copiedUIImage.size)")
+        let copiedUIImage = uiImage
+        //        print("Size in MB \(copiedData.sizeInMB)")
+        //        print("Dimenstions is \(copiedUIImage.size)")
         
         if copiedData.sizeInMB > limitSizeInMB {
             copiedData = copiedUIImage.jpegData(compressionQuality: 0.1)!

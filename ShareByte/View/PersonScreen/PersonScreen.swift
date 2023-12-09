@@ -18,7 +18,10 @@ struct PersonScreen: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ImageView(imageData: userVM.user.imageData, width: 100, height: 100)
+            ImageView(
+                imageData: userVM.user.imageData,
+                width: 100,
+                height: 100)
             
             VStack(spacing: 1) {
                 Text("Choose avatar from")

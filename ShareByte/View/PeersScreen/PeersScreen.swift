@@ -10,13 +10,12 @@ import MultipeerConnectivity
 
 struct PeersScreen: View {
     @EnvironmentObject var userVM: UserViewModel
-    
+ 
     var body: some View {
         
         VStack(spacing: 0) {
-            Text("\(userVM.user.role?.rawValue ?? "Not defined role")")
+            Text("\(userVM.user.role?.rawValue.uppercased() ?? "Not defined role")")
                 .fontWeight(.semibold)
-                .font(.title2)
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .trailing) {
                     if userVM.disoverableStatus == .running {
@@ -41,30 +40,20 @@ struct PeersScreen: View {
                 .padding(.top, 10)
            
             List(Array(userVM.users.keys), id: \.self) { mcPeerId in
-                if userVM.users[mcPeerId]!.connected {
-                    PeerRowView(
-                        userName: (userVM.users[mcPeerId]?.name) ?? "\(mcPeerId.description)",
-                        userRole: "\((userVM.users[mcPeerId]?.role?.rawValue) ?? "UNKNOWN ROLE")",
-                        userImageData: (userVM.users[mcPeerId]?.imageData) ?? UIImage(systemName: "person.circle")!.pngData()!
-                    )
+                PeerRowView(user: userVM.users[mcPeerId]!)
                     .listRowBackground(EmptyView())
+                    .listRowSeparator(.hidden)
                     .onTapGesture {
-                        if userVM.user.role == .presenter {
-                            userVM.sendReconnectTo(peers: [mcPeerId])
+                        if userVM.users[mcPeerId]!.connected {
+                            if userVM.user.role == .presenter {
+                                userVM.sendReconnectTo(peers: [mcPeerId])
+                            }
+                        }
+                        else {
+                            self.userVM.inviteUser(mcPeerId)
                         }
                         
                     }
-                } else {
-                    PeerRowView(
-                        userName: mcPeerId.displayName,
-                        userRole: "UNKNOWN ROLE",
-                        userImageData: UIImage( systemName: "person.circle")!.pngData()!
-                    )
-                    .listRowBackground(EmptyView())
-                    .onTapGesture {
-                        self.userVM.inviteUser(mcPeerId)
-                    }
-                }
             }
             .listStyle(.plain)
         }

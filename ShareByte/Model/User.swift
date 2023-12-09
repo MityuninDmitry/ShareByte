@@ -16,7 +16,7 @@ struct User: Identifiable, Codable, SavableProtocol {
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
-    var imageData: Data = UIImage(systemName: "person.circle")!.pngData()!
+    var imageData: Data?
     var connected: Bool = false
     @Injected var db: DataBase<UserLoadable, User>?
     
@@ -44,12 +44,13 @@ struct User: Identifiable, Codable, SavableProtocol {
                
     }
     
-    
     func mapToLoadable() -> LoadableProtocol {
         let loadableUser = UserLoadable()
         loadableUser._id = try! ObjectId(string: self.id)
         loadableUser.name = self.name ?? ""
-        loadableUser.imageData = self.imageData
+        if self.imageData != nil {
+            loadableUser.imageData = self.imageData!
+        }
         return loadableUser
     }
 }

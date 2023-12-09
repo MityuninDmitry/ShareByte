@@ -111,7 +111,8 @@ extension UserViewModel: BusinessProcessorProtocol {
             // инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
             Task { @MainActor in
                 if !UserViewModel.hasIn(dict: self.users, peerID: peer) {
-                    let user: User = .init()
+                    var user: User = .init()
+                    user.name = peer.displayName
                     self.users[peer] = user
                 }
             }

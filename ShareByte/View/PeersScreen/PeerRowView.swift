@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct PeerRowView: View {
-    var userName: String
-    var userRole: String
-    var userImageData: Data
+    var user: User
     
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
+            
             ImageView(
-                imageData: userImageData,
+                imageData: user.imageData,
                 width: 70,
                 height: 70)
+            
+            
             VStack(alignment: .leading, spacing: 0) {
                 Spacer()
-                Text(userName)
+                Text(user.name ?? "UNKNOWN NAME")
                     .font(.title2)
-                Text(userRole)
+                Text(user.role?.rawValue ?? "UNKNOWN NAME")
                     .font(.callout)
                     .padding(.top, 5)
                 Spacer()
@@ -37,5 +38,7 @@ struct PeerRowView: View {
 }
 
 #Preview {
-    PeerRowView(userName: "Dmitry Mityunin", userRole: Role.presenter.rawValue, userImageData: UIImage(named: "TestImage")!.pngData()!)
+    PeerRowView(
+        user: User.init()
+    )
 }
