@@ -14,6 +14,7 @@ struct ContentView: View {
     @EnvironmentObject var userVM: UserViewModel
     
     @State private var activeTab: AppTab = .presentation
+    @State private var selectedPage: AppTab = .presentation
     @Namespace private var animation
     @State private var tabShapePosition: CGPoint = .zero
     
@@ -33,6 +34,12 @@ struct ContentView: View {
                 
                 PersonScreen()
                     .tag(AppTab.me)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))  
+            .ignoresSafeArea()
+            .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7), value: activeTab)
+            .onAppear {
+                  UIScrollView.appearance().isScrollEnabled = false
             }
             
             CustomTabBar()
