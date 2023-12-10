@@ -19,7 +19,10 @@ struct ViewerView: View {
     var body: some View {
         VStack {
             if hasImageFiles {
-                ImageItemsView()
+                ScreenShotPreventView {
+                    ImageItemsView()
+                }
+                
             }
             else {
                 VStack {

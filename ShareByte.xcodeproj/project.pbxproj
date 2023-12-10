@@ -23,6 +23,7 @@
 		1505760B2B1E3C1500543230 /* ImageFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505760A2B1E3C1500543230 /* ImageFile.swift */; };
 		1505760D2B1E3E2D00543230 /* ImageItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505760C2B1E3E2D00543230 /* ImageItemsView.swift */; };
 		1505760F2B1E447600543230 /* SnapCarouselHelperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1505760E2B1E447600543230 /* SnapCarouselHelperView.swift */; };
+		150A56772B25CF050074163D /* ScreenShotPreventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150A56762B25CF050074163D /* ScreenShotPreventView.swift */; };
 		150DED362AD9C5B000F642E8 /* AppNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED352AD9C5B000F642E8 /* AppNetwork.swift */; };
 		150DED382AD9C66200F642E8 /* ServiceLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED372AD9C66200F642E8 /* ServiceLocator.swift */; };
 		150DED3A2AD9C68E00F642E8 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED392AD9C68E00F642E8 /* Configurator.swift */; };
@@ -74,6 +75,7 @@
 		1505760A2B1E3C1500543230 /* ImageFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFile.swift; sourceTree = "<group>"; };
 		1505760C2B1E3E2D00543230 /* ImageItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageItemsView.swift; sourceTree = "<group>"; };
 		1505760E2B1E447600543230 /* SnapCarouselHelperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapCarouselHelperView.swift; sourceTree = "<group>"; };
+		150A56762B25CF050074163D /* ScreenShotPreventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShotPreventView.swift; sourceTree = "<group>"; };
 		150DED352AD9C5B000F642E8 /* AppNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNetwork.swift; sourceTree = "<group>"; };
 		150DED372AD9C66200F642E8 /* ServiceLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceLocator.swift; sourceTree = "<group>"; };
 		150DED392AD9C68E00F642E8 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				1502FC1D2B1D03530076D0D4 /* TabPosition.swift */,
 				1505760E2B1E447600543230 /* SnapCarouselHelperView.swift */,
 				15C1691D2B1F98BF00B7A9D6 /* PresentationButtonView.swift */,
+				150A56762B25CF050074163D /* ScreenShotPreventView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				7CB20DA52AB7582900C4CEE5 /* User.swift in Sources */,
 				15B78C642A6466A6007943BA /* PresenterView.swift in Sources */,
 				15B78C6C2A64718C007943BA /* PresentationState.swift in Sources */,
+				150A56772B25CF050074163D /* ScreenShotPreventView.swift in Sources */,
 				1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */,
 				153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */,
 				15B7E3142B09101A00AB4E17 /* Data.swift in Sources */,

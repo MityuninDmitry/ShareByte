@@ -23,6 +23,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            
             TabView(selection: $activeTab) {
                 PresentationScreen()
                     .tag(AppTab.presentation)
