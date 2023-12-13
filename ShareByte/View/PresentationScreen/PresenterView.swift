@@ -9,7 +9,6 @@ import SwiftUI
 import PhotosUI
 
 struct PresenterView: View {
-    //@EnvironmentObject var presentationTabManager: PresentationTabManager
     @EnvironmentObject var userVM: UserViewModel
     
     var body: some View {
@@ -23,3 +22,5 @@ struct PresenterView_Previews: PreviewProvider {
             .environmentObject(UserViewModel.shared)
     }
 }
+
+

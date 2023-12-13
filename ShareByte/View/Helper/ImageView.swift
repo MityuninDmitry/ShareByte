@@ -63,8 +63,3 @@ struct ImageView: View {
         }
     }
 }
-
-#Preview {
-    ImageView(imageData: nil)
-        .preferredColorScheme(.dark)
-}

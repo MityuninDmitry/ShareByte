@@ -15,24 +15,21 @@ struct ImageItemsView: View {
     @State var selectedItems: [PhotosPickerItem] = .init()
     @EnvironmentObject var userVM: UserViewModel
     
+    @State var tools: [Tool] = .init()
+    
     var body: some View {
         VStack(spacing: 0) {
             Text("GALLERY \(userVM.presentation.imageFiles.count) / \(selectedItems.count)")
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .trailing) {
-                    HStack {
-                        PresentationButtonView(selectedItems: $selectedItems)
-                        Spacer()
-                        PhotosPicker(selection: $selectedItems, matching: .images) {
-                            Image(systemName: "ellipsis.circle.fill")
-                                .font(.title2)
-                                .foregroundStyle(.gray)
-                        }
-                        .opacity(userVM.presentation.state != .selecting ? 0.0 : 1.0)
+                    PhotosPicker(selection: $selectedItems, matching: .images) {
+                        Image(systemName: "ellipsis.circle.fill")
+                            .font(.title2)
+                            .foregroundStyle(.gray)
                     }
+                    .opacity(userVM.presentation.state != .selecting ? 0.0 : 1.0)
                     .opacity(userVM.user.role != .presenter ? 0.0 : 1.0)
-                    
                 }
                 .padding([.horizontal, .bottom], 15)
                 .padding(.top, 10)
@@ -45,10 +42,14 @@ struct ImageItemsView: View {
                                     let data = uiImage.reducedDataForUploading(uiImage: uiImage)
                                     Task { @MainActor in
                                         await userVM.appendImageToPresentation(data)
-                                    }  
+                                    }
                                 }
                             }
                         }
+                        Task { @MainActor in
+                            actualizeTools()
+                        }
+                        
                     }
                 }
             
@@ -71,14 +72,15 @@ struct ImageItemsView: View {
                 }
             }
             .onChange(of: userVM.presentation.imageFiles.count) { _ in
-                    withAnimation(.easeInOut(duration: 0.3)) {
-                        if userVM.presentation.imageFiles.count > 0 {
-                            self.previewImage = userVM.presentation.imageFiles[0].image
-                        } else {
-                            self.previewImage = nil
-                            self.selectedItems = []
-                        }
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    if userVM.presentation.imageFiles.count > 0 {
+                        self.previewImage = userVM.presentation.imageFiles[0].image
+                    } else {
+                        self.previewImage = nil
+                        self.selectedItems = []
                     }
+                }
+                actualizeTools()
             }
             .onAppear {
                 if userVM.user.role == .viewer {
@@ -93,7 +95,7 @@ struct ImageItemsView: View {
                 
             }
             .padding(.vertical, 15)
-                
+            
             GeometryReader {
                 let size = $0.size
                 let pageWidth: CGFloat = size.width / 3
@@ -138,13 +140,71 @@ struct ImageItemsView: View {
             .frame(height: 120)
             .padding(.bottom, 10)
         }
-        .background {
-            Rectangle()
-                .fill(Color("BG").opacity(0.6).gradient)
-                .rotationEffect(.init(degrees: -180))
-                .ignoresSafeArea()
+        .overlay {
+            if userVM.user.role == .presenter {
+                VStack {
+                    ToolBarView(tools: $tools)
+                }
+                .padding(.horizontal, 15)
+                .padding(.bottom, 133)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+            } else {
+                Color.clear
+            }
         }
+        .onAppear {
+            actualizeTools()
+        }
+        .onChange(of: userVM.presentation.state) { _ in
+            actualizeTools()
+        } 
 
+    }
+    
+    func actualizeTools() {
+        if userVM.user.role == .presenter {
+            switch userVM.presentation.state {
+            case .selecting:
+                tools = [
+                    .init(
+                        icon: "paperplane.circle",
+                        name: "Upload images to peers",
+                        color: Color("Indigo"),
+                        action: {
+                            userVM.presentation.nextState()
+                            userVM.sendPresentationtToAll()},
+                        ignoreAction: userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0
+                    )
+                ]
+            case .uploading:
+                tools = [
+                    .init(
+                        icon: "arrow.clockwise.icloud",
+                        name: "Uploading images to peers",
+                        color: Color("Indigo"),
+                        action: {},
+                        ignoreAction: true)
+                ]
+            case .presentation:
+                tools = [
+                    .init(
+                        icon: "trash.circle",
+                        name: "Start new presentation",
+                        color: Color("Indigo"),
+                        action: {
+                            self.userVM.presentation.clear()
+                            self.userVM.user.ready = false
+                            for (key, _) in self.userVM.users {
+                                self.userVM.users[key]!.ready = false
+                            }
+                            self.userVM.sendClearPresentation()
+                            userVM.presentation.nextState()
+                        })
+                ]
+            default:
+                tools = .init()
+            }
+        }
     }
 }
 

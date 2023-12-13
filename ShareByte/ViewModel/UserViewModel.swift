@@ -278,7 +278,13 @@ extension UserViewModel: BusinessProcessorProtocol {
     }
     
     func isAllConnectedUsersReadyToWatchPresentation() -> Bool {
-        let count = self.users.count
+        let count = self.users.filter { (key: MCPeerID, value: User) in
+            if value.connected {
+                return true
+            }
+            return false
+        }.count
+        
         var countToReady = 0
         for peer in self.users.keys {
             if self.users[peer]!.connected {

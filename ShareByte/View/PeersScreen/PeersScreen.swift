@@ -12,30 +12,10 @@ struct PeersScreen: View {
     @EnvironmentObject var userVM: UserViewModel
  
     var body: some View {
-        
         VStack(spacing: 0) {
             Text("\(userVM.user.role?.rawValue.uppercased() ?? "Not defined role")")
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
-                .overlay(alignment: .trailing) {
-                    if userVM.disoverableStatus == .running {
-                        Button {
-                            userVM.disconnectAndStopDiscover()
-                        } label: {
-                            Image.init(systemName: "xmark.icloud")
-                                .font(.title2)
-                                .foregroundStyle(.red)
-                        }
-                    } else {
-                        Button {
-                            userVM.makeDiscoverable()
-                        } label: {
-                            Image.init(systemName: "icloud")
-                                .font(.title2)
-                                .foregroundStyle(.indigo)
-                        }
-                    }
-                }
                 .padding([.horizontal], 15)
                 .padding(.top, 10)
            
@@ -57,12 +37,33 @@ struct PeersScreen: View {
             }
             .listStyle(.plain)
         }
-        .background {
-            Rectangle()
-                .fill(Color("BG").opacity(0.6).gradient)
-                .rotationEffect(.init(degrees: -180))
-                .ignoresSafeArea()
+        .overlay {
+            VStack(alignment: .trailing, spacing: 0) {
+                Spacer()
+                HStack {
+                    Spacer()
+                    if userVM.disoverableStatus == .running {
+                        Button {
+                            userVM.disconnectAndStopDiscover()
+                        } label: {
+                            CircleButtonView(
+                                systemImageName: "xmark.icloud",
+                                imageColor: .red)
+                                
+                        }
+                    } else {
+                        Button {
+                            userVM.makeDiscoverable()
+                        } label: {
+                            CircleButtonView(systemImageName: "icloud")
+                        }
+                    }
+                }
+                .padding([.horizontal], 25)
+                .padding(.bottom, 15)
+            }
         }
+        
     }
 }
 
@@ -70,5 +71,6 @@ struct PeersScreen_Previews: PreviewProvider {
     static var previews: some View {
         PeersScreen()
             .environmentObject(UserViewModel.shared)
+            .preferredColorScheme(.dark)
     }
 }

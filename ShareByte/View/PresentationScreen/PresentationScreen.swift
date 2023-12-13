@@ -26,13 +26,6 @@ struct PresentationScreen: View {
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
-                .background {
-                    Rectangle()
-                        .fill(Color("BG").opacity(0.6).gradient)
-                        .rotationEffect(.init(degrees: -180))
-                        .ignoresSafeArea()
-                }
-                
             }
         }
         

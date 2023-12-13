@@ -16,12 +16,35 @@ struct PersonScreen: View {
     @EnvironmentObject var networkMonitor: NetworkMonitor
     @State private var showNetworkAlert = false
     
+    @State var nameInEditMode = false
+    @State var name = "Mr. Foo Bar"
+    
+    
     var body: some View {
         VStack(spacing: 0) {
+            Text("\(userName)")
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity)
+                .overlay(alignment: .trailing) {
+                    Button {
+                        userVM.user.name = userName
+                        userVM.saveUser()
+                    } label: {
+                        Image.init(systemName: "arrow.down.doc")
+                            .font(.title2)
+                            .foregroundStyle(.indigo)
+                    }
+                }
+                .padding([.horizontal], 15)
+                .padding(.top, 10)
+            
+            
+            
             ImageView(
                 imageData: userVM.user.imageData,
-                width: 100,
-                height: 100)
+                width: 200,
+                height: 200)
+            .padding(.top, 15)
             
             VStack(spacing: 1) {
                 Text("Choose avatar from")
@@ -45,28 +68,40 @@ struct PersonScreen: View {
                 }
                 .padding(.horizontal, 5)
             }
-                
-            Text("Your current name is:")
-            TextField("Enter your name", text: $userName)
-                .disableAutocorrection(true)
-                .multilineTextAlignment(.center)
-            
-            
+            .padding(.top, 15)
+             
             Spacer()
             
-            Button {
-                userVM.user.name = userName
-                userVM.saveUser()
-            } label: {
-                Text("SAVE")
-                    .padding(.horizontal, 10)
+            HStack {
+                if nameInEditMode {
+                    TextField("Name", text: $userName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.leading, 5)
+                        .fontWeight(.semibold)
+                        .disableAutocorrection(true)
+                } else {
+                    Text(userName)
+                        .fontWeight(.semibold)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    self.nameInEditMode.toggle()
+                }) {
+                    Text(nameInEditMode ? "Done" : "Edit")
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.blue)
+                }
             }
-            .strockedCapsule()
+            .padding(.horizontal, 15)
+            .padding(.bottom, 15)
+            .animation(.easeInOut, value: nameInEditMode)
+            
         }
         .onAppear(perform: {
             userName = userVM.user.name ?? ""
         })
-        .padding()
         .sheet(isPresented: $isChangingAvatar) {
             VStack {
                 Text("Select your new avatar...")
@@ -100,13 +135,6 @@ struct PersonScreen: View {
                     showNetworkAlert = connection == false
         }
         .alert("No internet connection.", isPresented: $showNetworkAlert) {}
-        .background {
-            Rectangle()
-                .fill(Color("BG").opacity(0.6).gradient)
-                .rotationEffect(.init(degrees: -180))
-                .ignoresSafeArea()
-        }
-        
     }
 }
 

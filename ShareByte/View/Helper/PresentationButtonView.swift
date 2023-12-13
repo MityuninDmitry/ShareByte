@@ -14,9 +14,7 @@ struct PresentationButtonView: View {
     var body: some View {
         switch userVM.presentation.state {
         case .selecting:
-            Image(systemName: "paperplane.circle")
-                .font(.title2)
-                .foregroundStyle(userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0 ? .gray : .blue)
+            CircleButtonView(systemImageName: "paperplane.circle", imageColor: (userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0) ? .gray : .white)
                 .onTapGesture {
                     userVM.presentation.nextState()
                     userVM.sendPresentationtToAll()
@@ -24,11 +22,12 @@ struct PresentationButtonView: View {
                 .disabled(userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0)
         case .uploading:
             ProgressView()
+                .background {
+                    CircleButtonView()
+                }
         case .presentation:
-            Image(systemName: "trash.circle")
-                .font(.title2)
-                .foregroundStyle(.gray)
-                .onTapGesture {
+            CircleButtonView(systemImageName: "trash.circle")
+               .onTapGesture {
                     self.userVM.presentation.clear()
                     self.userVM.user.ready = false
                     for (key, _) in self.userVM.users {
@@ -38,9 +37,7 @@ struct PresentationButtonView: View {
                     userVM.presentation.nextState()
                 }
         case .none:
-            Image(systemName: "paperplane.circle")
-                .font(.title2)
-                .foregroundStyle(.gray)
+            CircleButtonView(systemImageName: "paperplane.circle", imageColor: .gray)
         }
         
     }

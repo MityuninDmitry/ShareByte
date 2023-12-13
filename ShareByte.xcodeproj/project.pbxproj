@@ -31,6 +31,9 @@
 		150DED402ADC407F00F642E8 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED3F2ADC407F00F642E8 /* ImageView.swift */; };
 		153215BC2A7970EC0038B0FA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153215BB2A7970EC0038B0FA /* Message.swift */; };
 		153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */; };
+		1550D5192B28C2C4003E4994 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D5182B28C2C4003E4994 /* Tool.swift */; };
+		1550D51B2B28E0AB003E4994 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D51A2B28E0AB003E4994 /* ToolView.swift */; };
+		1550D51D2B28E1F5003E4994 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D51C2B28E1F5003E4994 /* ToolBarView.swift */; };
 		15653BC92AD1CF47005A0D06 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15653BC82AD1CF47005A0D06 /* DataBase.swift */; };
 		1565C09A2AD45B2100AAB651 /* RickAndMortyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1565C0992AD45B2100AAB651 /* RickAndMortyAPI.swift */; };
 		156B0BB52AD700090095E837 /* SelectAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB42AD700090095E837 /* SelectAvatarView.swift */; };
@@ -41,6 +44,7 @@
 		159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E93002AFFE12000A5E6F7 /* AppDecoder.swift */; };
 		159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E93022AFFF41000A5E6F7 /* UIImage.swift */; };
 		15AA092E2AFD380000B5151A /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA092D2AFD380000B5151A /* FileManager.swift */; };
+		15B53BD92B278551004D4A2E /* CircleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B53BD82B278551004D4A2E /* CircleButtonView.swift */; };
 		15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C5F2A62E1BA007943BA /* PersonScreen.swift */; };
 		15B78C622A64616A007943BA /* ViewerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C612A64616A007943BA /* ViewerView.swift */; };
 		15B78C642A6466A6007943BA /* PresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15B78C632A6466A6007943BA /* PresenterView.swift */; };
@@ -83,6 +87,9 @@
 		150DED3F2ADC407F00F642E8 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
 		153215BB2A7970EC0038B0FA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverableStatus.swift; sourceTree = "<group>"; };
+		1550D5182B28C2C4003E4994 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		1550D51A2B28E0AB003E4994 /* ToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
+		1550D51C2B28E1F5003E4994 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
 		15653BC82AD1CF47005A0D06 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 		1565C0992AD45B2100AAB651 /* RickAndMortyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyAPI.swift; sourceTree = "<group>"; };
 		156B0BB42AD700090095E837 /* SelectAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAvatarView.swift; sourceTree = "<group>"; };
@@ -93,6 +100,7 @@
 		159E93002AFFE12000A5E6F7 /* AppDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDecoder.swift; sourceTree = "<group>"; };
 		159E93022AFFF41000A5E6F7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		15AA092D2AFD380000B5151A /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		15B53BD82B278551004D4A2E /* CircleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButtonView.swift; sourceTree = "<group>"; };
 		15B78C5F2A62E1BA007943BA /* PersonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonScreen.swift; sourceTree = "<group>"; };
 		15B78C612A64616A007943BA /* ViewerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewerView.swift; sourceTree = "<group>"; };
 		15B78C632A6466A6007943BA /* PresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterView.swift; sourceTree = "<group>"; };
@@ -173,6 +181,7 @@
 				159E93002AFFE12000A5E6F7 /* AppDecoder.swift */,
 				15B7E3112B0905AE00AB4E17 /* NetworkMonitor.swift */,
 				1502FC172B1CE0A10076D0D4 /* AppTab.swift */,
+				1550D5182B28C2C4003E4994 /* Tool.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -255,6 +264,9 @@
 				1505760E2B1E447600543230 /* SnapCarouselHelperView.swift */,
 				15C1691D2B1F98BF00B7A9D6 /* PresentationButtonView.swift */,
 				150A56762B25CF050074163D /* ScreenShotPreventView.swift */,
+				15B53BD82B278551004D4A2E /* CircleButtonView.swift */,
+				1550D51A2B28E0AB003E4994 /* ToolView.swift */,
+				1550D51C2B28E1F5003E4994 /* ToolBarView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -377,6 +389,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1550D51B2B28E0AB003E4994 /* ToolView.swift in Sources */,
 				150DED402ADC407F00F642E8 /* ImageView.swift in Sources */,
 				150DED382AD9C66200F642E8 /* ServiceLocator.swift in Sources */,
 				1505760F2B1E447600543230 /* SnapCarouselHelperView.swift in Sources */,
@@ -394,7 +407,9 @@
 				153215BC2A7970EC0038B0FA /* Message.swift in Sources */,
 				15B78C702A6475CE007943BA /* Presentation.swift in Sources */,
 				1502FC1A2B1D00EE0076D0D4 /* TabItemView.swift in Sources */,
+				1550D51D2B28E1F5003E4994 /* ToolBarView.swift in Sources */,
 				1502FC1E2B1D03530076D0D4 /* TabPosition.swift in Sources */,
+				15B53BD92B278551004D4A2E /* CircleButtonView.swift in Sources */,
 				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
 				159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */,
 				1502FC162B1B1D3C0076D0D4 /* MessageProcessor.swift in Sources */,
@@ -409,6 +424,7 @@
 				159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */,
 				156B0BBA2AD86B2E0095E837 /* RandomAccessCollection.swift in Sources */,
 				150DED362AD9C5B000F642E8 /* AppNetwork.swift in Sources */,
+				1550D5192B28C2C4003E4994 /* Tool.swift in Sources */,
 				15B7E3122B0905AE00AB4E17 /* NetworkMonitor.swift in Sources */,
 				1565C09A2AD45B2100AAB651 /* RickAndMortyAPI.swift in Sources */,
 				1502FC1C2B1D012B0076D0D4 /* TabShape.swift in Sources */,

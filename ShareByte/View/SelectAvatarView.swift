@@ -26,10 +26,17 @@ struct SelectAvatarView: View {
                         VStack {
                             AsyncImage(
                                 url: URL(string:avatar.image),
-                                content: { image in
-                                    image.resizable()
+                                content: { image in                                    
+                                    image
+                                        .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(maxWidth: 100, maxHeight: 100)
+                                        .clipShape(Circle())
+                                        .overlay {
+                                            Circle()
+                                                .stroke(.indigo, lineWidth: 3)
+                                                .frame(width: 100, height: 100)
+                                        }
                                 },
                                 placeholder: {
                                     ProgressView()

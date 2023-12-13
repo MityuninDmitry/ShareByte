@@ -24,7 +24,6 @@ struct ContentView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            
             TabView(selection: $activeTab) {
                 PresentationScreen()
                     .tag(AppTab.presentation)
@@ -43,6 +42,12 @@ struct ContentView: View {
             }
             
             CustomTabBar()
+        }
+        .background {
+            Rectangle()
+                .fill(Color("BG").opacity(0.6).gradient)
+                .rotationEffect(.init(degrees: -180))
+                .ignoresSafeArea()
         }
         .onChange(of: scenePhase, perform: { value in
             switch value {
@@ -79,9 +84,8 @@ struct ContentView: View {
                 .fill(Color("BG"))
                 .ignoresSafeArea()
                 .shadow(color: tint.opacity(0.2), radius: 5, x: 0, y: -5)
-                .blur(radius: 2)
-                .padding(.top, 25)
-                
+                .blur(radius: 1)
+                .padding(.top, 25)  
         })
         .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7), value: activeTab)
         

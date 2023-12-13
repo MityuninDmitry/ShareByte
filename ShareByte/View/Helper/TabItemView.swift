@@ -14,7 +14,7 @@ struct TabItemView: View {
     var animation: Namespace.ID
     @Binding var activeTab: AppTab
     @State private var tabPosition: CGPoint = .zero
-    @Binding var position: CGPoint 
+    @Binding var position: CGPoint
     var body: some View {
         VStack(spacing: 5) {
             Image.init(systemName: tab.systemImage)
@@ -52,3 +52,4 @@ struct TabItemView: View {
         
     }
 }
+
