@@ -11,6 +11,8 @@ import MultipeerConnectivity
 struct PeersScreen: View {
     @EnvironmentObject var userVM: UserViewModel
  
+    @State var tools: [Tool] = .init()
+    
     var body: some View {
         VStack(spacing: 0) {
             Text("\(userVM.user.role?.rawValue.uppercased() ?? "Not defined role")")
@@ -42,28 +44,35 @@ struct PeersScreen: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    if userVM.disoverableStatus == .running {
-                        Button {
-                            userVM.disconnectAndStopDiscover()
-                        } label: {
-                            CircleButtonView(
-                                systemImageName: "xmark.icloud",
-                                imageColor: .red)
-                                
-                        }
-                    } else {
-                        Button {
-                            userVM.makeDiscoverable()
-                        } label: {
-                            CircleButtonView(systemImageName: "icloud")
-                        }
-                    }
+                    ToolBarView(tools: $tools)
                 }
-                .padding([.horizontal], 25)
+                .padding([.horizontal], 35)
                 .padding(.bottom, 15)
             }
         }
+        .onAppear {
+            actualizeTools()
+        }
+        .onChange(of: userVM.disoverableStatus) { newValue in
+            actualizeTools()
+        }
         
+    }
+    
+    func actualizeTools() {
+        if userVM.disoverableStatus == .running {
+            tools = [
+                .init(icon: "xmark.icloud", name: "Disconnect and stop discover", color: Color("Indigo"), action: {
+                    userVM.disconnectAndStopDiscover()
+                },iconColor: .red)
+            ]
+        } else {
+            tools = [
+                .init(icon: "icloud", name: "Make discoverable", color: Color("Indigo"), action: {
+                    userVM.makeDiscoverable()
+                })
+            ]
+        }
     }
 }
 

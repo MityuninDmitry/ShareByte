@@ -23,7 +23,7 @@ struct PeerRowView: View {
                 Spacer()
                 Text(user.name ?? "UNKNOWN NAME")
                     .font(.title2)
-                Text(user.role?.rawValue ?? "UNKNOWN NAME")
+                Text(user.role?.rawValue ?? "UNKNOWN ROLE")
                     .font(.callout)
                     .padding(.top, 5)
                 Spacer()

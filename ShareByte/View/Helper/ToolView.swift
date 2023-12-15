@@ -26,11 +26,10 @@ struct ToolView<Content: View>: View {
                 }
                 .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
                 .opacity(showName ? 1.0 : 0.0)
-            
-            //Image(systemName: $tool.wrappedValue.icon)
+
             content
                 .font(activeTool?.id == tool.id ? .title : .title2)
-                .foregroundStyle(tool.ignoreAction ? .gray : .white)
+                .foregroundStyle(tool.ignoreAction ? .gray : tool.iconColor)
                 .frame(width: activeTool?.id == tool.id ? 60 : 58, height: activeTool?.id == tool.id ? 60 : 58)
                 .background {
                     GeometryReader { proxy in

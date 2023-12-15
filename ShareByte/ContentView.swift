@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var selectedPage: AppTab = .presentation
     @Namespace private var animation
     @State private var tabShapePosition: CGPoint = .zero
+    @State private var showCustomTabBar = true
     
     init() {
         UITabBar.appearance().isHidden = true // баг, из-за которого при переключении табов вьюха с анимацией выезжала снизу
@@ -41,7 +42,20 @@ struct ContentView: View {
                   UIScrollView.appearance().isScrollEnabled = false
             }
             
-            CustomTabBar()
+            VStack(spacing: 0) {
+                if self.showCustomTabBar {
+                    CustomTabBar()
+                } else {
+                    EmptyView()
+                }
+            }
+            .onReceive(KeybordManager.shared.$keyboardFrame) { keyboardFrame in
+                if let keyboardFrame = keyboardFrame, keyboardFrame != .zero {
+                    self.showCustomTabBar = false
+                } else {
+                    self.showCustomTabBar = true
+                }
+            }
         }
         .background {
             Rectangle()
@@ -98,5 +112,35 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(UserViewModel.shared)
+    }
+}
+
+
+class KeybordManager: ObservableObject {
+    static let shared = KeybordManager()
+
+    @Published var keyboardFrame: CGRect? = nil
+
+    init() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(willHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+
+    @objc func willHide() {
+        self.keyboardFrame = .zero
+    }
+
+    @objc func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        self.keyboardFrame = keyboardScreenEndFrame
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

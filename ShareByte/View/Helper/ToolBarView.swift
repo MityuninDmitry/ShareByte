@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ToolBarView: View {
     @Binding var tools: [Tool]
@@ -66,11 +67,11 @@ struct ToolBarView: View {
     }
 }
 
-#Preview {
-    ToolBarView(
-        tools: .constant( [
-            .init(icon: "ellipsis.circle.fill", name: "Choose gallery images", color: Color("Indigo")),
-            .init(icon: "paperplane.circle", name: "Upload images to peers", color: Color("Indigo")),
-        ])
-    )
-}
+//#Preview {
+//    ToolBarView(
+//        tools: .constant( [
+//            .init(icon: "ellipsis.circle.fill", name: "Choose gallery images", color: Color("Indigo")),
+//            .init(icon: "paperplane.circle", name: "Upload images to peers", color: Color("Indigo")),
+//        ])
+//    )
+//}

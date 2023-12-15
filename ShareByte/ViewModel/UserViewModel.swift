@@ -254,6 +254,9 @@ extension UserViewModel: BusinessProcessorProtocol {
     func notConnectedPeer(_ peerID: MCPeerID) {
         print("[notConnectedPeer] \(peerID)")
         if UserViewModel.hasIn(dict: self.users, peerID: peerID) {
+            let connected = self.users[peerID]?.connected ?? false
+            guard connected else { return }
+            
             let user = self.users.removeValue(forKey: peerID)
             if let disconnectedUser = user {
                 if disconnectedUser.role == .presenter {
