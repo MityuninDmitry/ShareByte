@@ -37,12 +37,18 @@ struct MessageProcessor: MessageProcessorProtocol {
         if peers.count > 0 {
             safePeers = peers // если переданы конкретные, то юзай их
         }
-        if safePeers.count > 0 { // отправляй, если список пиров не пустой 
+        if safePeers.count > 0 { // отправляй, если список пиров не пустой
             if let data = message.encode() {
                 if message.messageType == .invitation {
                     self.peerManager!.serviceBrowser.invitePeer(safePeers[0], to: peerManager!.session, withContext: data, timeout: 10)
                 } else {
-                    try? self.peerManager!.session.send(data, toPeers: safePeers, with: .reliable)
+                    for safePeer in safePeers {
+                        Task {
+                            try? self.peerManager!.session.send(data, toPeers: [safePeer], with: .reliable)
+                        }
+                    }
+                    
+                    
                 }
                 
             }
@@ -64,6 +70,7 @@ struct MessageProcessor: MessageProcessorProtocol {
             }
         }
     }
+    
     func processResponse(from peer: MCPeerID, with data: Data, invitationHandler: @escaping (Bool, MCSession?) -> Void) async {
         // парс данных
         let message = decodeMessageFrom(data)
@@ -78,6 +85,7 @@ struct MessageProcessor: MessageProcessorProtocol {
                 if messageType != .acceptInvitation && messageType != .notAcceptInvitation {
                     sendRequestTo(peers: [peer], message: safeResponseMessage)
                 } else {
+                    
                     if messageType == .acceptInvitation {
                         invitationHandler(true, self.peerManager?.session)
                     } else {
@@ -89,7 +97,7 @@ struct MessageProcessor: MessageProcessorProtocol {
             }
         }
     }
-  
+    
     func decodeMessageFrom(_ data: Data) -> Message? {
         let decoder = PropertyListDecoder() // для декодинга сообщений
         if let message = try? decoder.decode(Message.self, from: data) {

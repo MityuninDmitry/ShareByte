@@ -62,7 +62,9 @@ class PeerManager: NSObject, ObservableObject {
         
     }
 
-    
+    func setMyPeerName(_ name: String) {
+        myPeerId = MCPeerID(displayName: name)
+    }
     
 }
 
@@ -98,7 +100,7 @@ extension PeerManager: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         print("Recieve data")
         Task {
-           await self.messageProcessor?.processResponse(from: peerID, with: data)
+            await self.messageProcessor?.processResponse(from: peerID, with: data)
         }
     }
     

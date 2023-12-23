@@ -36,12 +36,29 @@ class UserViewModel: ObservableObject {
     }
     func saveUser() {
         self.user.save()
-        self.messageProcessor?.sendRequestTo(peers: [], message: Message(messageType: .userInfo, userInfo: self.user))
+        if let count = messageProcessor?.peerManager?.session.connectedPeers.count, count > 0 {
+            self.messageProcessor?.sendRequestTo(peers: [], message: Message(messageType: .userInfo, userInfo: self.user))
+        } else {
+            disconnectAndStopDiscover()
+            messageProcessor = .init(businessProcessor: self, userName: user.name ?? "NO_NAME")
+            makeDiscoverable()
+        }
+        
+        
+        
     }
     /// Есть ли в переданном массиве объект с таким peerID
     /// Если есть. то возращает индекс. Иначе возращает нул.
     static func hasIn(dict: [MCPeerID: User], peerID: MCPeerID) -> Bool {
         if dict[peerID] != nil {
+            return true
+        }
+        return false
+    }
+    
+    func hasPeer(_ peerID: MCPeerID) -> Bool {
+        if self.users[peerID] != nil {
+            print("Has peer \(peerID)")
             return true
         }
         return false
@@ -64,6 +81,7 @@ class UserViewModel: ObservableObject {
         print("[disconnectAndStopDiscover]")
         self.updateUserRole(nil)
         self.users = .init()
+        print("self.users.count = \(self.users.count)")
         //self.connectedUsers = .init()
         //self.foundUsers = .init()
         self.presentation.clear()
@@ -110,7 +128,8 @@ extension UserViewModel: BusinessProcessorProtocol {
         case .foundPeer:
             // инициализация пользователя с таким-то peerID и добавление этого пользователя в список найденных пользователей
             Task { @MainActor in
-                if !UserViewModel.hasIn(dict: self.users, peerID: peer) {
+                //if !UserViewModel.hasIn(dict: self.users, peerID: peer) {
+                if !hasPeer(peer) {
                     var user: User = .init()
                     user.name = peer.displayName
                     self.users[peer] = user
@@ -138,9 +157,11 @@ extension UserViewModel: BusinessProcessorProtocol {
         case .connected:
             if UserViewModel.hasIn(dict: self.users, peerID: peer) {
                 Task { @MainActor in
+                    
                     self.users[peer]!.connected = true
                 }
             }
+            try? await Task.sleep(nanoseconds: 10_000_000)
             return Message.askInfoMessage()
         case .lostPeer:
             Task { @MainActor in
@@ -196,7 +217,7 @@ extension UserViewModel: BusinessProcessorProtocol {
                     self.users[peer]!.ready = true
                 }
                 self.user.ready = self.isAllConnectedUsersReadyToWatchPresentation()
-                if self.user.ready {
+                if self.user.ready && self.presentation.state == .uploading {
                     self.presentation.nextState()
                 }
             }
@@ -212,7 +233,7 @@ extension UserViewModel: BusinessProcessorProtocol {
             }
             return nil
         case .presentation:
-            let task = Task { @MainActor in
+            return await Task { @MainActor in
                 let presentation = message.presentation!
                 self.presentation = .init()
                 self.presentation.id = presentation.id
@@ -223,10 +244,9 @@ extension UserViewModel: BusinessProcessorProtocol {
                     self.presentation.imageFiles.append(nImageFile)
                 }
                 self.user.ready = true
-                
                 return Message.readyMessage()
-            }
-            return await task.value
+            }.value
+            //return await task.value
         case .askPresentationId:
             return Message.presentationIdMessage(presentationId: self.presentation.id)
         case .presentationId:
@@ -245,15 +265,27 @@ extension UserViewModel: BusinessProcessorProtocol {
     
     func lostPeer(_ peerID: MCPeerID) {
         print("[lostPeer] \(peerID)")
-//        if UserViewModel.hasIn(dict: self.users, peerID: peerID) {
-//            self.users.removeValue(forKey: peerID)
-//        }
-        notConnectedPeer(peerID)
+        if hasPeer(peerID) {
+            self.users.removeValue(forKey: peerID)
+        }
+        var readyPeer = 0
+        for (key, _) in self.users {
+            if self.users[key]!.ready {
+                readyPeer += 1
+            }
+        }
+        if self.presentation.state == .uploading {
+            if readyPeer == self.messageProcessor?.peerManager?.session.connectedPeers.count {
+                self.user.ready = true
+                self.presentation.nextState()
+            }
+        }
+        //notConnectedPeer(peerID)
     }
     
     func notConnectedPeer(_ peerID: MCPeerID) {
         print("[notConnectedPeer] \(peerID)")
-        if UserViewModel.hasIn(dict: self.users, peerID: peerID) {
+        if hasPeer(peerID) {
             let connected = self.users[peerID]?.connected ?? false
             guard connected else { return }
             

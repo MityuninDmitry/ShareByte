@@ -48,6 +48,7 @@ struct SelectAvatarView: View {
                                 Task { @MainActor in
                                     userVM.user.imageData = await downloadPhoto(url: url!)!
                                     userVM.user.name = avatar.name
+                                    userVM.saveUser()
                                 }
                                 
                                 

@@ -121,7 +121,9 @@ struct ImageItemsView: View {
                         SnapCarouselHelperView(pageWidth: pageWidth, pageCount: userVM.presentation.imageFiles.count, index: $index)
                         
                     }
+                    
                 }
+                .disabled(selectedItems.count != self.userVM.presentation.imageFiles.count)
                 .overlay {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .stroke(.white, lineWidth: 3)

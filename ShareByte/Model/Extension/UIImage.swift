@@ -82,7 +82,7 @@ extension UIImage {
         //        print("Dimenstions is \(copiedUIImage.size)")
         
         if copiedData.sizeInMB > limitSizeInMB {
-            copiedData = copiedUIImage.jpegData(compressionQuality: 0.1)!
+            copiedData = copiedUIImage.jpegData(compressionQuality: 0.5)!
             if copiedData.sizeInMB > limitSizeInMB {
                 let resizedUIImage = resizeImage(image: copiedUIImage, compressFactor: 0.5)!
                 copiedData = reduceImageDataRecursively(uiImage: resizedUIImage, limitSizeInMB: limitSizeInMB)!
@@ -95,6 +95,6 @@ extension UIImage {
     }
     
     func reducedDataForUploading(uiImage: UIImage) -> Data {
-        return reduceImageDataRecursively(uiImage: uiImage, limitSizeInMB: 1)!
+        return reduceImageDataRecursively(uiImage: uiImage, limitSizeInMB: 0.5)!
     }
 }
