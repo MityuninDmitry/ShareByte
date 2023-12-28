@@ -25,6 +25,7 @@ struct PeerRowView: View {
                     .font(.title2)
                 Text(user.role?.rawValue ?? "UNKNOWN ROLE")
                     .font(.callout)
+                    .foregroundStyle(user.role == .presenter ? .red : .indigo)
                     .padding(.top, 5)
                 Spacer()
             }

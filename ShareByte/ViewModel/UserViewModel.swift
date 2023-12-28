@@ -117,6 +117,17 @@ class UserViewModel: ObservableObject {
         self.messageProcessor?.sendRequestTo(peers: peers, message: Message.readyMessage())
     }
     
+    func sendLikeMessage(id: UUID) {
+        for peer in users.keys {
+            if users[peer]?.role  == .presenter {
+                self.messageProcessor?.sendRequestTo(peers: [peer], message: Message.likeImage(id))
+                let index = self.presentation.imageFiles.firstIndex(where: {$0.id == id})!
+                self.presentation.imageFiles[index].processLikeFrom(self.user)
+                
+                break
+            }
+        }
+    }
 }
 
 
@@ -256,6 +267,37 @@ extension UserViewModel: BusinessProcessorProtocol {
                         return Message.presentationMessage(presentation: self.presentation)
                     }
                 }
+            }
+            return nil
+        case .likeImageFile:
+            Task { @MainActor in
+                let imageID = message.imageFileID
+                var user = self.users[peer]
+                var index = 0
+                var found = false
+                for image in self.presentation.imageFiles {
+                    if image.id == imageID {
+                        found = true
+                        break
+                    }
+                    index += 1
+                }
+                
+                
+                if found {
+                    print("FOUND IMAGE WITH INDEX \(index)")
+                    if let user {
+                        print("HAS USER WITH ID \(user.id)")
+                        
+                        if self.presentation.imageFiles[index].likedUsers.count > 0 {
+                            self.presentation.imageFiles[index].processLikeFrom(user)
+                        } else {
+                            self.presentation.imageFiles[index].likedUsers.append(user)
+                        }
+                        print(self.presentation.imageFiles[index].likedUsers.count)
+                    }
+                }
+                
             }
             return nil
         default:

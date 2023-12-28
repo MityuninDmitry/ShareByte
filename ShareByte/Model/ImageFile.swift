@@ -8,13 +8,15 @@
 import Foundation
 import SwiftUI
 
-struct ImageFile: Identifiable, Codable {
+
+struct ImageFile: Identifiable, Codable, Hashable {
     var id: UUID = .init()
     var imageName: String
     var imageData: Data?
     
     var image: UIImage? 
     var thumbnail: UIImage?
+    var likedUsers: [User] = .init()
     
     
     enum CodingKeys: String, CodingKey {
@@ -36,4 +38,19 @@ struct ImageFile: Identifiable, Codable {
         }
     }
     
+    static func == (lhs: ImageFile, rhs: ImageFile) -> Bool {
+       return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    mutating func processLikeFrom(_ user: User) {
+        if self.likedUsers.contains(where: { $0.id == user.id}) {
+            self.likedUsers.removeAll { $0.id == user.id }
+        } else {
+            self.likedUsers.append(user)
+        }
+    }
 }

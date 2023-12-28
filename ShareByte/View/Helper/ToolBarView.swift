@@ -14,7 +14,7 @@ struct ToolBarView: View {
     @State var startedToolPosition: CGRect = .zero
     
     var body: some View {
-        VStack(alignment: .trailing, spacing: 12) {
+        VStack(spacing: 12) {
             ForEach($tools) { $tool in
                 ToolView(activeTool: $activeTool, tool: $tool) {
                     if $tool.wrappedValue.name == "Uploading images to peers" {
@@ -67,11 +67,4 @@ struct ToolBarView: View {
     }
 }
 
-//#Preview {
-//    ToolBarView(
-//        tools: .constant( [
-//            .init(icon: "ellipsis.circle.fill", name: "Choose gallery images", color: Color("Indigo")),
-//            .init(icon: "paperplane.circle", name: "Upload images to peers", color: Color("Indigo")),
-//        ])
-//    )
-//}
+

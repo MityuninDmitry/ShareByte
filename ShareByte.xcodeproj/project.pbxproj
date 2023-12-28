@@ -29,6 +29,9 @@
 		150DED3A2AD9C68E00F642E8 /* Configurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED392AD9C68E00F642E8 /* Configurator.swift */; };
 		150DED3C2AD9C80000F642E8 /* InjectedWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED3B2AD9C80000F642E8 /* InjectedWrapper.swift */; };
 		150DED402ADC407F00F642E8 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150DED3F2ADC407F00F642E8 /* ImageView.swift */; };
+		15185A9B2B3891000020C359 /* TestLikeCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15185A9A2B3891000020C359 /* TestLikeCounterView.swift */; };
+		15185A9F2B3894040020C359 /* Particle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15185A9E2B3894040020C359 /* Particle.swift */; };
+		15185AA12B38A6E00020C359 /* LikeCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15185AA02B38A6E00020C359 /* LikeCounterView.swift */; };
 		153215BC2A7970EC0038B0FA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153215BB2A7970EC0038B0FA /* Message.swift */; };
 		153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */; };
 		1550D5192B28C2C4003E4994 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1550D5182B28C2C4003E4994 /* Tool.swift */; };
@@ -40,6 +43,10 @@
 		156B0BB72AD7048B0095E837 /* SearchAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB62AD7048B0095E837 /* SearchAvatar.swift */; };
 		156B0BBA2AD86B2E0095E837 /* RandomAccessCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */; };
 		1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1578204D2A5B2E54007FA7BF /* PeerManager.swift */; };
+		159967222B3DF4D9002103C5 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159967212B3DF4D9002103C5 /* HeaderView.swift */; };
+		159967242B3DF676002103C5 /* PreviewImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159967232B3DF676002103C5 /* PreviewImageView.swift */; };
+		159967262B3DF7F2002103C5 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159967252B3DF7F2002103C5 /* CarouselView.swift */; };
+		159967282B3DF910002103C5 /* OverlayImageItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159967272B3DF910002103C5 /* OverlayImageItemsView.swift */; };
 		159A6C952B2242A20096C1E3 /* PeerRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159A6C942B2242A20096C1E3 /* PeerRowView.swift */; };
 		159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E93002AFFE12000A5E6F7 /* AppDecoder.swift */; };
 		159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159E93022AFFF41000A5E6F7 /* UIImage.swift */; };
@@ -87,6 +94,9 @@
 		150DED392AD9C68E00F642E8 /* Configurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configurator.swift; sourceTree = "<group>"; };
 		150DED3B2AD9C80000F642E8 /* InjectedWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectedWrapper.swift; sourceTree = "<group>"; };
 		150DED3F2ADC407F00F642E8 /* ImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageView.swift; sourceTree = "<group>"; };
+		15185A9A2B3891000020C359 /* TestLikeCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLikeCounterView.swift; sourceTree = "<group>"; };
+		15185A9E2B3894040020C359 /* Particle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Particle.swift; sourceTree = "<group>"; };
+		15185AA02B38A6E00020C359 /* LikeCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCounterView.swift; sourceTree = "<group>"; };
 		153215BB2A7970EC0038B0FA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		153215BE2A8285F80038B0FA /* DiscoverableStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverableStatus.swift; sourceTree = "<group>"; };
 		1550D5182B28C2C4003E4994 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
@@ -98,6 +108,10 @@
 		156B0BB62AD7048B0095E837 /* SearchAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAvatar.swift; sourceTree = "<group>"; };
 		156B0BB92AD86B2E0095E837 /* RandomAccessCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessCollection.swift; sourceTree = "<group>"; };
 		1578204D2A5B2E54007FA7BF /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
+		159967212B3DF4D9002103C5 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		159967232B3DF676002103C5 /* PreviewImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImageView.swift; sourceTree = "<group>"; };
+		159967252B3DF7F2002103C5 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
+		159967272B3DF910002103C5 /* OverlayImageItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayImageItemsView.swift; sourceTree = "<group>"; };
 		159A6C942B2242A20096C1E3 /* PeerRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerRowView.swift; sourceTree = "<group>"; };
 		159E93002AFFE12000A5E6F7 /* AppDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDecoder.swift; sourceTree = "<group>"; };
 		159E93022AFFF41000A5E6F7 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -186,6 +200,7 @@
 				15B7E3112B0905AE00AB4E17 /* NetworkMonitor.swift */,
 				1502FC172B1CE0A10076D0D4 /* AppTab.swift */,
 				1550D5182B28C2C4003E4994 /* Tool.swift */,
+				15185A9E2B3894040020C359 /* Particle.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -219,6 +234,10 @@
 				15B78C612A64616A007943BA /* ViewerView.swift */,
 				15B78C632A6466A6007943BA /* PresenterView.swift */,
 				1505760C2B1E3E2D00543230 /* ImageItemsView.swift */,
+				159967212B3DF4D9002103C5 /* HeaderView.swift */,
+				159967232B3DF676002103C5 /* PreviewImageView.swift */,
+				159967252B3DF7F2002103C5 /* CarouselView.swift */,
+				159967272B3DF910002103C5 /* OverlayImageItemsView.swift */,
 			);
 			path = PresentationScreen;
 			sourceTree = "<group>";
@@ -273,6 +292,8 @@
 				15B53BD82B278551004D4A2E /* CircleButtonView.swift */,
 				1550D51A2B28E0AB003E4994 /* ToolView.swift */,
 				1550D51C2B28E1F5003E4994 /* ToolBarView.swift */,
+				15185A9A2B3891000020C359 /* TestLikeCounterView.swift */,
+				15185AA02B38A6E00020C359 /* LikeCounterView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -402,12 +423,15 @@
 				1505760D2B1E3E2D00543230 /* ImageItemsView.swift in Sources */,
 				15C1691E2B1F98C000B7A9D6 /* PresentationButtonView.swift in Sources */,
 				150273DE2A59C0E00006F4DA /* PeersScreen.swift in Sources */,
+				159967222B3DF4D9002103C5 /* HeaderView.swift in Sources */,
+				159967282B3DF910002103C5 /* OverlayImageItemsView.swift in Sources */,
 				15AA092E2AFD380000B5151A /* FileManager.swift in Sources */,
 				159A6C952B2242A20096C1E3 /* PeerRowView.swift in Sources */,
 				150273E02A59C0F20006F4DA /* PresentationScreen.swift in Sources */,
 				156B0BB72AD7048B0095E837 /* SearchAvatar.swift in Sources */,
 				150DED3A2AD9C68E00F642E8 /* Configurator.swift in Sources */,
 				15653BC92AD1CF47005A0D06 /* DataBase.swift in Sources */,
+				15185A9F2B3894040020C359 /* Particle.swift in Sources */,
 				15B7E31D2B09384D00AB4E17 /* View.swift in Sources */,
 				15E95F4C2B30C53D00AC5B6F /* CustomImagePicker.swift in Sources */,
 				15B78C602A62E1BA007943BA /* PersonScreen.swift in Sources */,
@@ -417,6 +441,7 @@
 				1502FC1A2B1D00EE0076D0D4 /* TabItemView.swift in Sources */,
 				1550D51D2B28E1F5003E4994 /* ToolBarView.swift in Sources */,
 				1502FC1E2B1D03530076D0D4 /* TabPosition.swift in Sources */,
+				15185A9B2B3891000020C359 /* TestLikeCounterView.swift in Sources */,
 				15B53BD92B278551004D4A2E /* CircleButtonView.swift in Sources */,
 				150273E42A59C14C0006F4DA /* Role.swift in Sources */,
 				159E93012AFFE12000A5E6F7 /* AppDecoder.swift in Sources */,
@@ -427,6 +452,7 @@
 				150A56772B25CF050074163D /* ScreenShotPreventView.swift in Sources */,
 				1578204E2A5B2E54007FA7BF /* PeerManager.swift in Sources */,
 				153215BF2A8285F80038B0FA /* DiscoverableStatus.swift in Sources */,
+				159967262B3DF7F2002103C5 /* CarouselView.swift in Sources */,
 				15B7E3142B09101A00AB4E17 /* Data.swift in Sources */,
 				1502FC182B1CE0A10076D0D4 /* AppTab.swift in Sources */,
 				159E93032AFFF41000A5E6F7 /* UIImage.swift in Sources */,
@@ -435,12 +461,14 @@
 				1550D5192B28C2C4003E4994 /* Tool.swift in Sources */,
 				15B7E3122B0905AE00AB4E17 /* NetworkMonitor.swift in Sources */,
 				1565C09A2AD45B2100AAB651 /* RickAndMortyAPI.swift in Sources */,
+				159967242B3DF676002103C5 /* PreviewImageView.swift in Sources */,
 				1502FC1C2B1D012B0076D0D4 /* TabShape.swift in Sources */,
 				1505760B2B1E3C1500543230 /* ImageFile.swift in Sources */,
 				15B7E31B2B0937D900AB4E17 /* StrockedCapsule.swift in Sources */,
 				150DED3C2AD9C80000F642E8 /* InjectedWrapper.swift in Sources */,
 				156B0BB52AD700090095E837 /* SelectAvatarView.swift in Sources */,
 				15B78C622A64616A007943BA /* ViewerView.swift in Sources */,
+				15185AA12B38A6E00020C359 /* LikeCounterView.swift in Sources */,
 				150273CC2A5943590006F4DA /* ContentView.swift in Sources */,
 				150273CA2A5943590006F4DA /* ShareByteApp.swift in Sources */,
 				150273E22A59C1070006F4DA /* UserViewModel.swift in Sources */,

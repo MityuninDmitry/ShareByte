@@ -25,6 +25,7 @@ struct Message: Codable {
         case presentation
         case askPresentationId
         case presentationId
+        case likeImageFile
     }
     
     var messageType: MessageType = .askInfo
@@ -33,7 +34,7 @@ struct Message: Codable {
     var indexToShow: Int? = nil
     var presentation: Presentation? = nil
     var presentationId: String?
-    
+    var imageFileID: UUID = .init()
     
     func encode() -> Data? {
         let encoder = PropertyListEncoder() // для энкодинга сообщений
@@ -89,5 +90,9 @@ struct Message: Codable {
     
     static func presentationIdMessage(presentationId: String) -> Message {
         return Message(messageType: .presentationId, presentationId: presentationId)
+    }
+    
+    static func likeImage(_ id: UUID) -> Message {
+        return Message(messageType: .likeImageFile ,imageFileID: id)
     }
 }

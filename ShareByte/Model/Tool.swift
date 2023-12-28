@@ -8,6 +8,10 @@
 import Foundation
 import SwiftUI
 
+enum ToolPosition {
+    case right, left
+}
+
 struct Tool: Identifiable {
     var id: String = UUID().uuidString
     var icon: String
@@ -17,4 +21,5 @@ struct Tool: Identifiable {
     var action: (() -> Void) = {}
     var ignoreAction: Bool = false
     var iconColor: Color = .white
+    var position: ToolPosition = .right
 }

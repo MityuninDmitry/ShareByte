@@ -16,16 +16,18 @@ struct ToolView<Content: View>: View {
     
     var body: some View {
         HStack(spacing: 5) {
-            Text($tool.wrappedValue.name)
-                .padding([.trailing, .leading], 15)
-                .padding(.vertical, 5)
-                .foregroundStyle(.white)
-                .background {
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color("Indigo").gradient.opacity(0.7))
-                }
-                .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
-                .opacity(showName ? 1.0 : 0.0)
+            if $tool.wrappedValue.position == .right {
+                Text($tool.wrappedValue.name)
+                    .padding([.trailing, .leading], 15)
+                    .padding(.vertical, 5)
+                    .foregroundStyle(.white)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(Color("Indigo").gradient.opacity(0.7))
+                    }
+                    .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
+                    .opacity(showName ? 1.0 : 0.0)
+            }
 
             content
                 .font(activeTool?.id == tool.id ? .title : .title2)
@@ -52,6 +54,19 @@ struct ToolView<Content: View>: View {
                     }
                 }
                 .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
+            
+            if $tool.wrappedValue.position == .left {
+                Text($tool.wrappedValue.name)
+                    .padding([.trailing, .leading], 15)
+                    .padding(.vertical, 5)
+                    .foregroundStyle(.white)
+                    .background {
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(Color("Indigo").gradient.opacity(0.7))
+                    }
+                    .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
+                    .opacity(showName ? 1.0 : 0.0)
+            }
         }
         .onChange(of: activeTool?.id) { newValue in
             if activeTool?.id == $tool.wrappedValue.id {
