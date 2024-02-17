@@ -11,11 +11,16 @@ import SwiftUI
 
 
 struct Presentation: Identifiable, Codable {
-    var id: String = UUID().uuidString
+    var id: String = UUID().uuidString {
+        didSet {
+            print("CREATE NEW ID PRESENTATION")
+        }
+    }
     var imageFiles: [ImageFile] = []
-    var state: PresentationState? = .selecting
+    var state: PresentationState = .selecting
     var indexToShow: Int?
     var imageURL: URL?
+    
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -28,24 +33,52 @@ struct Presentation: Identifiable, Codable {
         imageFiles = []
         state = .selecting
     }
+    mutating func setState(_ state: PresentationState) {
+        switch state {
+        case .preparing:
+            indexToShow = nil
+            imageFiles = []
+        case .selecting:
+            id = UUID().uuidString
+            indexToShow = nil
+            imageFiles = []
+        case .prepared:
+            indexToShow = 0
+        default:
+            self.state = state 
+        }
+        self.state = state
+    }
     
     mutating func appendImageFile(_ data: Data) async {
         let index = self.imageFiles.count
         let thumbnail = UIImage(data: data)?.preparingThumbnail(of: CGSize(width: 300, height: 300))
-        let imageFile = ImageFile(imageName: "Pic \(index)", imageData: data, image: UIImage(data: data), thumbnail: thumbnail)
+        let imageFile = ImageFile(imageName: "Pic \(index)", imageData: data, uiImage: UIImage(data: data), thumbnail: thumbnail)
         self.imageFiles.append(imageFile)
     }
     
    mutating func nextState() {
         switch state {
         case .selecting:
-            state = .uploading
+            setState(.preparing)
+        case .preparing:
+            setState(.prepared)
+        case .prepared:
+            setState(.uploading)
         case .uploading:
-            state = .presentation
+            setState(.presentation)
         case .presentation:
-            state = .selecting
-        case .none:
-            state = .uploading
+            setState(.selecting)
         }
     }
+    
+    func getImagesData() -> [Data] {
+        var data: [Data] = .init()
+        for imageFile in imageFiles {
+            data.append(imageFile.imageData!)
+        }
+        return data
+    }
 }
+
+

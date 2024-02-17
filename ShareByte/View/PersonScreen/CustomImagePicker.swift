@@ -68,14 +68,14 @@ fileprivate struct CustomImagePicker<Content: View>: View {
                 }
             }
             .id(uuid)
-            .confirmationDialog("", isPresented: $confirmImage, actions: {
-                Button {
-                    showCropView = true
-                } label: {
-                    Text("Confirm image")
-                }
-                
-            })
+//            .confirmationDialog("", isPresented: $confirmImage, actions: {
+//                Button {
+//                    showCropView = true
+//                } label: {
+//                    Text("Confirm image")
+//                }
+//                
+//            })
             .fullScreenCover(isPresented: $showCropView) {
                 selectedImage = nil
                 photosItems = nil
@@ -105,7 +105,7 @@ struct CropView: View {
     var body: some View {
         NavigationStack {
             CropImageView()
-                .navigationTitle("CropView")
+                .navigationTitle("Crop image")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(Color("BG").gradient, for: .navigationBar)

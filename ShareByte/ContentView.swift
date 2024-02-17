@@ -18,6 +18,7 @@ struct ContentView: View {
     @Namespace private var animation
     @State private var tabShapePosition: CGPoint = .zero
     @State private var showCustomTabBar = true
+    @EnvironmentObject var notificationManager: NotificationManager
     
     init() {
         UITabBar.appearance().isHidden = true // баг, из-за которого при переключении табов вьюха с анимацией выезжала снизу
@@ -63,12 +64,21 @@ struct ContentView: View {
                 .rotationEffect(.init(degrees: -180))
                 .ignoresSafeArea()
         }
+        .appNotifications()
+        .onChange(of: userVM.newNotification) { value in
+            if let value {
+                notificationManager.setNewNotification(value)
+            }
+        }
         .onChange(of: scenePhase, perform: { value in
             switch value {
             case .background:
-                userVM.lostAllPeers()
+                //userVM.lostAllPeers()
+                userVM.messageProcessor?.stopRecieveMessages()
+                //return
             case .active:
-                return
+                userVM.messageProcessor?.startRecieveMessages()
+                //return
             case .inactive:
                 return
             @unknown default:
@@ -78,7 +88,7 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    func CustomTabBar(_ tint: Color = Color("Indigo"), _ inactiveTint: Color = .indigo) -> some View {
+    func CustomTabBar(_ tint: Color = Dict.appIndigo, _ inactiveTint: Color = .indigo) -> some View {
         HStack(alignment: .bottom ,spacing: 0) {
             ForEach(AppTab.allCases, id: \.rawValue) {
                 TabItemView (

@@ -27,8 +27,8 @@ struct StrockedFilledCapsule: ViewModifier {
             .padding()
             .background{
                 Capsule()
-                    .fill(.indigo)
-                    .opacity(0.4)
+                    .fill(Dict.appIndigo)
+                    .opacity(0.8)
                     .overlay {
                         Capsule()
                             .stroke(lineWidth: 1)

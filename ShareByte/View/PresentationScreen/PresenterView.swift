@@ -11,8 +11,12 @@ import PhotosUI
 struct PresenterView: View {
     @EnvironmentObject var userVM: UserViewModel
     
+    @EnvironmentObject var notificationManager: NotificationManager
+    
     var body: some View {
         ImageItemsView()
+            
+            
     }
 }
 

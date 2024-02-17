@@ -16,7 +16,7 @@ struct Tool: Identifiable {
     var id: String = UUID().uuidString
     var icon: String
     var name: String
-    var color: Color = Color("Indigo")
+    var color: Color = Dict.appIndigo
     var toolPosition: CGRect = .zero
     var action: (() -> Void) = {}
     var ignoreAction: Bool = false

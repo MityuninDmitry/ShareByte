@@ -11,13 +11,14 @@ import PhotosUI
 struct ImageItemsView: View {
     @EnvironmentObject var userVM: UserViewModel
     
-    @State private var index: Int = 0
+    @State private var index: Int = 0 
     @State private var selectedItems: [PhotosPickerItem] = .init()
     @State var tools: [Tool] = .init()
     
+    
     var body: some View {
         VStack(spacing: 0) {
-            HeaderView(selectedItems: $selectedItems) {
+            HeaderView(selectedItems: $selectedItems, index: $index) {
                 actualizeTools()
             }
             
@@ -37,22 +38,39 @@ struct ImageItemsView: View {
         .onChange(of: userVM.presentation.state) { _ in
             actualizeTools()
         } 
+        .onChange(of: userVM.users.count) { _ in
+            actualizeTools()
+        }
+        
+                          
+        
 
     }
     
     func actualizeTools() {
         if userVM.user.role == .presenter {
             switch userVM.presentation.state {
-            case .selecting:
+            case .selecting, .preparing:
                 tools = [
                     .init(
                         icon: "paperplane.circle",
-                        name: "Upload images to peers",
-                        color: Color("Indigo"),
+                        name: NSLocalizedString("Upload images to peers", comment: "Отправить картинки пользователям") ,
+                        color: Dict.appIndigo,
+                        action: {},
+                        ignoreAction: true,
+                        position: .left
+                    )
+                ]
+            case .prepared:
+                tools = [
+                    .init(
+                        icon: "paperplane.circle",
+                        name: NSLocalizedString("Upload images to peers", comment: "Отправить картинки пользователям") ,
+                        color: Dict.appIndigo,
                         action: {
                             userVM.presentation.nextState()
                             userVM.sendPresentationtToAll()},
-                        ignoreAction: userVM.presentation.imageFiles.count != selectedItems.count || selectedItems.count == 0 || userVM.presentation.imageFiles.count == 0,
+                        ignoreAction: userVM.connectedUsersCount == 0,
                         position: .left
                     )
                 ]
@@ -60,8 +78,8 @@ struct ImageItemsView: View {
                 tools = [
                     .init(
                         icon: "arrow.clockwise.icloud",
-                        name: "Uploading images to peers",
-                        color: Color("Indigo"),
+                        name: NSLocalizedString("Uploading images to peers", comment: "Загрузка картинок пользователям"),
+                        color: Dict.appIndigo,
                         action: {},
                         ignoreAction: true,
                         position: .left)
@@ -70,21 +88,19 @@ struct ImageItemsView: View {
                 tools = [
                     .init(
                         icon: "trash.circle",
-                        name: "Start new presentation",
-                        color: Color("Indigo"),
+                        name: NSLocalizedString("Start new presentation", comment: "Начать новую презентацию") ,
+                        color: Dict.appIndigo,
                         action: {
-                            self.userVM.presentation.clear()
+                            self.userVM.presentation.nextState()
                             self.userVM.user.ready = false
                             for (key, _) in self.userVM.users {
                                 self.userVM.users[key]!.ready = false
                             }
                             self.userVM.sendClearPresentation()
-                            userVM.presentation.nextState()
+                            self.selectedItems = .init()
                         },
                         position: .left)
                 ]
-            default:
-                tools = .init()
             }
         }
     }

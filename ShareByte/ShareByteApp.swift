@@ -13,6 +13,11 @@ struct ShareByteApp: App {
     
     init() {
         Configurator.shared.registerServices()
+        Dict.AppUserDefaults.increaseRunAppCount()
+        
+        if Dict.AppUserDefaults.getRunAppCount() == 1 {
+            Dict.AppUserDefaults.setDefaultValues()
+        }
     }
     
     var body: some Scene {
@@ -20,7 +25,8 @@ struct ShareByteApp: App {
             ContentView()
                 .environmentObject(UserViewModel.shared)
                 .environmentObject(SearchAvatar.shared)
-                .environmentObject(NetworkMonitor())
+                .environmentObject(NotificationManager.shared)
+                .environmentObject(PurchasedStatus.shared)
                 .preferredColorScheme(.dark)
         }
     }

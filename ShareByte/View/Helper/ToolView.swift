@@ -23,7 +23,7 @@ struct ToolView<Content: View>: View {
                     .foregroundStyle(.white)
                     .background {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color("Indigo").gradient.opacity(0.7))
+                            .fill(Dict.appIndigo.gradient.opacity(0.7))
                     }
                     .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
                     .opacity(showName ? 1.0 : 0.0)
@@ -62,7 +62,7 @@ struct ToolView<Content: View>: View {
                     .foregroundStyle(.white)
                     .background {
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color("Indigo").gradient.opacity(0.7))
+                            .fill(Dict.appIndigo.gradient.opacity(0.7))
                     }
                     .offset(x: activeTool?.id == $tool.wrappedValue.id ? -10 : 0)
                     .opacity(showName ? 1.0 : 0.0)

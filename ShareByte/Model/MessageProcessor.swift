@@ -9,7 +9,8 @@ import Foundation
 import MultipeerConnectivity
 
 protocol BusinessProcessorProtocol {
-    func processMessage(_ message: Message, from: MCPeerID) async -> Message? // обработать сообщение и дать ответ сообщение
+    func processMessage(_ message: Message, from: MCPeerID, info: [String: String]?) async -> Message? // обработать сообщение и дать ответ сообщение
+    func processInvitation(_ message: Message, from: MCPeerID, invitationHandler: @escaping (Bool, MCSession?) -> Void) async -> Message? // обработать сообщение и дать ответ сообщение
 }
 
 protocol MessageProcessorProtocol {
@@ -17,12 +18,13 @@ protocol MessageProcessorProtocol {
     var peerManager: PeerManager? { get set }
     
     func sendRequestTo(peers: [MCPeerID], message: Message)
-    func processResponse(from peer: MCPeerID, with data: Data) async
+    func processResponse(from peer: MCPeerID, with data: Data, info: [String: String]?) async
     func processResponse(from peer: MCPeerID, with data: Data, invitationHandler: @escaping (Bool, MCSession?) -> Void) async
     func decodeMessageFrom(_ data: Data) -> Message?
 }
 
 struct MessageProcessor: MessageProcessorProtocol {
+
     var businessProcessor: BusinessProcessorProtocol
     var peerManager: PeerManager?
     
@@ -44,7 +46,12 @@ struct MessageProcessor: MessageProcessorProtocol {
                 } else {
                     for safePeer in safePeers {
                         Task {
-                            try? self.peerManager!.session.send(data, toPeers: [safePeer], with: .reliable)
+                            if self.peerManager!.session.connectedPeers.contains(where: { fPeer in
+                                fPeer == safePeer
+                            }) {
+                                try? self.peerManager!.session.send(data, toPeers: [safePeer], with: .reliable)
+                            }
+                            
                         }
                     }
                     
@@ -56,13 +63,13 @@ struct MessageProcessor: MessageProcessorProtocol {
         }
 
     }
-    func processResponse(from peer: MCPeerID, with data: Data) async {
+    func processResponse(from peer: MCPeerID, with data: Data, info: [String: String]?) async {
         // парс данных
         let message = decodeMessageFrom(data)
         
         if let safeMessage = message {
             // обработка данных с помщью businessProcessor
-            let responseMessage = await businessProcessor.processMessage(safeMessage, from: peer)
+            let responseMessage = await businessProcessor.processMessage(safeMessage, from: peer, info: info)
             
             // сделать запрос обратно, если надо
             if let safeResponseMessage = responseMessage {
@@ -77,20 +84,21 @@ struct MessageProcessor: MessageProcessorProtocol {
         
         if let safeMessage = message {
             // обработка данных с помщью businessProcessor
-            let responseMessage = await businessProcessor.processMessage(safeMessage, from: peer)
+            //let responseMessage = await businessProcessor.processMessage(safeMessage, from: peer)
+            let responseMessage = await businessProcessor.processInvitation(safeMessage, from: peer, invitationHandler: invitationHandler)
             
             // сделать запрос обратно, если надо
             if let safeResponseMessage = responseMessage {
                 let messageType = safeResponseMessage.messageType
-                if messageType != .acceptInvitation && messageType != .notAcceptInvitation {
-                    sendRequestTo(peers: [peer], message: safeResponseMessage)
+                if messageType != .acceptInvitation && messageType != .notAcceptInvitation && messageType != .waitUserInvitationResponse {
+                   sendRequestTo(peers: [peer], message: safeResponseMessage)
                 } else {
                     
                     if messageType == .acceptInvitation {
                         invitationHandler(true, self.peerManager?.session)
-                    } else {
+                    } else if messageType == .notAcceptInvitation {
                         invitationHandler(false, self.peerManager?.session)
-                    }
+                    }  
                     
                 }
                 
@@ -112,6 +120,11 @@ struct MessageProcessor: MessageProcessorProtocol {
     
     func stopRecieveMessages() {
         peerManager!.disconnect()
+    }
+    
+    func renamePeerName(_ name: String) {
+        peerManager?.setMyPeerName(name)
+        
     }
 }
 

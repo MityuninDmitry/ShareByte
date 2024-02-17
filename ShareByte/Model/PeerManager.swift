@@ -15,16 +15,21 @@ class PeerManager: NSObject, ObservableObject {
     var serviceAdvertiser: MCNearbyServiceAdvertiser!
     var serviceBrowser: MCNearbyServiceBrowser!
     var messageProcessor: MessageProcessorProtocol?
-
+    
+    
     private var serviceType = "share-byte"
     
     override init() {
         session = .init(peer: myPeerId)
-        serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
+        
+        let discoveryInfo: [String: String] = ["AppVersion" : UIApplication.appVersion]
+        
+        
+        serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: discoveryInfo, serviceType: serviceType)
         serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)
         
         super.init()
-
+        
         session.delegate = self
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
@@ -35,7 +40,9 @@ class PeerManager: NSObject, ObservableObject {
         
         session = .init(peer: myPeerId)
         
-        serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: nil, serviceType: serviceType)
+        let discoveryInfo: [String: String] = ["AppVersion" : UIApplication.appVersion]
+        
+        serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: discoveryInfo, serviceType: serviceType)
         serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)
         
         super.init()
@@ -44,7 +51,7 @@ class PeerManager: NSObject, ObservableObject {
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
     }
-   
+    
     func invitePeer(_ peerId: MCPeerID) {
         serviceBrowser.invitePeer(peerId, to: self.session, withContext: nil, timeout: 10)
     }
@@ -59,12 +66,17 @@ class PeerManager: NSObject, ObservableObject {
     func discover() {
         serviceAdvertiser.startAdvertisingPeer()
         serviceBrowser.startBrowsingForPeers()
-        
     }
-
+    
     func setMyPeerName(_ name: String) {
         myPeerId = MCPeerID(displayName: name)
+        let discoveryInfo: [String: String] = ["AppVersion" : UIApplication.appVersion]
+        serviceAdvertiser = .init(peer: myPeerId, discoveryInfo: discoveryInfo, serviceType: serviceType)
+        serviceBrowser = .init(peer: myPeerId, serviceType: serviceType)
     }
+    
+    
+    
     
 }
 
@@ -74,11 +86,11 @@ extension PeerManager: MCSessionDelegate {
         print("\(session) : \(peerID) : ")
         switch state {
         case .notConnected:
-            print("Not connected \(peerID)")
+            
             Task {
-                // эмулируем, что получили сообщение о смене статуса
+                // эмулируем, что получили сообщение
                 if let messageData = Message(messageType: .notConnected).encode() {
-                    await self.messageProcessor?.processResponse(from: peerID, with: messageData)
+                    await self.messageProcessor?.processResponse(from: peerID, with: messageData, info: nil)
                 }
                 
             }
@@ -89,7 +101,7 @@ extension PeerManager: MCSessionDelegate {
             Task {
                 // эмулируем, что получили сообщение о смене статуса
                 if let messageData = Message(messageType: .connected).encode() {
-                   await self.messageProcessor?.processResponse(from: peerID, with: messageData)
+                    await self.messageProcessor?.processResponse(from: peerID, with: messageData, info: nil)
                 }
             }
         @unknown default:
@@ -98,9 +110,8 @@ extension PeerManager: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        print("Recieve data")
         Task {
-            await self.messageProcessor?.processResponse(from: peerID, with: data)
+            await self.messageProcessor?.processResponse(from: peerID, with: data, info: nil)
         }
     }
     
@@ -113,7 +124,10 @@ extension PeerManager: MCSessionDelegate {
     }
     
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
-        print("NOT SUPPORTED OPERATION")
+        if localURL != nil {
+            print("NOT SUPPORTED OPERATION")
+        }
+        
     }
     
     
@@ -124,7 +138,7 @@ extension PeerManager: MCNearbyServiceAdvertiserDelegate {
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         if context != nil {
             Task {
-               await self.messageProcessor?.processResponse(from: peerID, with: context!, invitationHandler: invitationHandler)
+                await self.messageProcessor?.processResponse(from: peerID, with: context!, invitationHandler: invitationHandler)
             }
         }
     }
@@ -135,9 +149,22 @@ extension PeerManager: MCNearbyServiceBrowserDelegate {
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         print("FOUND PEER \(peerID)")
         Task {
-            if let messageData = Message(messageType: .foundPeer).encode() {
-               await self.messageProcessor?.processResponse(from: peerID, with: messageData)
+            var isAppVersionEquals = false
+            if let info {
+                if await info["AppVersion"] == UIApplication.appVersion {
+                    isAppVersionEquals = true
+                }
             }
+            if isAppVersionEquals {
+                if let messageData = Message(messageType: .foundPeer).encode() {
+                    await self.messageProcessor?.processResponse(from: peerID, with: messageData, info: info)
+                }
+            } else {
+                if let messageData = Message(messageType: .showWarningBadVersion).encode() {
+                    await self.messageProcessor?.processResponse(from: peerID, with: messageData, info: nil)
+                }
+            }
+            
         }
         
         
@@ -147,7 +174,7 @@ extension PeerManager: MCNearbyServiceBrowserDelegate {
         print("LOST PEER \(peerID)")
         Task {
             if let messageData = Message(messageType: .lostPeer).encode() {
-               await self.messageProcessor?.processResponse(from: peerID, with: messageData)
+                await self.messageProcessor?.processResponse(from: peerID, with: messageData, info: nil)
             }
         }
     }

@@ -10,14 +10,14 @@ import UIKit
 import SwiftUI
 import RealmSwift
 
-struct User: Identifiable, Codable, SavableProtocol {
-    
+struct User: Identifiable, Codable, SavableProtocol, Equatable {
     var id: String = ObjectId.generate().stringValue
     var name: String? = nil
     var role: Role? = nil
     var ready: Bool = false
     var imageData: Data?
     var connected: Bool = false
+    
     @Injected var db: DataBase<UserLoadable, User>?
     
     enum CodingKeys: String, CodingKey {
@@ -52,5 +52,9 @@ struct User: Identifiable, Codable, SavableProtocol {
             loadableUser.imageData = self.imageData!
         }
         return loadableUser
+    }
+    
+    static func == (lhs: User, rhs: User) -> Bool {
+        lhs.id == rhs.id
     }
 }

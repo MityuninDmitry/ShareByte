@@ -15,7 +15,7 @@ struct TestLikeCounterView: View {
         VStack {
             HStack(spacing: 20) {
                 LikeCounterView(currentLikeCounter: currentLikeCounter) {
-                    print("HELLO")
+                     
                 }
                 
                 

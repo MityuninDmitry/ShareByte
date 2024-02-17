@@ -10,34 +10,55 @@ import MultipeerConnectivity
 
 struct PeersScreen: View {
     @EnvironmentObject var userVM: UserViewModel
- 
+    @EnvironmentObject var purchasedStatus: PurchasedStatus
+    
     @State var tools: [Tool] = .init()
+    @State private var showPremiumView: Bool = false
+    @State private var uuid: UUID = .init()
+    @State private var showAlert: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("\(userVM.user.role?.rawValue.uppercased() ?? "Not defined role")")
-                .fontWeight(.semibold)
-                .frame(maxWidth: .infinity)
-                .padding([.horizontal], 15)
-                .padding(.top, 10)
-           
-            List(Array(userVM.users.keys), id: \.self) { mcPeerId in
-                PeerRowView(user: userVM.users[mcPeerId]!)
-                    .listRowBackground(EmptyView())
-                    .listRowSeparator(.hidden)
-                    .onTapGesture {
-                        if userVM.users[mcPeerId]!.connected {
-                            if userVM.user.role == .presenter {
-                                userVM.sendReconnectTo(peers: [mcPeerId])
+            PeersScreenHeaderView()
+            
+            if userVM.users.count == 0 {
+                Spacer()
+                Text("ShareByte will show nearby users when any of them open application.")
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 10)
+                Spacer()
+            } else {
+                List(Array(userVM.users.keys), id: \.self) { mcPeerId in
+                    if userVM.hasPeer(mcPeerId) {
+                        PeerRowView(user: userVM.users[mcPeerId]!)
+                            .listRowBackground(EmptyView())
+                            .listRowSeparator(.hidden)
+                            .onTapGesture {
+                                if userVM.users[mcPeerId]!.connected {
+                                    if userVM.user.role == .presenter {
+                                        userVM.sendReconnectTo(peers: [mcPeerId])
+                                    }
+                                }
+                                else {
+                                    if userVM.connectedUsersCount >= Dict.AppUserDefaults.getUserLimit() && !purchasedStatus.isPremium {
+                                        showPremiumView = true
+                                    } else if userVM.connectedUsersCount == Dict.AppUserDefaults.getUserLimit() && purchasedStatus.isPremium {
+                                        showAlert = true
+                                    }
+                                    else {
+                                        self.userVM.inviteUser(mcPeerId)
+                                    }
+                                    
+                                }
+                                
                             }
-                        }
-                        else {
-                            self.userVM.inviteUser(mcPeerId)
-                        }
-                        
                     }
+                    
+                    
+                }
+                .listStyle(.plain)
             }
-            .listStyle(.plain)
+            
         }
         .overlay {
             VStack(alignment: .trailing, spacing: 0) {
@@ -56,19 +77,31 @@ struct PeersScreen: View {
         .onChange(of: userVM.disoverableStatus) { newValue in
             actualizeTools()
         }
+        .sheet(isPresented: $showPremiumView, onDismiss: {
+            showPremiumView = false
+        }) {
+            BuyPremiumView()
+        }
+        .alert("Connected user limit is reached.", isPresented: $showAlert) {
+            Button {
+                showAlert = false
+            } label: {
+                Text("OK")
+            }
+        }
         
     }
     
     func actualizeTools() {
         if userVM.disoverableStatus == .running {
             tools = [
-                .init(icon: "xmark.icloud", name: "Disconnect and stop discover", color: Color("Indigo"), action: {
+                .init(icon: "xmark.icloud", name: NSLocalizedString("Disconnect and stop discover", comment: "Отключиться и недоступен для поиска") , color: Dict.appIndigo, action: {
                     userVM.disconnectAndStopDiscover()
                 },iconColor: .red)
             ]
         } else {
             tools = [
-                .init(icon: "icloud", name: "Make discoverable", color: Color("Indigo"), action: {
+                .init(icon: "icloud", name: NSLocalizedString("Make discoverable", comment: "Доступен для поиска") , color: Dict.appIndigo, action: {
                     userVM.makeDiscoverable()
                 })
             ]

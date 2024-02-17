@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CircleButtonView: View {
-    @State private var activeColor: Color = Color("Indigo")
+    @State private var activeColor: Color = Dict.appIndigo
     var systemImageName: String?
     var imageColor: Color = .white
     

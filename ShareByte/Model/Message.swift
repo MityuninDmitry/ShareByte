@@ -22,10 +22,13 @@ struct Message: Codable {
         case ready //
         case indexToShow //
         case clearPresentation
+        case askPresentation
         case presentation
         case askPresentationId
         case presentationId
         case likeImageFile
+        case waitUserInvitationResponse
+        case showWarningBadVersion
     }
     
     var messageType: MessageType = .askInfo
@@ -55,6 +58,14 @@ struct Message: Codable {
     
     static func askPresentationIdMessage() -> Message {
         return Message(messageType: .askPresentationId)
+    }
+    
+    static func askPresentationMessage() -> Message {
+        return Message(messageType: .askPresentation)
+    }
+    
+    static func waitUserResponseMessage() -> Message {
+        return Message(messageType: .waitUserInvitationResponse)
     }
     
     static func invitationMessage(presentationId: String) -> Message {

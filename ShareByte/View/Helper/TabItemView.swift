@@ -29,7 +29,7 @@ struct TabItemView: View {
                     }
                 }
             
-            Text(tab.rawValue)
+            Text(tab.localizedString())
                 .font(.caption)
                 .foregroundStyle(activeTab == tab ? .white : .gray)
         }

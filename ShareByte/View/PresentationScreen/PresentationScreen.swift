@@ -22,9 +22,14 @@ struct PresentationScreen: View {
             } else {
                 VStack {
                     Spacer()
-                    Text("You have no any role at the moment.")
+                    Text("If you want to demonstrate your images, tap users to become presenter.")
+                        .multilineTextAlignment(.center)
+                    Text("If you want to view somebody presentation, accept invitation from another user.")
+                        .multilineTextAlignment(.center)
+                        .padding(.top, 15)
                     Spacer()
                 }
+                .padding(.horizontal, 10)
                 .frame(maxWidth: .infinity)
             }
         }

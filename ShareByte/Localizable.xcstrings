@@ -1,0 +1,1057 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " "
+          }
+        }
+      }
+    },
+    "- Also there are some buttons for opening app menu." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Также есть несколько кнопок для открытия меню приложения,"
+          }
+        }
+      }
+    },
+    "- App versions should be equal for connecting between users. It's important. For example: your app version can be v1.0.1, but your friend app version is v1.0.2. Your versions are not equal, so you can't be connected." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Версия приложения должна быть одинаковой для подключения между пользователями. Это важно. Например: ваша версия приложения v1.0.1, но у вашего друга v1.0.2. Ваши версии не совпадают, так что вы не сможете подключиться."
+          }
+        }
+      }
+    },
+    "- Change avatar in any time for better visibility in front of another users in session." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Изменить аватар в любое время для лучшего представления вас перед другими пользователями;"
+          }
+        }
+      }
+    },
+    "- Change name in any time for better visibility in front of another users in session." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Изменить имя в любое время для лучшего представления вас перед другими пользователями."
+          }
+        }
+      }
+    },
+    "- Image limits in presentation - you can select different amount of images for presentation. But not more than current app image limit." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Ограничения на количество изображений в презентации - вы можете выбрать различное количество картинок для презентации, но не более чем текущее ограничение приложения."
+          }
+        }
+      }
+    },
+    "- Important: ShareByte requires local network setting enabled. You can check it in app settings. Otherwise you can't find users nearby." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Важно: ShareByte требует включенной настройки использования локальной сети. Вы можете проверить это в настройках приложения. Иначе вы не сможете искать пользователей рядом."
+          }
+        }
+      }
+    },
+    "- Initially person has no any role." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Изначально пользователь не имеет роли."
+          }
+        }
+      }
+    },
+    "- Invite anoter user to presentation. It can be done only by presenter" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Приглашать другого пользователя к презентации. Это может делать только презентер."
+          }
+        }
+      }
+    },
+    "- Invite another user into session in any time of presentation." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Приглашать другого пользователя в сессию в любой момент презентации."
+          }
+        }
+      }
+    },
+    "- Invite another user to session." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Приглашать другого пользователя в сессию."
+          }
+        }
+      }
+    },
+    "- Kick user from session by tapping connected user while session." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Удалять пользователя из сессии путем нажатия на подключенного пользователя."
+          }
+        }
+      }
+    },
+    "- Limits depend on free or premium app edition. Free and premium edition has different limits. You can see your limits in app settings inside application." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Ограничения зависят от того, бесплатное или премиум у вас приложение. Бесплатное и премиальное приложения имеют различные ограничения. Вы можете посмотреть их в настройках внутри приложения. "
+          }
+        }
+      }
+    },
+    "- Make any screenshot of presentation. Screenshot will be empty." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Делать скриншот любой части презентации. Он будет пустым."
+          }
+        }
+      }
+    },
+    "- Presenter - person who demonstrates images. If you want to be presenter - tap user and wait while he accepts invitation. He can decline it, but you can invite him again." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Презентер - персона, которая проводит демонстрацию картинок. Если вы желаете быть презентером - нажмите на пользователя и дождитесь, пока он примет приглашение. Он может отклонить его, но вы можете отправить приглашение повторно."
+          }
+        }
+      }
+    },
+    "- Presenter can's select more images, than app limit. More about limitations see below." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Презентер не может выбрать больше картинок, чем лимит картинок приложения. Подробнее об ограничениях смотрите ниже."
+          }
+        }
+      }
+    },
+    "- Share full images of presentation or particular image while presentation." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Делиться всем списком картинок презентации или отдельными их них."
+          }
+        }
+      }
+    },
+    "- Simple app which allows users to share images safety in local internet even while internet connection is lost. Your images can't be downloaded until when presenter shares it manually with you." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Простое приложение, которое позволяет пользователям безопасно делиться картинками в локальной сети даже при отключенном интернете. Ваши картинки не доступны для скачивания другим пользователям до тех пор, пока вы их не отправите вручную."
+          }
+        }
+      }
+    },
+    "- There are some limitations for best app performance and quality." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- В приложении введены некоторые ограничения для лучшей производительности и качества его работы."
+          }
+        }
+      }
+    },
+    "- User limits in session - you can invite different amount of users into session as presenter. But not more than current app user limit." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Лимит пользователей в сессии - вы можете пригласить различное число пользователей в сессию как презентер, но не более чем текущий лимит пользователей приложения."
+          }
+        }
+      }
+    },
+    "- Viewer - person who watches images of presenter. If you want to be viewer - accept invitation from another user." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Вьюер - персона, которая смотрит изображения презентера. Если вы хотите быть вьюером, то примите приглашение от другого пользователя."
+          }
+        }
+      }
+    },
+    "- Viewer can's watch more images, than app limit. More about limitations see below." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Вьюер не может просматривать больше изображений, чем лимит приложения. Подробнее об ограничениях смотрите ниже."
+          }
+        }
+      }
+    },
+    "- Watch presentation and like images." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Смотреть презентацию и ставить лайки изображениям."
+          }
+        }
+      }
+    },
+    "- When you are presenter. This section allows select images, upload it to users and change demonstrated image. Also this section allows send images to another users." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Когда вы являетесь презентером. Эта секция позволяет вам выбирать изображения и презентовать их пользователям. Также эта секция позволяет отправлять картинки другим пользователям."
+          }
+        }
+      }
+    },
+    "- When you are viewer. This section allows watch presenter's images. Also you can tap ❤️ to send like for demonstrated image." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Когда вы являетесь вьюером. Эта секция позволяет смотреть картинки презентера. Также вы можете нажать на ❤️, чтобы послать лайк изображению."
+          }
+        }
+      }
+    },
+    "- You can change your user name or avatar." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Вы можете изменить ваше имя и аватар."
+          }
+        }
+      }
+    },
+    "- You can disconnect and reconnect your session by tapping button. Your role and presentation will be cleared." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Вы можете отключиться от сессии и стать доступным для поиска сессий путем нажатия кнопки. Ваша роль и презентация будут очищены."
+          }
+        }
+      }
+    },
+    "- You can see your role, another users and their roles." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "- Вы можете видеть вашу роль, других пользователей и их роли."
+          }
+        }
+      }
+    },
+    "%@" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
+    },
+    "%lld" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld"
+          }
+        }
+      }
+    },
+    "Add" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить"
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все"
+          }
+        }
+      }
+    },
+    "Any user can:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждый пользователь может:"
+          }
+        }
+      }
+    },
+    "App Premium limit users in session is exceed." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Достигнут лимит пользователей в сессии для премиум версии приложения."
+          }
+        }
+      }
+    },
+    "App version: %@" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия приложения: %@"
+          }
+        }
+      }
+    },
+    "Buy premium version" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приобрести полную версию"
+          }
+        }
+      }
+    },
+    "Change app language" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сменить язык приложения"
+          }
+        }
+      }
+    },
+    "Common things:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Общее:"
+          }
+        }
+      }
+    },
+    "Connected user limit is reached." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Достигнут предел количества подключенных пользователей."
+          }
+        }
+      }
+    },
+    "Crop image" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обрезка изображения"
+          }
+        }
+      }
+    },
+    "Default" : {
+      "comment" : "Бесплатное",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатное"
+          }
+        }
+      }
+    },
+    "Default app version" : {
+      "comment" : "Бесплатное",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатная версия приложения"
+          }
+        }
+      }
+    },
+    "Disconnect and stop discover" : {
+      "comment" : "Отключиться и недоступен для поиска",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключиться и недоступен для поиска"
+          }
+        }
+      }
+    },
+    "Do you want to accept invitation?" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Желаете принять приглашение для просмотра презентации?"
+          }
+        }
+      }
+    },
+    "Do you want to invite him to session and share current presentation?" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Желаете пригласить пользователя в сессию?"
+          }
+        }
+      }
+    },
+    "Found" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найден"
+          }
+        }
+      }
+    },
+    "Found new user " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найден новый пользователь "
+          }
+        }
+      }
+    },
+    "GALLERY %lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GALLERY %1$lld / %2$lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ГАЛЕРЕЯ %1$lld / %2$lld"
+          }
+        }
+      }
+    },
+    "Got invitation from" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приглашение от"
+          }
+        }
+      }
+    },
+    "How many images can be uploaded" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сколько изображений можно загружать"
+          }
+        }
+      }
+    },
+    "How many users can be in session" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сколько пользователей может быть в сессии"
+          }
+        }
+      }
+    },
+    "If you want to demonstrate your images, tap users to become presenter." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если вы желаете начать демонстрацию картинок, нажмите на пользователей, чтобы стать презентером."
+          }
+        }
+      }
+    },
+    "If you want to view somebody presentation, accept invitation from another user." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Если вы желаете видеть презентацию другого пользователя, то примите от него приглашение."
+          }
+        }
+      }
+    },
+    "Image" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Картинка"
+          }
+        }
+      }
+    },
+    "Image %lld" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Картинка %lld"
+          }
+        }
+      }
+    },
+    "Images" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Картинки"
+          }
+        }
+      }
+    },
+    "left presentation." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "покинул презентацию"
+          }
+        }
+      }
+    },
+    "Limit users in session is exceed. Buy Premium App version." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исчерпан лимит пользователей. Приобретите премиум версию."
+          }
+        }
+      }
+    },
+    "Limitations:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ограничения:"
+          }
+        }
+      }
+    },
+    "Main rules:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основные правила:"
+          }
+        }
+      }
+    },
+    "Make discoverable" : {
+      "comment" : "Доступен для поиска",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступен для поиска"
+          }
+        }
+      }
+    },
+    "Me" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Я"
+          }
+        }
+      }
+    },
+    "Me:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Я:"
+          }
+        }
+      }
+    },
+    "Minus" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Минус"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
+        }
+      }
+    },
+    "Not defined role" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Роль не задана"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Понятно"
+          }
+        }
+      }
+    },
+    "Premium" : {
+      "comment" : "Премиум",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Премиум"
+          }
+        }
+      }
+    },
+    "Premium app version" : {
+      "comment" : "Премиум",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Премиум версия приложения"
+          }
+        }
+      }
+    },
+    "Presentation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Презентация"
+          }
+        }
+      }
+    },
+    "Presentation:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Презентация:"
+          }
+        }
+      }
+    },
+    "Presenter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Презентер"
+          }
+        }
+      }
+    },
+    "Presenter can:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Презентер может:"
+          }
+        }
+      }
+    },
+    "Purchase premium version for" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Купить премиум версию за"
+          }
+        }
+      }
+    },
+    "READY" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ГОТОВ"
+          }
+        }
+      }
+    },
+    "Restore purchase" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Восстановить покупки"
+          }
+        }
+      }
+    },
+    "Sections:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разделы:"
+          }
+        }
+      }
+    },
+    "Select images for uploading it to users." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите изображения для загрузки пользователям."
+          }
+        }
+      }
+    },
+    "SETTINGS" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "НАСТРОЙКИ"
+          }
+        }
+      }
+    },
+    "ShareByte will show nearby users when any of them open application." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShareByte покажет ближайших пользователей, когда хотя бы один из них откроет приложение."
+          }
+        }
+      }
+    },
+    "ShareByte:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ShareByte:"
+          }
+        }
+      }
+    },
+    "Show instruction" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать инструкцию"
+          }
+        }
+      }
+    },
+    "SHOW NOTIFICATION" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показать оповещение"
+          }
+        }
+      }
+    },
+    "Show settings" : {
+      "comment" : "Открыть настройки",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть настройки"
+          }
+        }
+      }
+    },
+    "Start new presentation" : {
+      "comment" : "Начать новую презентацию",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начать новую презентацию"
+          }
+        }
+      }
+    },
+    "Thank you for using ShareByte application. I hope it will be usefull for you and your friends." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Благодарю за использование ShareByte. Я надеюсь оно будет полезно для вас и ваших друзей."
+          }
+        }
+      }
+    },
+    "UNKNOWN NAME" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ИМЯ НЕ ИЗВЕСТНО"
+          }
+        }
+      }
+    },
+    "UNKNOWN ROLE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "РОЛЬ НЕ ИЗВЕСТНА"
+          }
+        }
+      }
+    },
+    "Upload images to peers" : {
+      "comment" : "Отправить картинки пользователям",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отправить картинки пользователям"
+          }
+        }
+      }
+    },
+    "Uploading images to peers" : {
+      "comment" : "Загрузка картинок пользователям",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузка картинок пользователям"
+          }
+        }
+      }
+    },
+    "Users" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользователи"
+          }
+        }
+      }
+    },
+    "Users:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользователи:"
+          }
+        }
+      }
+    },
+    "Viewer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вьюер"
+          }
+        }
+      }
+    },
+    "Viewer can:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вьюер может:"
+          }
+        }
+      }
+    },
+    "Viewer can't:" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вьюер не может:"
+          }
+        }
+      }
+    },
+    "Waiting for presenter uploads content" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидание, пока презентер загрузит контент"
+          }
+        }
+      }
+    },
+    "You can Invite him again when he will be discoverable." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете пригласить его повторно, когда он будет в зоне доступа."
+          }
+        }
+      }
+    },
+    "You can invite only %lld users in Default app version.\nPremium app version supports %lld users in session." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can invite only %1$lld users in Default app version.\nPremium app version supports %2$lld users in session."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В бесплатной версии приложения вы можете пригласить только %1$lld пользователей. Премиум версия поддерживает %2$lld пользователей в сессии."
+          }
+        }
+      }
+    },
+    "You can select only %lld images in Default app version.\nPremium app version supports %lld images." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can select only %1$lld images in Default app version.\nPremium app version supports %2$lld images."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В бесплатной версии приложения вы можете выбрать только %1$lld картинок.\nПремиум версия поддерживает выбор %2$lld картинок."
+          }
+        }
+      }
+    },
+    "You can view only first %lld images in Default app version.\nPremium app version supports %lld images." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can view only first %1$lld images in Default app version.\nPremium app version supports %2$lld images."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В бесплатной версии приложения вы можете смотреть только %1$lld картинок.\nПремиум версия поддерживает %2$lld картинок."
+          }
+        }
+      }
+    },
+    "You can't communicate because of app version difference. User won't be shown in list of users." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы не можете взаимодействовать, у вас разные версии. Он не отображается в списке пользователей."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

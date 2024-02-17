@@ -10,8 +10,11 @@ import PhotosUI
 
 struct CarouselView: View {
     @EnvironmentObject var userVM: UserViewModel
+    @EnvironmentObject var purchasedStatus: PurchasedStatus
     @Binding var selectedItems:  [PhotosPickerItem]
     @Binding var index: Int
+    
+    var lock: NSLock = .init()
     
     var body: some View {
         GeometryReader {
@@ -41,18 +44,32 @@ struct CarouselView: View {
                 }
                 
             }
-            .disabled(userVM.user.role == .presenter && selectedItems.count != self.userVM.presentation.imageFiles.count)
+            .disabled(self.userVM.presentation.state == .preparing || self.userVM.presentation.state == .uploading)
             .overlay {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(.white, lineWidth: 3)
                     .frame(width: imageWidth, height: size.height)
                     .allowsHitTesting(false)
             }
-            .opacity(userVM.user.role == .presenter && selectedItems.count == 0 ? 0.0 : 1.0)
+            .opacity(userVM.user.role == .presenter && self.userVM.presentation.state == .selecting ? 0.0 : 1.0)
             .onChange(of: userVM.presentation.indexToShow ?? 0) { index in
+                lock.lock()
                 if index < userVM.presentation.imageFiles.count && self.userVM.user.role != .presenter {
                     self.index = index
+                    if !purchasedStatus.isPremium {
+                        if index >= Dict.imageLimitDefault {
+                            Task {
+                                try await Task.sleep(for: .seconds(0.7))
+                                Task { @MainActor in
+                                    self.index = Dict.imageLimitDefault - 1
+                                }
+                            }
+                        }
+                    }
+                    
+                    
                 }
+                lock.unlock()
             }
         }
         .frame(height: 120)

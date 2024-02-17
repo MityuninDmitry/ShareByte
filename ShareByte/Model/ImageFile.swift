@@ -14,11 +14,15 @@ struct ImageFile: Identifiable, Codable, Hashable {
     var imageName: String
     var imageData: Data?
     
-    var image: UIImage? 
+    var uiImage: UIImage? 
     var thumbnail: UIImage?
     var likedUsers: [User] = .init()
-    
-    
+    var image: Image {
+        if uiImage != nil {
+           return Image(uiImage: uiImage!)
+        }
+        return Image(systemName: "questionmark.circle")
+    }
     enum CodingKeys: String, CodingKey {
         case id
         case imageName
@@ -34,7 +38,7 @@ struct ImageFile: Identifiable, Codable, Hashable {
     
     mutating func setimage() {
         if imageData != nil {
-            image = UIImage(data: imageData!)
+            uiImage = UIImage(data: imageData!)
         }
     }
     
@@ -52,5 +56,11 @@ struct ImageFile: Identifiable, Codable, Hashable {
         } else {
             self.likedUsers.append(user)
         }
+    }
+}
+
+extension ImageFile: Transferable {
+    static var transferRepresentation: some TransferRepresentation {
+        ProxyRepresentation(exporting: \.image)
     }
 }

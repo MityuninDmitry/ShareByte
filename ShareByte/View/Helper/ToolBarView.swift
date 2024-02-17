@@ -49,12 +49,8 @@ struct ToolBarView: View {
                     if let index = tools.firstIndex(where: { tool in
                         tool.toolPosition.contains(CGPoint(x: value.location.x, y: value.location.y))
                     }), activeTool?.id == tools[index].id {
-                        
                         if !(activeTool?.ignoreAction ?? false) {
-                            print("TAPPED \(index)") // своя логика тут
                             activeTool?.action()
-                        } else {
-                            print("IGNORE TAP ACTION")
                         }
                     }
                     

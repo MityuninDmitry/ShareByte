@@ -15,10 +15,12 @@ struct ViewerView: View {
     private var hasImageFiles: Bool {
         userVM.presentation.imageFiles.count > 0
     }
-    
+    private var hasConnectedPresenter: Bool {
+        return userVM.hasConnectedPresenter()
+    }
     var body: some View {
         VStack {
-            if hasImageFiles {
+            if hasImageFiles && hasConnectedPresenter {
                 ScreenShotPreventView {
                     ImageItemsView()
                 }

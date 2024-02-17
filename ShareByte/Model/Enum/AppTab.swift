@@ -9,7 +9,7 @@ import Foundation
 
 enum AppTab: String, CaseIterable {
     case presentation = "Presentation"
-    case peers = "Peers"
+    case peers = "Users"
     case me = "Me"
         
     var systemImage: String {
@@ -25,5 +25,9 @@ enum AppTab: String, CaseIterable {
     
     var index: Int {
         return AppTab.allCases.firstIndex(of: self) ?? 0
+    }
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
     }
 }

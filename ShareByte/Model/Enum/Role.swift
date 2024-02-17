@@ -10,4 +10,8 @@ import Foundation
 enum Role: String, Codable {
     case presenter = "Presenter"
     case viewer = "Viewer"
+    
+    func localizedString() -> String {
+        return NSLocalizedString(self.rawValue, comment: "")
+    }
 }
